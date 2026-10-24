@@ -12,6 +12,19 @@ struct TranslationSettingsView: View {
     var body: some View {
         Form {
             Section {
+                LabeledContent("My Pause Duration") {
+                    Text("\(Int(configuration.silenceDuration)) s").monospacedDigit()
+                }
+                Slider(value: Binding(get: { configuration.silenceDuration }, set: configuration.setSilenceDuration), in: 1...10, step: 1) {
+                    Text("My Pause Duration")
+                }
+                .accessibilityIdentifier("translationSilenceDuration")
+            } header: {
+                Text("Conversation Rhythm")
+            } footer: {
+                Text("Your glasses turn is submitted after this pause. Default: 5 seconds. Your partner's phone recording always ends with the Stop button. Changes are saved automatically.")
+            }
+            Section {
                 Picker("Aliyun Region", selection: $region) {
                     Text("Choose a Region").tag(TranslationRegion?.none)
                     ForEach(TranslationRegion.allCases) { region in
@@ -22,9 +35,10 @@ struct TranslationSettingsView: View {
                 if let region {
                     LabeledContent("Endpoint") { Text(verbatim: region.endpoint.host ?? "").font(.caption) }
                 }
+                LabeledContent("Speech Recognition Model") { Text(verbatim: AliyunSpeechRecognitionClient.model) }
                 LabeledContent("Translation Model") { Text(verbatim: AliyunTranslationClient.model) }
             } footer: {
-                Text("Use a Model Studio API key from the selected region with access to qwen-mt-flash. Beijing and Singapore keys are not interchangeable.")
+                Text("Use a Model Studio API key from the selected region with access to qwen-mt-flash and qwen3-asr-flash. Beijing and Singapore keys are not interchangeable.")
             }
 
             Section {

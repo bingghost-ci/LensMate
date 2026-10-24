@@ -143,6 +143,12 @@
 		2822BBD5681A366A386D2895 /* TranslationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086F277646B27A0622E6AA0 /* TranslationClientTests.swift */; };
 		F7A96DB2A02BAEB947C4BCB5 /* TranslationConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB05BF2DEB1D20942A6319D5 /* TranslationConfigurationTests.swift */; };
 		D676539EFA6FB21F97593D60 /* TranslationSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69EB7F38D613632BD58751 /* TranslationSessionTests.swift */; };
+		CCFF731C15CD0F122A8DDCAF /* AliyunSpeechRecognitionClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CB08AFDA9965435B9022358 /* AliyunSpeechRecognitionClient.swift */; };
+		112F729F34E806BFB8A1843D /* ConversationTranslationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53498D74A574271AC303424 /* ConversationTranslationTypes.swift */; };
+		F0DA6A3FC482F3C0D8F859FD /* TranslationConversationAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2AEA3C673250CBBED55326 /* TranslationConversationAudio.swift */; };
+		ADAE12CC949E71EC6D9806EB /* ConversationTranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA80FB8A0249312EF8D28B5 /* ConversationTranslationView.swift */; };
+		687CD1F70B997960DEE0C65A /* ConversationTranslationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CB4C471CC4254C214BE60C /* ConversationTranslationViewModel.swift */; };
+		78582FAD25E2FD5A64C3A31F /* ConversationTranslationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A40127E6D7F041119FB7A5F9 /* ConversationTranslationTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -290,6 +296,12 @@
 		A086F277646B27A0622E6AA0 /* TranslationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationClientTests.swift; sourceTree = "<group>"; };
 		EB05BF2DEB1D20942A6319D5 /* TranslationConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationConfigurationTests.swift; sourceTree = "<group>"; };
 		6B69EB7F38D613632BD58751 /* TranslationSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationSessionTests.swift; sourceTree = "<group>"; };
+		5CB08AFDA9965435B9022358 /* AliyunSpeechRecognitionClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliyunSpeechRecognitionClient.swift; sourceTree = "<group>"; };
+		A53498D74A574271AC303424 /* ConversationTranslationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTranslationTypes.swift; sourceTree = "<group>"; };
+		0A2AEA3C673250CBBED55326 /* TranslationConversationAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationConversationAudio.swift; sourceTree = "<group>"; };
+		CAA80FB8A0249312EF8D28B5 /* ConversationTranslationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTranslationView.swift; sourceTree = "<group>"; };
+		56CB4C471CC4254C214BE60C /* ConversationTranslationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTranslationViewModel.swift; sourceTree = "<group>"; };
+		A40127E6D7F041119FB7A5F9 /* ConversationTranslationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTranslationTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -703,6 +715,7 @@
 		FA1346C9AC741922A0BF6928 /* LensMateTests */ = {
 			isa = PBXGroup;
 			children = (
+				A40127E6D7F041119FB7A5F9 /* ConversationTranslationTests.swift */,
 				6B69EB7F38D613632BD58751 /* TranslationSessionTests.swift */,
 				EB05BF2DEB1D20942A6319D5 /* TranslationConfigurationTests.swift */,
 				A086F277646B27A0622E6AA0 /* TranslationClientTests.swift */,
@@ -747,6 +760,9 @@
 		3C495BA556C646FBE2B54482 /* Translation */ = {
 			isa = PBXGroup;
 			children = (
+				0A2AEA3C673250CBBED55326 /* TranslationConversationAudio.swift */,
+				A53498D74A574271AC303424 /* ConversationTranslationTypes.swift */,
+				5CB08AFDA9965435B9022358 /* AliyunSpeechRecognitionClient.swift */,
 				B9BC3CBD72BDF28BFAB184A7 /* AliyunTranslationClient.swift */,
 				794A7197AE35F6C3B712661C /* TranslationAudioCoordinator.swift */,
 				9172FA3016050FB4F4E6ABD2 /* TranslationConfiguration.swift */,
@@ -759,6 +775,8 @@
 		7D4ECABDF4ABBCB723CE3CA6 /* Translation */ = {
 			isa = PBXGroup;
 			children = (
+				56CB4C471CC4254C214BE60C /* ConversationTranslationViewModel.swift */,
+				CAA80FB8A0249312EF8D28B5 /* ConversationTranslationView.swift */,
 				4818BA92BE1FE99F63AB01F4 /* TranslationSettingsView.swift */,
 				957F3EA80EB78B7E0A4BADFD /* TranslationView.swift */,
 				888C3564D3561E3711B38128 /* TranslationViewModel.swift */,
@@ -907,6 +925,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78582FAD25E2FD5A64C3A31F /* ConversationTranslationTests.swift in Sources */,
 				D676539EFA6FB21F97593D60 /* TranslationSessionTests.swift in Sources */,
 				F7A96DB2A02BAEB947C4BCB5 /* TranslationConfigurationTests.swift in Sources */,
 				2822BBD5681A366A386D2895 /* TranslationClientTests.swift in Sources */,
@@ -928,6 +947,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				687CD1F70B997960DEE0C65A /* ConversationTranslationViewModel.swift in Sources */,
+				ADAE12CC949E71EC6D9806EB /* ConversationTranslationView.swift in Sources */,
+				F0DA6A3FC482F3C0D8F859FD /* TranslationConversationAudio.swift in Sources */,
+				112F729F34E806BFB8A1843D /* ConversationTranslationTypes.swift in Sources */,
+				CCFF731C15CD0F122A8DDCAF /* AliyunSpeechRecognitionClient.swift in Sources */,
 				FF0BE8DFEAF83201FF2600F0 /* TranslationViewModel.swift in Sources */,
 				E5DD0C264E44E1C87B7D07DE /* TranslationView.swift in Sources */,
 				C9E3FA8684E78AA68F6D280E /* TranslationSettingsView.swift in Sources */,

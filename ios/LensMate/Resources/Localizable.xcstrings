@@ -64,6 +64,23 @@
       "extractionState": "manual",
       "shouldTranslate": false
     },
+    "%lld / 60 s": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld / 60 s"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld / 60 秒"
+          }
+        }
+      }
+    },
     "%lld characters": {
       "extractionState": "manual",
       "localizations": {
@@ -94,6 +111,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld 条记忆"
+          }
+        }
+      }
+    },
+    "%lld s": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld s"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 秒"
           }
         }
       }
@@ -357,6 +391,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "56 种以上工具"
+          }
+        }
+      }
+    },
+    "60 s Reached · Tap Stop to Translate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "60 s Reached · Tap Stop to Translate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已达 60 秒 · 请点停止并翻译"
           }
         }
       }
@@ -756,6 +807,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "阿里云拒绝了本次翻译。请检查输入文字和模型访问权限。"
+          }
+        }
+      }
+    },
+    "Allow microphone access for LensMate in iPhone Settings to start a conversation.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Allow microphone access for LensMate in iPhone Settings to start a conversation."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在 iPhone 设置中允许 LensMate 使用麦克风，然后开始对话。"
           }
         }
       }
@@ -1278,6 +1346,23 @@
         }
       }
     },
+    "Cancel This Turn": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel This Turn"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "取消本句"
+          }
+        }
+      }
+    },
     "Capture Photo": {
       "extractionState": "manual",
       "localizations": {
@@ -1465,6 +1550,23 @@
         }
       }
     },
+    "Clear Conversation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Clear Conversation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清空对话"
+          }
+        }
+      }
+    },
     "Close other apps that might be using the glasses camera.": {
       "extractionState": "manual",
       "localizations": {
@@ -1580,6 +1682,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "请先连接眼镜再录制。"
+          }
+        }
+      }
+    },
+    "Connect your glasses or Bluetooth headset with a microphone. Recording and playback will not switch to the phone automatically.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Connect your glasses or Bluetooth headset with a microphone. Recording and playback will not switch to the phone automatically."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请连接带麦克风的眼镜或蓝牙耳机。录音和播放不会自动改用手机。"
           }
         }
       }
@@ -1754,6 +1873,57 @@
         }
       }
     },
+    "Conversation Paused · Microphones Off": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversation Paused · Microphones Off"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话已暂停 · 麦克风已关闭"
+          }
+        }
+      }
+    },
+    "Conversation Rhythm": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversation Rhythm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话节奏"
+          }
+        }
+      }
+    },
+    "Conversation Translation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Conversation Translation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对话翻译"
+          }
+        }
+      }
+    },
     "Could not connect to Aliyun. Check your connection and try again.": {
       "extractionState": "manual",
       "localizations": {
@@ -1767,6 +1937,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "无法连接阿里云，请检查网络后重试。"
+          }
+        }
+      }
+    },
+    "Could not recognize this recording. Check access to qwen3-asr-flash and record the sentence again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not recognize this recording. Check access to qwen3-asr-flash and record the sentence again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法识别本句录音。请检查 qwen3-asr-flash 访问权限，然后重新录制。"
+          }
+        }
+      }
+    },
+    "Could not record this turn. Check the microphone connection and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not record this turn. Check the microphone connection and try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本句录音失败，请检查麦克风连接后重试。"
           }
         }
       }
@@ -2387,6 +2591,23 @@
       "extractionState": "manual",
       "shouldTranslate": false
     },
+    "Each turn is limited to 60 seconds. No recording during translation or playback.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Each turn is limited to 60 seconds. No recording during translation or playback."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每句最多录制 60 秒，翻译和朗读期间不录音。"
+          }
+        }
+      }
+    },
     "Edit Memory": {
       "extractionState": "manual",
       "localizations": {
@@ -2434,6 +2655,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "启用唤醒词"
+          }
+        }
+      }
+    },
+    "End Conversation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End Conversation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束对话"
           }
         }
       }
@@ -3555,6 +3793,57 @@
         }
       }
     },
+    "I Have More to Say": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I Have More to Say"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我再说一句"
+          }
+        }
+      }
+    },
+    "I Speak": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I Speak"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我说"
+          }
+        }
+      }
+    },
+    "I'm Done Speaking": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "I'm Done Speaking"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我说完了"
+          }
+        }
+      }
+    },
     "Identifier": {
       "extractionState": "manual",
       "localizations": {
@@ -4018,6 +4307,40 @@
         }
       }
     },
+    "Let Partner Speak": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Let Partner Speak"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点此请对方说"
+          }
+        }
+      }
+    },
+    "Let Partner Speak First": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Let Partner Speak First"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "让对方先说"
+          }
+        }
+      }
+    },
     "Listen through the glasses when worn": {
       "extractionState": "manual",
       "localizations": {
@@ -4031,6 +4354,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "佩戴眼镜时通过眼镜收音"
+          }
+        }
+      }
+    },
+    "Listening Through Glasses": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Listening Through Glasses"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在通过眼镜收音"
           }
         }
       }
@@ -4375,6 +4715,23 @@
         }
       }
     },
+    "My Pause Duration": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "My Pause Duration"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我方停顿时长"
+          }
+        }
+      }
+    },
     "Neutral": {
       "extractionState": "manual",
       "localizations": {
@@ -4643,6 +5000,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "ChatGPT 未响应。"
+          }
+        }
+      }
+    },
+    "No speech was detected. Start recording again and speak closer to the microphone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No speech was detected. Start recording again and speak closer to the microphone."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "没有检测到说话声，请重新开始录音并靠近麦克风。"
           }
         }
       }
@@ -5220,6 +5594,40 @@
         }
       }
     },
+    "Partner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partner"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对方"
+          }
+        }
+      }
+    },
+    "Partner Speaks": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Partner Speaks"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对方说"
+          }
+        }
+      }
+    },
     "Pay per use with xAI API credits.": {
       "extractionState": "manual",
       "localizations": {
@@ -5305,6 +5713,23 @@
         }
       }
     },
+    "Playing Translation · Microphones Off": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Playing Translation · Microphones Off"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在朗读译文 · 麦克风已关闭"
+          }
+        }
+      }
+    },
     "Please configure %@ in Settings": {
       "extractionState": "manual",
       "localizations": {
@@ -5386,6 +5811,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "优质音色"
+          }
+        }
+      }
+    },
+    "Preparing Audio…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preparing Audio…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在准备音频…"
           }
         }
       }
@@ -5526,6 +5968,23 @@
         }
       }
     },
+    "Read to Partner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read to Partner"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "朗读给对方"
+          }
+        }
+      }
+    },
     "Reading Translation…": {
       "extractionState": "manual",
       "localizations": {
@@ -5556,6 +6015,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "已就绪"
+          }
+        }
+      }
+    },
+    "Ready to Start": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready to Start"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "可以开始对话"
           }
         }
       }
@@ -5594,6 +6070,23 @@
         }
       }
     },
+    "Recognizing Speech…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recognizing Speech…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在识别语音…"
+          }
+        }
+      }
+    },
     "Record point of view": {
       "extractionState": "manual",
       "localizations": {
@@ -5611,6 +6104,23 @@
         }
       }
     },
+    "Recording Your Partner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording Your Partner"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在录制对方说话"
+          }
+        }
+      }
+    },
     "Recording failed to start: %@": {
       "extractionState": "manual",
       "localizations": {
@@ -5624,6 +6134,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "无法开始录制：%@"
+          }
+        }
+      }
+    },
+    "Recordings are sent after each turn ends. This conversation is kept only in memory.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recordings are sent after each turn ends. This conversation is kept only in memory."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每句录音结束后才发送识别，本次对话仅保留在内存中。"
           }
         }
       }
@@ -5849,6 +6376,23 @@
         }
       }
     },
+    "Replay in Glasses": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay in Glasses"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在眼镜中重播"
+          }
+        }
+      }
+    },
     "Request failed: %@": {
       "extractionState": "manual",
       "localizations": {
@@ -5930,6 +6474,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "已继续"
+          }
+        }
+      }
+    },
+    "Retry Translation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retry Translation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重试翻译"
           }
         }
       }
@@ -6270,6 +6831,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "显示对话文本"
+          }
+        }
+      }
+    },
+    "Show Your Translation · Wait for Your Partner": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show Your Translation · Wait for Your Partner"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "展示译文 · 等待对方说话"
           }
         }
       }
@@ -6682,6 +7260,40 @@
         }
       }
     },
+    "Speech Recognition Model": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speech Recognition Model"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别模型"
+          }
+        }
+      }
+    },
+    "Speech recognition is unavailable. Enable qwen3-asr-flash in your selected Aliyun region.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speech recognition is unavailable. Enable qwen3-asr-flash in your selected Aliyun region."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "语音识别不可用，请在所选阿里云地域开通 qwen3-asr-flash。"
+          }
+        }
+      }
+    },
     "Speech recognition not authorized": {
       "extractionState": "manual",
       "localizations": {
@@ -6746,6 +7358,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "启动相机视频流"
+          }
+        }
+      }
+    },
+    "Start My Turn": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start My Turn"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始，我先说"
           }
         }
       }
@@ -6831,6 +7460,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "停止相机视频流"
+          }
+        }
+      }
+    },
+    "Stop Playback": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Playback"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止朗读"
+          }
+        }
+      }
+    },
+    "Stop Recording and Translate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Recording and Translate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止录音并翻译"
           }
         }
       }
@@ -7069,6 +7732,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "朗读音色"
+          }
+        }
+      }
+    },
+    "Take Turns Speaking": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Take Turns Speaking"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "轮流说话，轻松交流"
+          }
+        }
+      }
+    },
+    "Tap Stop when your partner finishes.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap Stop when your partner finishes."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "对方说完后，请点停止录音。"
+          }
+        }
+      }
+    },
+    "Tap to record your partner, then tap Stop. Their translation plays through your glasses.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap to record your partner, then tap Stop. Their translation plays through your glasses."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点话筒让对方说，再点停止；译文会在你的眼镜中朗读。"
           }
         }
       }
@@ -7417,6 +8131,23 @@
         }
       }
     },
+    "The audio device changed. This turn was stopped. Check your connection, then start again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The audio device changed. This turn was stopped. Check your connection, then start again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "音频设备已变化，本句已停止。请确认连接后重新开始。"
+          }
+        }
+      }
+    },
     "The camera frame couldn't be decoded.": {
       "extractionState": "manual",
       "localizations": {
@@ -7464,6 +8195,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "首次下载需要数 GB 流量，请保持应用打开并使用 Wi-Fi。"
+          }
+        }
+      }
+    },
+    "The iPhone microphone is unavailable. Stop other recording and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The iPhone microphone is unavailable. Stop other recording and try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "iPhone 麦克风不可用，请停止其他录音后重试。"
           }
         }
       }
@@ -7706,6 +8454,23 @@
         }
       }
     },
+    "This audio format or recording length is unsupported. Record a shorter sentence and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This audio format or recording length is unsupported. Record a shorter sentence and try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "不支持当前录音格式或时长，请缩短句子后重新录制。"
+          }
+        }
+      }
+    },
     "This build was compiled without Apple Intelligence support.": {
       "extractionState": "manual",
       "localizations": {
@@ -7753,6 +8518,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "将释放 %@ 存储空间，可随时重新下载。"
+          }
+        }
+      }
+    },
+    "This turn could not be completed.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This turn could not be completed."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本句未能完成。"
           }
         }
       }
@@ -7842,6 +8624,23 @@
         }
       }
     },
+    "Translates after a %lld s pause": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translates after a %lld s pause"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停顿 %lld 秒后自动翻译"
+          }
+        }
+      }
+    },
     "Translating…": {
       "extractionState": "manual",
       "localizations": {
@@ -7906,6 +8705,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "翻译模型"
+          }
+        }
+      }
+    },
+    "Translation Options": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation Options"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译选项"
           }
         }
       }
@@ -7978,6 +8794,23 @@
         }
       }
     },
+    "Turn Cancelled": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turn Cancelled"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "本句已取消"
+          }
+        }
+      }
+    },
     "Turn on Apple Intelligence in Settings → Apple Intelligence & Siri.": {
       "extractionState": "manual",
       "localizations": {
@@ -7991,6 +8824,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "请在“设置 → Apple Intelligence 与 Siri”中开启 Apple Intelligence。"
+          }
+        }
+      }
+    },
+    "Type Instead": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Type Instead"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "改用文字输入"
           }
         }
       }
@@ -8114,6 +8964,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用眼镜麦克风"
+          }
+        }
+      }
+    },
+    "Use a Model Studio API key from the selected region with access to qwen-mt-flash and qwen3-asr-flash. Beijing and Singapore keys are not interchangeable.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a Model Studio API key from the selected region with access to qwen-mt-flash and qwen3-asr-flash. Beijing and Singapore keys are not interchangeable."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请使用所选地域的百炼 API Key，并开通 qwen-mt-flash 和 qwen3-asr-flash。北京和新加坡的密钥不能混用。"
           }
         }
       }
@@ -8594,6 +9461,23 @@
         }
       }
     },
+    "You speak through your glasses. Your partner speaks only when you open the phone microphone.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "You speak through your glasses. Your partner speaks only when you open the phone microphone."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你用眼镜麦克风说话；只有你按下按钮后，手机才会录制对方说话。"
+          }
+        }
+      }
+    },
     "You're All Set!": {
       "extractionState": "manual",
       "localizations": {
@@ -8679,6 +9563,23 @@
         }
       }
     },
+    "Your glasses turn is submitted after this pause. Default: 5 seconds. Your partner's phone recording always ends with the Stop button. Changes are saved automatically.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your glasses turn is submitted after this pause. Default: 5 seconds. Your partner's phone recording always ends with the Stop button. Changes are saved automatically."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你说话停顿达到此时长后自动提交，默认 5 秒。对方的手机录音仍由停止按钮结束。修改后自动保存。"
+          }
+        }
+      }
+    },
     "Your glasses. Your AI. Your rules.": {
       "extractionState": "manual",
       "localizations": {
@@ -8709,6 +9610,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "订阅登录已过期，请在设置中重新登录。"
+          }
+        }
+      }
+    },
+    "Your words appear in both languages for your partner to read.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your words appear in both languages for your partner to read."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "你的原话和译文一起显示，方便对方阅读。"
           }
         }
       }

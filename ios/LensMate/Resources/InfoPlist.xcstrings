@@ -109,13 +109,13 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "LensMate needs microphone access to hear your voice commands and have conversations with the AI assistant."
+            "value": "LensMate uses the microphone for voice commands and conversation translation. Translation recordings are sent to your configured Aliyun service after each turn ends."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "LensMate 需要访问麦克风，以接收语音指令并与 AI 助手对话。"
+            "value": "LensMate 使用麦克风接收语音指令并进行对话翻译。翻译录音会在每句结束后发送至你配置的阿里云服务。"
           }
         }
       }

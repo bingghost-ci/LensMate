@@ -75,6 +75,8 @@ enum TranslationError: Error, Equatable {
     case authentication, rateLimited, modelUnavailable, rejected, serviceUnavailable
     case invalidResponse, incompleteResponse, timedOut, network
     case voiceUnavailable, audioUnavailable
+    case microphonePermission, headsetUnavailable, phoneMicrophoneUnavailable, microphoneRouteChanged
+    case invalidRecording, recordingFailed, noSpeech, recognitionUnavailable, recognitionFailed
 
     var message: String.LocalizationValue {
         switch self {
@@ -97,6 +99,15 @@ enum TranslationError: Error, Equatable {
         case .network: return "Could not connect to Aliyun. Check your connection and try again."
         case .voiceUnavailable: return "No installed system voice is available for the target language. Download a voice in iPhone Settings > Accessibility > Read & Speak (or Spoken Content) > Voices, then replay."
         case .audioUnavailable: return "Could not start iPhone speech. Stop other audio and try replaying."
+        case .microphonePermission: return "Allow microphone access for LensMate in iPhone Settings to start a conversation."
+        case .headsetUnavailable: return "Connect your glasses or Bluetooth headset with a microphone. Recording and playback will not switch to the phone automatically."
+        case .phoneMicrophoneUnavailable: return "The iPhone microphone is unavailable. Stop other recording and try again."
+        case .microphoneRouteChanged: return "The audio device changed. This turn was stopped. Check your connection, then start again."
+        case .invalidRecording: return "This audio format or recording length is unsupported. Record a shorter sentence and try again."
+        case .recordingFailed: return "Could not record this turn. Check the microphone connection and try again."
+        case .noSpeech: return "No speech was detected. Start recording again and speak closer to the microphone."
+        case .recognitionUnavailable: return "Speech recognition is unavailable. Enable qwen3-asr-flash in your selected Aliyun region."
+        case .recognitionFailed: return "Could not recognize this recording. Check access to qwen3-asr-flash and record the sentence again."
         }
     }
 }

@@ -8,10 +8,16 @@ protocol TranslationSpeaking: AnyObject {
     func stop()
 }
 
+@MainActor
+protocol ConversationTranslationSpeaking: TranslationSpeaking {
+    var onCompletion: ((Bool) -> Void)? { get set }
+}
+
 /// No recording, assistant TTS selection, cloud fallback, or translation history.
 @MainActor
-final class TranslationSpeechService: NSObject, TranslationSpeaking, AVSpeechSynthesizerDelegate {
+final class TranslationSpeechService: NSObject, ConversationTranslationSpeaking, AVSpeechSynthesizerDelegate {
     var onSpeakingChanged: ((Bool) -> Void)?
+    var onCompletion: ((Bool) -> Void)?
     private let synthesizer = AVSpeechSynthesizer()
     private var currentUtterance: AVSpeechUtterance?
     private var ownsAudioSession = false
@@ -80,17 +86,18 @@ final class TranslationSpeechService: NSObject, TranslationSpeaking, AVSpeechSyn
     }
 
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        Task { @MainActor [weak self] in self?.finished(utterance) }
+        Task { @MainActor [weak self] in self?.finished(utterance, completed: true) }
     }
 
     nonisolated func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
-        Task { @MainActor [weak self] in self?.finished(utterance) }
+        Task { @MainActor [weak self] in self?.finished(utterance, completed: false) }
     }
 
-    private func finished(_ utterance: AVSpeechUtterance) {
+    private func finished(_ utterance: AVSpeechUtterance, completed: Bool) {
         guard currentUtterance === utterance else { return }
         currentUtterance = nil
         if ownsAudioSession { releaseAudio(); ownsAudioSession = false }
         onSpeakingChanged?(false)
+        onCompletion?(completed)
     }
 }

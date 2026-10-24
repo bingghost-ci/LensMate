@@ -61,6 +61,8 @@ struct TranslationKeychainStore: TranslationCredentialStore {
 final class TranslationConfiguration: ObservableObject {
     static let shared = TranslationConfiguration()
     static let regionKey = "translation.region"
+    static let silenceKey = "translation.silenceDuration"
+    @Published private(set) var silenceDuration: TimeInterval
     @Published private(set) var region: TranslationRegion?
     private let defaults: UserDefaults
     private let store: any TranslationCredentialStore
@@ -68,7 +70,14 @@ final class TranslationConfiguration: ObservableObject {
     init(defaults: UserDefaults = .standard, store: any TranslationCredentialStore = TranslationKeychainStore()) {
         self.defaults = defaults
         self.store = store
+        let duration = defaults.object(forKey: Self.silenceKey) as? Double ?? 5
+        silenceDuration = TranslationSilenceDetector.clampedDuration(duration)
         region = defaults.string(forKey: Self.regionKey).flatMap(TranslationRegion.init(rawValue:))
+    }
+
+    func setSilenceDuration(_ duration: TimeInterval) {
+        silenceDuration = TranslationSilenceDetector.clampedDuration(duration)
+        defaults.set(silenceDuration, forKey: Self.silenceKey)
     }
 
     nonisolated static func validateKey(_ key: String) throws {

@@ -1,9 +1,10 @@
 import AVFoundation
 import SwiftUI
 
-struct TranslationView: View {
+struct TextTranslationView: View {
     @ObservedObject var model: TranslationViewModel
     let isSelected: Bool
+    var onClose: (() -> Void)? = nil
     @Environment(\.locale) private var locale
     @Environment(\.scenePhase) private var scenePhase
     @State private var showingSettings = false
@@ -81,6 +82,9 @@ struct TranslationView: View {
             }
             .localizedNavigationTitle("Translation")
             .toolbar {
+                if let onClose {
+                    ToolbarItem(placement: .topBarLeading) { Button("Done", action: onClose) }
+                }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         model.suspend()
@@ -106,6 +110,8 @@ struct TranslationView: View {
                         }
                 }
             }
+            .onAppear { if isSelected { model.activate() } }
+            .onDisappear { model.suspend() }
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active && !showingSettings && isSelected { model.activate() }
                 else { model.suspend() }

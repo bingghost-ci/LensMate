@@ -1,0 +1,29 @@
+LensMate turn-based conversation translation
+Date: 2026-10-24
+Toolchain: Xcode 27.1 / Swift 6.4
+Test host: iPhone 18 Pro / iOS 27.0 Simulator
+
+Build: xcodebuild build, ** BUILD SUCCEEDED **
+Full regression: xcodebuild test, ** TEST SUCCEEDED **
+Executed 191 tests, with 0 failures (0 unexpected).
+After refining the partner's 60-second limit to wait for manual submission:
+Executed 20 relevant tests, with 0 failures (0 unexpected), ** TEST SUCCEEDED **.
+Final microphone permission resource update: build succeeded.
+
+New coverage: configurable 1/3/5/10-second silence; preference persistence/clamping;
+partner manual recording; no upload before finish; bounded mono PCM16 WAV including
+interleaved stereo input; ASR regional/language request parameters, errors and
+cancellation; ordered bilingual turns; old microphone/ASR/MT callback isolation;
+recording/playback handoff; stop, retry, missing device and missing voice behavior.
+
+Compiler localization keys: 537. Missing keys/translations: 0.
+Existing Localizable.xcstrings entries are semantically unchanged.
+
+No paid service requests, user-audio recordings, UI automation or screenshots.
+Microphone/routing state tests use injected devices. Real eye-glasses/iPhone routes,
+recognition quality, credentials, listening experience and UI remain user acceptance.
+
+Local ignored logs:
+.build/conversation/build-final.log
+.build/conversation/regression.log
+.build/conversation/focused-final.log

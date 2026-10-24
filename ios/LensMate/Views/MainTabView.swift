@@ -13,7 +13,7 @@ struct MainTabView: View {
     // MARK: - State
 
     @State private var selectedTab: Tab = .voice
-    @StateObject private var translation = TranslationViewModel()
+    @StateObject private var translation = ConversationTranslationViewModel()
 
     // MARK: - Tab Enum
 
@@ -58,7 +58,7 @@ struct MainTabView: View {
                 }
                 .tag(Tab.voice)
 
-            TranslationView(model: translation, isSelected: selectedTab == .translation)
+            ConversationTranslationView(model: translation, isSelected: selectedTab == .translation)
                 .tabItem {
                     Label(LocalizedStringKey(Tab.translation.rawValue), systemImage: Tab.translation.icon)
                 }

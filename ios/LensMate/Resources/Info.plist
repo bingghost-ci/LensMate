@@ -70,7 +70,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>LensMate can use your location to provide location-aware responses.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>LensMate needs microphone access to hear your voice commands and have conversations with the AI assistant.</string>
+	<string>LensMate uses the microphone for voice commands and conversation translation. Translation recordings are sent to your configured Aliyun service after each turn ends.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>LensMate can save captured photos to your photo library.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
