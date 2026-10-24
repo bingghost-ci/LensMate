@@ -518,6 +518,23 @@
         }
       }
     },
+    "API keys are stored only in this iPhone's Keychain. They are never saved to ordinary settings files. Saving does not test the connection.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API keys are stored only in this iPhone's Keychain. They are never saved to ordinary settings files. Saving does not test the connection."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "API Key 仅保存到此 iPhone 的钥匙串，不会写入普通设置文件。保存时不会测试连接。"
+          }
+        }
+      }
+    },
     "API_SERVER_KEY": {
       "extractionState": "manual",
       "shouldTranslate": false
@@ -671,6 +688,91 @@
           "stringUnit": {
             "state": "translated",
             "value": "高级"
+          }
+        }
+      }
+    },
+    "Aliyun Region": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aliyun Region"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阿里云地域"
+          }
+        }
+      }
+    },
+    "Aliyun is limiting requests. Please try again later.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aliyun is limiting requests. Please try again later."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阿里云请求频率受限，请稍后重试。"
+          }
+        }
+      }
+    },
+    "Aliyun rejected this API key. Check its region, permissions and account status.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aliyun rejected this API key. Check its region, permissions and account status."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阿里云拒绝了此 API Key。请检查所属地域、权限及账户状态。"
+          }
+        }
+      }
+    },
+    "Aliyun rejected this translation. Check the text and your model access.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aliyun rejected this translation. Check the text and your model access."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "阿里云拒绝了本次翻译。请检查输入文字和模型访问权限。"
+          }
+        }
+      }
+    },
+    "An API key is saved for this region. Leave the field empty to keep it.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "An API key is saved for this region. Leave the field empty to keep it."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此地域已保存 API Key，留空可保留原密钥。"
           }
         }
       }
@@ -1244,6 +1346,40 @@
         }
       }
     },
+    "China (Beijing)": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "China (Beijing)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中国（北京）"
+          }
+        }
+      }
+    },
+    "Chinese": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chinese"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "中文"
+          }
+        }
+      }
+    },
     "Choose AI Backend": {
       "extractionState": "manual",
       "localizations": {
@@ -1274,6 +1410,57 @@
           "stringUnit": {
             "state": "translated",
             "value": "选择 AI 服务"
+          }
+        }
+      }
+    },
+    "Choose a Region": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose a Region"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "选择地域"
+          }
+        }
+      }
+    },
+    "Choose an Aliyun region and save its API key in Translation Settings.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose an Aliyun region and save its API key in Translation Settings."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请在翻译设置中选择阿里云地域，并保存该地域的 API Key。"
+          }
+        }
+      }
+    },
+    "Choose different source and target languages.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose different source and target languages."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请选择不同的源语言和目标语言。"
           }
         }
       }
@@ -1563,6 +1750,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "对话"
+          }
+        }
+      }
+    },
+    "Could not connect to Aliyun. Check your connection and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not connect to Aliyun. Check your connection and try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法连接阿里云，请检查网络后重试。"
+          }
+        }
+      }
+    },
+    "Could not start iPhone speech. Stop other audio and try replaying.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Could not start iPhone speech. Stop other audio and try replaying."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法启动 iPhone 朗读，请停止其他音频后重播。"
           }
         }
       }
@@ -1992,6 +2213,23 @@
         }
       }
     },
+    "Done": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Done"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "完成"
+          }
+        }
+      }
+    },
     "Download": {
       "extractionState": "manual",
       "localizations": {
@@ -2217,6 +2455,23 @@
         }
       }
     },
+    "English": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "English"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "英语"
+          }
+        }
+      }
+    },
     "Enhanced": {
       "extractionState": "manual",
       "localizations": {
@@ -2264,6 +2519,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "请确认眼镜已通过蓝牙与 iPhone 配对。"
+          }
+        }
+      }
+    },
+    "Enter a valid API key without spaces or line breaks.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter a valid API key without spaces or line breaks."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请输入有效的 API Key，不要包含空格或换行。"
+          }
+        }
+      }
+    },
+    "Enter text to translate.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enter text to translate."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请输入要翻译的文字。"
           }
         }
       }
@@ -4171,6 +4460,23 @@
         }
       }
     },
+    "No API key is saved for this region.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No API key is saved for this region."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "此地域尚未保存 API Key。"
+          }
+        }
+      }
+    },
     "No conversations yet": {
       "extractionState": "manual",
       "localizations": {
@@ -4235,6 +4541,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "未连接眼镜"
+          }
+        }
+      }
+    },
+    "No installed system voice is available for the target language. Download a voice in iPhone Settings > Accessibility > Read & Speak (or Spoken Content) > Voices, then replay.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No installed system voice is available for the target language. Download a voice in iPhone Settings > Accessibility > Read & Speak (or Spoken Content) > Voices, then replay."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未找到目标语言的已安装系统音色。请前往 iPhone 设置 > 辅助功能 > 朗读与语音（或朗读内容）> 声音下载音色，然后重播。"
           }
         }
       }
@@ -4846,6 +5169,23 @@
         }
       }
     },
+    "Original Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Original Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "原文"
+          }
+        }
+      }
+    },
     "Output Audio": {
       "extractionState": "manual",
       "localizations": {
@@ -5169,6 +5509,40 @@
         }
       }
     },
+    "Read Translation Aloud": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Read Translation Aloud"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自动朗读译文"
+          }
+        }
+      }
+    },
+    "Reading Translation…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reading Translation…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在朗读译文…"
+          }
+        }
+      }
+    },
     "Ready": {
       "extractionState": "manual",
       "localizations": {
@@ -5390,6 +5764,23 @@
         }
       }
     },
+    "Remove Saved API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Remove Saved API Key"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "移除已保存的 API Key"
+          }
+        }
+      }
+    },
     "Removes %@ of incomplete download data for this model.": {
       "extractionState": "manual",
       "localizations": {
@@ -5437,6 +5828,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "删除模型和已下载音色以释放存储空间，可随时重新下载。"
+          }
+        }
+      }
+    },
+    "Replay Last Translation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Replay Last Translation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "重播上一句译文"
           }
         }
       }
@@ -5590,6 +5998,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "保存"
+          }
+        }
+      }
+    },
+    "Save Translation Settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save Translation Settings"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "保存翻译设置"
           }
         }
       }
@@ -6172,6 +6597,23 @@
         }
       }
     },
+    "Singapore": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Singapore"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新加坡"
+          }
+        }
+      }
+    },
     "Smart Vision": {
       "extractionState": "manual",
       "localizations": {
@@ -6185,6 +6627,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "智能视觉"
+          }
+        }
+      }
+    },
+    "Source Language": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Source Language"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "源语言"
           }
         }
       }
@@ -6253,6 +6712,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "未获得语音识别权限，请在系统设置中开启。"
+          }
+        }
+      }
+    },
+    "Speech uses an installed iPhone system voice and the current system audio output.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speech uses an installed iPhone system voice and the current system audio output."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "朗读使用 iPhone 已安装的系统音色，并通过当前系统音频输出播放。"
           }
         }
       }
@@ -6355,6 +6831,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "停止相机视频流"
+          }
+        }
+      }
+    },
+    "Stop Translation and Speech": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stop Translation and Speech"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "停止翻译与朗读"
           }
         }
       }
@@ -6529,6 +7022,23 @@
         }
       }
     },
+    "Swap Languages": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Swap Languages"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "交换语言"
+          }
+        }
+      }
+    },
     "System Default": {
       "extractionState": "manual",
       "localizations": {
@@ -6576,6 +7086,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "轻点开始"
+          }
+        }
+      }
+    },
+    "Target Language": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Target Language"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "目标语言"
           }
         }
       }
@@ -6737,6 +7264,40 @@
         }
       }
     },
+    "Text to Translate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Text to Translate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "待翻译文字"
+          }
+        }
+      }
+    },
+    "Thai": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Thai"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "泰语"
+          }
+        }
+      }
+    },
     "That address answered, but it isn't a Hermes API server.": {
       "extractionState": "manual",
       "localizations": {
@@ -6767,6 +7328,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "服务器地址无效，请输入类似 hermes.example.com 或 100.88.1.2:8642 的地址。"
+          }
+        }
+      }
+    },
+    "The API key could not be removed from Keychain. Try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The API key could not be removed from Keychain. Try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法从钥匙串移除 API Key，请重试。"
+          }
+        }
+      }
+    },
+    "The API key could not be saved to Keychain. Your previous configuration is unchanged.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The API key could not be saved to Keychain. Your previous configuration is unchanged."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法将 API Key 保存到钥匙串，原有配置未更改。"
           }
         }
       }
@@ -6920,6 +7515,91 @@
           "stringUnit": {
             "state": "translated",
             "value": "服务器拒绝了此 API 密钥，请使用 Hermes 服务器中的 API_SERVER_KEY。"
+          }
+        }
+      }
+    },
+    "The translation API key could not be read from Keychain. Unlock your iPhone and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation API key could not be read from Keychain. Unlock your iPhone and try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "无法从钥匙串读取翻译 API Key。请解锁 iPhone 后重试。"
+          }
+        }
+      }
+    },
+    "The translation model is unavailable. Check access to qwen-mt-flash in your selected region.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation model is unavailable. Check access to qwen-mt-flash in your selected region."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译模型不可用。请检查所选地域是否已开通 qwen-mt-flash。"
+          }
+        }
+      }
+    },
+    "The translation service is unavailable. Please try again later.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation service is unavailable. Please try again later."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译服务暂不可用，请稍后重试。"
+          }
+        }
+      }
+    },
+    "The translation service returned an invalid or empty result. Please try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation service returned an invalid or empty result. Please try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译服务返回了无效或空结果，请重试。"
+          }
+        }
+      }
+    },
+    "The translation was incomplete. Try a shorter text.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The translation was incomplete. Try a shorter text."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译结果不完整，请缩短文字后重试。"
           }
         }
       }
@@ -7128,6 +7808,159 @@
         }
       }
     },
+    "Translate Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translate Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译文字"
+          }
+        }
+      }
+    },
+    "Translated Text": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translated Text"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "译文"
+          }
+        }
+      }
+    },
+    "Translating…": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translating…"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在翻译…"
+          }
+        }
+      }
+    },
+    "Translation": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译"
+          }
+        }
+      }
+    },
+    "Translation API Key": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation API Key"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译 API Key"
+          }
+        }
+      }
+    },
+    "Translation Model": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation Model"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译模型"
+          }
+        }
+      }
+    },
+    "Translation Settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation Settings"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译设置"
+          }
+        }
+      }
+    },
+    "Translation settings saved. Translate a short text to check the connection.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation settings saved. Translate a short text to check the connection."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译设置已保存。请翻译一段短文字以检查连接。"
+          }
+        }
+      }
+    },
+    "Translation timed out. Check your connection and try again.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translation timed out. Check your connection and try again."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "翻译超时，请检查网络后重试。"
+          }
+        }
+      }
+    },
     "Troubleshooting": {
       "extractionState": "manual",
       "localizations": {
@@ -7251,6 +8084,23 @@
         }
       }
     },
+    "Up to 2,000 characters. Only this text and the selected languages are sent to Aliyun. Translation text is not saved to history.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Up to 2,000 characters. Only this text and the selected languages are sent to Aliyun. Translation text is not saved to history."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最多 2,000 个字符。仅将本次文字和所选语言发送至阿里云，翻译正文不会保存到历史记录。"
+          }
+        }
+      }
+    },
     "Use Glasses Mic": {
       "extractionState": "manual",
       "localizations": {
@@ -7264,6 +8114,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用眼镜麦克风"
+          }
+        }
+      }
+    },
+    "Use a Model Studio API key from the selected region with access to qwen-mt-flash. Beijing and Singapore keys are not interchangeable.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use a Model Studio API key from the selected region with access to qwen-mt-flash. Beijing and Singapore keys are not interchangeable."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "请使用所选地域的百炼 API Key，并开通 qwen-mt-flash。北京和新加坡的密钥不能混用。"
+          }
+        }
+      }
+    },
+    "Use at most 2,000 characters per translation.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use at most 2,000 characters per translation."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "每次翻译最多输入 2,000 个字符。"
           }
         }
       }

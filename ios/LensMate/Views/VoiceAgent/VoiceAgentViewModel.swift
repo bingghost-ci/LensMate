@@ -50,6 +50,7 @@ final class VoiceAgentViewModel: ObservableObject {
     private var lastProcessedCommand = ""
     private var lastProcessedAt = Date.distantPast
     private var hasRequestedSpeechAuth = false
+    private var sessionStartup: Task<Void, Never>?
 
     /// The live-video backend currently driving audio/video (Gemini or OpenAI Realtime).
     /// Set when live video mode starts; used by stop/callbacks so both backends route correctly.
@@ -119,6 +120,9 @@ final class VoiceAgentViewModel: ObservableObject {
     // MARK: - View lifecycle
 
     func onAppear() {
+        TranslationAudioCoordinator.shared.suspendAssistant = { [weak self] in
+            self?.suspendForTranslation()
+        }
         setupVoiceCommandService()
         setupGlassesCallbacks()
         preloadLocalModelIfNeeded()
@@ -132,6 +136,42 @@ final class VoiceAgentViewModel: ObservableObject {
 
     func onDisappear() {
         voiceCommandService.stopListening()
+    }
+
+    /// Synchronous audio shutdown; network cleanup cannot resurrect the foreground assistant.
+    private func suspendForTranslation() {
+        sessionStartup?.cancel()
+        sessionStartup = nil
+        cancelPendingAnswer()
+        stopWatchLoop()
+        isSessionActive = false
+        isLiveVideoMode = false
+        commandTurnActive = false
+        historyAwaitingReply = false
+        ttsStreaming = false
+        agentState = .idle
+        voiceCommandService.stopListening()
+        audioCapture.stopCapture()
+        audioCapture.onAudioCaptured = nil
+        audioPlayback.teardown()
+        soundService.stopThinkingSound()
+        if isRecording { sessionRecorder.stop() }
+        glassesManager.onVideoSampleBuffer = nil
+        let liveService = activeLiveService
+        activeLiveService = nil
+        let backend = settingsManager.settings.aiBackend
+        AppleFoundationService.shared.interrupt()
+        GemmaLocalService.shared.interrupt()
+        Task {
+            await liveService?.disconnect()
+            switch backend {
+            case .openClaw: await OpenClawService.shared.disconnect()
+            case .geminiLive: await GeminiLiveService.shared.disconnect()
+            case .hermes: await HermesGatewayClient.shared.interrupt()
+            default: break
+            }
+            if glassesManager.isStreaming { await glassesManager.stopStreaming() }
+        }
     }
 
     // MARK: - Observed state changes (forwarded from the view's onChange hooks)
@@ -269,6 +309,7 @@ final class VoiceAgentViewModel: ObservableObject {
     }
 
     func startSession() {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         // Check configuration
         guard settingsManager.settings.isCurrentBackendConfigured else {
             errorMessage = L10n.text("Please configure \(settingsManager.settings.aiBackend.displayName) in Settings")
@@ -291,7 +332,8 @@ final class VoiceAgentViewModel: ObservableObject {
         configureAudioForGlasses()
 
         // Connect to AI backend
-        Task {
+        sessionStartup?.cancel()
+        sessionStartup = Task {
             do {
                 switch settingsManager.settings.aiBackend {
                 case .openClaw:
@@ -332,6 +374,7 @@ final class VoiceAgentViewModel: ObservableObject {
                     )
                 }
 
+                guard !Task.isCancelled, !TranslationAudioCoordinator.shared.isTranslationActive else { return }
                 agentState = .listening
                 userTranscript = ""
                 aiTranscript = ""
@@ -348,6 +391,7 @@ final class VoiceAgentViewModel: ObservableObject {
                 }
 
             } catch {
+                guard !Task.isCancelled, !TranslationAudioCoordinator.shared.isTranslationActive else { return }
                 errorMessage = L10n.text("Failed to connect: \(error.localizedDescription)")
                 isSessionActive = false
                 agentState = .idle
@@ -405,6 +449,8 @@ final class VoiceAgentViewModel: ObservableObject {
     }
 
     func stopSession() {
+        sessionStartup?.cancel()
+        sessionStartup = nil
         cancelPendingAnswer()
         // If in live video mode, stop it first
         if isLiveVideoMode {
@@ -1037,6 +1083,9 @@ final class VoiceAgentViewModel: ObservableObject {
 
     /// Start live video mode - Gemini handles both audio and video
     private func startLiveVideoMode() async {
+        let audioOwner = TranslationAudioCoordinator.shared
+        let generation = audioOwner.assistantGeneration
+        guard audioOwner.acceptsAssistantWork(from: generation) else { return }
         guard !isLiveVideoMode else {
             print("[VoiceAgent] Already in live video mode")
             return
@@ -1081,6 +1130,10 @@ final class VoiceAgentViewModel: ObservableObject {
         if !glassesManager.isStreaming {
             await glassesManager.startStreaming()
         }
+        guard audioOwner.acceptsAssistantWork(from: generation) else {
+            if audioOwner.isTranslationActive && glassesManager.isStreaming { await glassesManager.stopStreaming() }
+            return
+        }
 
         // Connect to the live backend
         do {
@@ -1098,6 +1151,11 @@ final class VoiceAgentViewModel: ObservableObject {
             } catch {
                 print("[VoiceAgent] Failed to restart voice commands: \(error)")
             }
+            return
+        }
+
+        guard audioOwner.acceptsAssistantWork(from: generation) else {
+            if audioOwner.isTranslationActive { await service.disconnect() }
             return
         }
 
@@ -1166,10 +1224,17 @@ final class VoiceAgentViewModel: ObservableObject {
     /// each spoken question is answered against the latest frame (see sendCommand). Replies
     /// speak through the selected TTS engine as usual.
     private func startLocalLiveVideoMode() async {
+        let audioOwner = TranslationAudioCoordinator.shared
+        let generation = audioOwner.assistantGeneration
+        guard audioOwner.acceptsAssistantWork(from: generation) else { return }
         print("[VoiceAgent] Starting local live video mode (SmolVLM2)...")
 
         if !glassesManager.isStreaming {
             await glassesManager.startStreaming()
+        }
+        guard audioOwner.acceptsAssistantWork(from: generation) else {
+            if audioOwner.isTranslationActive && glassesManager.isStreaming { await glassesManager.stopStreaming() }
+            return
         }
         guard glassesManager.isStreaming else {
             ttsService.speak("I couldn't start the glasses camera")
@@ -1589,6 +1654,7 @@ final class VoiceAgentViewModel: ObservableObject {
         // Local live mode forced the phone mic (HFP dies during camera streaming) and its STT
         // may still be running — stop it so the restart below picks up the preferred route.
         if voiceCommandService.isListening { voiceCommandService.stopListening() }
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         applyPreferredAudioRoute()
 
         // Always restart VoiceCommandService for wake word detection
@@ -1716,6 +1782,9 @@ final class VoiceAgentViewModel: ObservableObject {
     }
 
     private func startRecording() async {
+        let audioOwner = TranslationAudioCoordinator.shared
+        let generation = audioOwner.assistantGeneration
+        guard audioOwner.acceptsAssistantWork(from: generation) else { return }
         guard glassesManager.isRegistered else {
             errorMessage = L10n.text("Connect your glasses first to record.")
             return
@@ -1723,6 +1792,10 @@ final class VoiceAgentViewModel: ObservableObject {
         // Recording needs a live frame stream; start it if the user isn't already in live video.
         if !glassesManager.isStreaming {
             await glassesManager.startStreaming()
+        }
+        guard audioOwner.acceptsAssistantWork(from: generation) else {
+            if audioOwner.isTranslationActive && glassesManager.isStreaming { await glassesManager.stopStreaming() }
+            return
         }
         guard glassesManager.isStreaming else {
             errorMessage = L10n.text("Couldn't start the glasses camera to record.")
@@ -1742,6 +1815,7 @@ final class VoiceAgentViewModel: ObservableObject {
             self.showRecordingStatus(url != nil ? "Saved to Photos" : "Couldn't save recording")
         }
 
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         do {
             try sessionRecorder.start()
             isRecording = true
@@ -2087,6 +2161,7 @@ final class VoiceAgentViewModel: ObservableObject {
     /// far (the local model emits a growing snapshot each token). On non-final calls we speak only
     /// the sentences that have fully completed; on the final call we flush whatever remains.
     private func feedStreamingSpeech(_ cumulative: String, isFinal: Bool) {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         // Open a streamed utterance session on first content.
         if !ttsStreaming {
             guard !cumulative.isEmpty else { return }
@@ -2153,6 +2228,7 @@ final class VoiceAgentViewModel: ObservableObject {
 
     /// Speak AI response via TTS
     private func speakResponse(_ text: String) {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard !text.isEmpty else { return }
         recordAssistantReply(text)
         // Perceived latency ends here: the gap between this and speechEnd is the wearer's wait.
@@ -2176,6 +2252,7 @@ final class VoiceAgentViewModel: ObservableObject {
     /// questions): speak it, then return the next thing they say, or nil after a minute. Spoken
     /// directly rather than through speakResponse, so it isn't recorded as the turn's answer.
     func askUser(_ prompt: String) async -> String? {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return nil }
         cancelPendingAnswer()
         if let neuralTTS {
             questionPrompt = Task {

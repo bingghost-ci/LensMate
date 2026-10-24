@@ -1,5 +1,5 @@
 // LensMate - MainTabView.swift
-// Main tab navigation: Voice Agent, History, Settings
+// Main tab navigation: Voice Agent, Translation, History, Settings
 
 import SwiftUI
 
@@ -13,17 +13,20 @@ struct MainTabView: View {
     // MARK: - State
 
     @State private var selectedTab: Tab = .voice
+    @StateObject private var translation = TranslationViewModel()
 
     // MARK: - Tab Enum
 
     enum Tab: String, CaseIterable {
         case voice = "Voice"
+        case translation = "Translation"
         case history = "History"
         case settings = "Settings"
 
         var icon: String {
             switch self {
             case .voice: return "waveform.circle.fill"
+            case .translation: return "character.bubble.fill"
             case .history: return "clock.fill"
             case .settings: return "gearshape.fill"
             }
@@ -32,6 +35,7 @@ struct MainTabView: View {
         var selectedIcon: String {
             switch self {
             case .voice: return "waveform.circle.fill"
+            case .translation: return "character.bubble.fill"
             case .history: return "clock.fill"
             case .settings: return "gearshape.fill"
             }
@@ -41,13 +45,24 @@ struct MainTabView: View {
     // MARK: - Body
 
     var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: Binding(get: { selectedTab }, set: { tab in
+            // Handoff before SwiftUI delivers appear/disappear callbacks in either order.
+            if tab == .translation { translation.activate() }
+            else if selectedTab == .translation { translation.leave() }
+            selectedTab = tab
+        })) {
             // Voice Agent Tab
             VoiceAgentView()
                 .tabItem {
                     Label(LocalizedStringKey(Tab.voice.rawValue), systemImage: Tab.voice.icon)
                 }
                 .tag(Tab.voice)
+
+            TranslationView(model: translation, isSelected: selectedTab == .translation)
+                .tabItem {
+                    Label(LocalizedStringKey(Tab.translation.rawValue), systemImage: Tab.translation.icon)
+                }
+                .tag(Tab.translation)
 
             // History Tab
             ConversationListView()
@@ -64,6 +79,7 @@ struct MainTabView: View {
                 .tag(Tab.settings)
         }
         .tint(Theme.accent)
+        .onDisappear { translation.leave() }
         .onAppear {
             // Customize tab bar appearance for dark mode
             let appearance = UITabBarAppearance()

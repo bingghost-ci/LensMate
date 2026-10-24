@@ -198,6 +198,7 @@ final class VoiceCommandService: ObservableObject {
 
     /// Start listening for wake word or commands
     func startListening() throws {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard authorizationStatus == .authorized else {
             throw VoiceCommandError.notAuthorized
         }

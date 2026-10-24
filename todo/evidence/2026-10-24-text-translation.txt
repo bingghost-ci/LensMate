@@ -1,0 +1,29 @@
+LensMate text translation / non-UI verification
+Date: 2026-10-24
+Toolchain: Xcode 27.1 (27A9275), Swift 6.4
+Target: LensMate / LensMateTests, iOS Simulator, iPhone 18 Pro / iOS 27.0
+Simulator: 05581DD8-B185-4612-A56E-4748154E078C
+
+Final build: xcodebuild build, exit 0, ** BUILD SUCCEEDED **
+Full regression: xcodebuild test, exit 0, ** TEST SUCCEEDED **
+Executed 171 tests, with 0 failures (0 unexpected).
+New translation tests: 26 (client 9, configuration 5, session/speech 12).
+Compiler-extracted localization keys: 484; missing keys 0; missing en/zh-Hans 0.
+
+Coverage: all six language pairs and minimal request body; regional endpoints;
+HTTP response parsing and sanitized errors; timeout/cancellation; redirect refusal;
+URLSession with injected HTTP responses and cancellation; isolated real Keychain
+round-trip and injected update/add failures; late success/error isolation;
+stop/replay/missing-voice behavior; assistant audio handoff and late audio gating.
+
+Test fixtures contain synthetic text/keys only. No real Aliyun request was made.
+No UI automation, screenshots, visual acceptance or new physical-device install.
+Production path: AliyunTranslationClient with TranslationURLSessionTransport.
+Pending: configured regional API key + qwen-mt-flash access, real API integration,
+user UI/voice acceptance, physical-device audio route/lifecycle verification.
+
+Local ignored logs:
+.build/translation/build-final.log
+.build/translation/regression-final.log
+Signing workaround and reproducible command: docs/text-translation.md,
+todo/debug-status.md. No Vendor or production signing changes.

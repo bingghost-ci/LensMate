@@ -45,6 +45,7 @@ final class AudioCaptureService: ObservableObject {
 
     /// Start capturing audio
     func startCapture() throws {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard !isCapturing else { return }
 
         audioEngine = AVAudioEngine()

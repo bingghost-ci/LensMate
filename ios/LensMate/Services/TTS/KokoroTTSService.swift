@@ -108,6 +108,7 @@ final class KokoroTTSService: ObservableObject {
     /// telemetry). Per-sentence generation bounds each spike, and the first sentence starts
     /// playing while the rest still synthesize, so long replies also START sooner.
     func speak(_ text: String, voice: String) async {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, isModelReady else { return }
         isSpeaking = true   // set immediately so the UI pauses the recognizer during synthesis too
@@ -184,6 +185,7 @@ final class KokoroTTSService: ObservableObject {
     /// already did that WITHIN a reply; what was missing is starting before the model has finished
     /// writing the reply. Measured cost of waiting: ~1.2s per turn.
     func beginStreaming() {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         streaming = true
         streamStarted = false
         chunkQueue.removeAll()
@@ -196,6 +198,7 @@ final class KokoroTTSService: ObservableObject {
     /// Queue ONE completed sentence for synthesis. Safe to call repeatedly while the language
     /// model is still generating; sentences play strictly in the order they were queued.
     func speakChunk(_ sentence: String, voice: String) {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let clean = sentence.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, isModelReady, streaming else { return }
         chunkQueue.append((clean, voice))
@@ -254,6 +257,7 @@ final class KokoroTTSService: ObservableObject {
     /// speech (streamed or not) started meanwhile — a dropped narration line costs nothing; the
     /// next scene change will describe again.
     func speakAmbient(_ text: String, voice: String) async {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, isModelReady, !isSpeaking, !streaming else { return }
         isSpeaking = true          // pause the recognizer while narration synthesises + plays

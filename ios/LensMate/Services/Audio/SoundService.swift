@@ -78,6 +78,7 @@ final class SoundService: ObservableObject {
     // MARK: - Wake Word Sound
 
     func playWakeWordSound() {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard soundEnabled else { return }
         ensureSoundsReady()
 
@@ -108,6 +109,7 @@ final class SoundService: ObservableObject {
     // MARK: - Thinking Sound
 
     func startThinkingSound() {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard soundEnabled else { return }
         guard !isPlayingThinkingSound else { return }
 

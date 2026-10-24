@@ -28,6 +28,14 @@ struct SettingsView: View {
                     Text("Follow System uses your device's primary language. Unsupported languages use English.")
                 }
 
+                Section {
+                    NavigationLink {
+                        TranslationSettingsView()
+                    } label: {
+                        Label("Translation Settings", systemImage: "character.bubble")
+                    }
+                }
+
                 // AI Backend Section
                 Section {
                     NavigationLink {

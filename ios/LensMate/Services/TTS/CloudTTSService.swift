@@ -76,6 +76,7 @@ final class CloudTTSService: ObservableObject {
 
     /// Speak in a specific voice — used to preview voices in Settings before choosing one.
     func speak(_ text: String, voice: String, appleFallback: Bool = false) async {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, isReady else { return }
         stop()
@@ -135,6 +136,7 @@ final class CloudTTSService: ObservableObject {
     }
 
     func beginStreaming() {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         lastFailure = nil
         streaming = true
         streamStarted = false
@@ -154,6 +156,7 @@ final class CloudTTSService: ObservableObject {
     }
 
     private func enqueue(_ sentence: String, voice: String) {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let clean = sentence.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, isReady, streaming else { return }
         pendingSentences.append((clean, voice))
@@ -235,6 +238,7 @@ final class CloudTTSService: ObservableObject {
     /// Ambient narration (watch loop): speaks only into silence and drops itself if a reply
     /// started while it was being synthesized.
     func speakAmbient(_ text: String) async {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let clean = text.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !clean.isEmpty, isReady, !isSpeaking, !streaming else { return }
         isSpeaking = true

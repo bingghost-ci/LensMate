@@ -1,6 +1,6 @@
 # LensMate 本机检查与调试记录
 
-检查日期：2026-10-24，同日更新。结论：**依赖解析及 Xcode 签名构建已通过，LensMate `0.1.0 (1)` 已安装到 iPhone 14 并运行，用户确认正常。后续界面本地化与自动化测试结果见本文末尾；眼镜与完整功能回归尚未验收，阿里云三语翻译尚未实现。**
+检查日期：2026-10-24，同日更新。结论：**依赖解析及 Xcode 签名构建已通过，LensMate `0.1.0 (1)` 已安装到 iPhone 14 并运行，用户确认正常。后续界面本地化、文字翻译及非 UI 验证结果见本文末尾；眼镜与完整功能回归尚未验收，文字翻译真实接口与用户 UI/听感待验收。**
 
 ## 首次真机运行证据
 
@@ -90,3 +90,13 @@ LM_LOCAL_SIGN_CudaBuild = YES
 ```
 
 最终完整回归命令使用 `xcodebuild test`，scheme 为 `LensMate`，目标为 iPhone 18 Pro / iOS 27.0 模拟器，并传入上述临时 `-xcconfig`、`-testLanguage en -testRegion US -collect-test-diagnostics never`。退出码为 0，结果为 `TEST SUCCEEDED`；日志保存在本机忽略目录 `.build/localization/regression-final.log`。
+
+## 中英泰文字翻译第一批（2026-10-24）
+
+- 独立翻译页、六方向、交换、原文/译文、北京/新加坡配置与 `qwen-mt-flash` 真实适配器已实现。阿里云最新官方契约、固定端点与区域密钥要求见[使用说明](../docs/text-translation.md)。
+- 专用 Keychain 保存密钥，失败不写普通配置；独立临时 URLSession、拒绝重定向、不带助手上下文、不持久化正文、不输出正文/密钥日志。系统朗读支持停止/重播和缺音色提示；切换、后台及旧响应隔离和助手交接已实现。
+- 完整模拟器构建成功，`xcodebuild` 退出码 0。完整 XCTest 回归 **171 项通过、0 失败**，含新增 26 项翻译测试。编译器提取的 484 个文案键全部存在，所有需翻译键均具备英文/简体中文资源。
+- 非 UI 集成使用 URLProtocol 注入 HTTP 响应并验证 URLSession 取消；Keychain 测试使用独立服务名做实际读写与失败注入。没有调用真实阿里云接口，没有使用或输出用户凭据。
+- 沿用上一节的本机测试签名配置与现有 DerivedData，不更改 Vendor、包版本或正式签名。初次添加工程文件时的分组路径和 Swift actor 默认参数编译错误已修正，最终构建/测试成功。
+- 日志位于本机忽略目录 `.build/translation/build-final.log`、`regression-final.log`；可提交的结果摘要见[验证记录](evidence/2026-10-24-text-translation.txt)。未运行 UI 测试、截图或视觉走查，也未将新版安装到用户真机。
+- 待用户在 App 中选择地域、保存有效 Key 并开通模型后，验收真实鉴权、六方向译文、系统三语音色、UI、助手交接及生命周期。ASR、持续录音、后台翻译、眼镜专用路由和字幕不在本批范围。

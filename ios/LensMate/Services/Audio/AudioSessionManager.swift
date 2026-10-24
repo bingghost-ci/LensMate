@@ -41,6 +41,7 @@ final class AudioSessionManager {
 
     /// Configure audio session for specified mode
     func configure(for mode: AudioMode) throws {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard mode != currentMode else { return }
 
         switch mode {
@@ -124,6 +125,7 @@ final class AudioSessionManager {
     /// (this is what previously made the glasses mic undetectable: the phone route disallows HFP).
     @discardableResult
     func configureForGlasses() throws -> Bool {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return false }
         // Match OpenGlasses: `.default` mode + `.mixWithOthers` so the recognizer's session COEXISTS
         // with the glasses camera's Bluetooth stream instead of taking exclusive HFP control. With
         // `.voiceChat` + `.duckOthers` the camera stream killed the HFP mic (and iOS wouldn't revive
@@ -156,6 +158,7 @@ final class AudioSessionManager {
     /// routes output to the quiet earpiece — which is why phone-only audio was inaudible.
     /// `.allowBluetoothA2DP` still lets AirPods / other Bluetooth audio work when present.
     func configureForPhone() throws {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         try audioSession.setCategory(
             .playAndRecord,
             mode: .default,

@@ -107,6 +107,7 @@ final class TTSService: NSObject, ObservableObject {
     /// Begin a streamed reply. Clears the queue and latches `isSpeaking` true so the recognizer
     /// stays paused across the gaps between sentences while the LLM is still generating.
     func beginStreaming() {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         stop()
         streamingActive = true
         isSpeaking = true
@@ -132,6 +133,7 @@ final class TTSService: NSObject, ObservableObject {
 
     /// Build an utterance with the selected voice and hand it to the synthesizer's queue.
     private func enqueue(_ text: String) {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         let utterance = AVSpeechUtterance(string: text)
         utterance.voice = selectedVoice
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate

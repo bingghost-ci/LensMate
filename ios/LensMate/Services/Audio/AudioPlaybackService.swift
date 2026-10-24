@@ -72,6 +72,7 @@ final class AudioPlaybackService: ObservableObject {
 
     /// Play PCM Int16 audio data
     func playAudio(data: Data) {
+        guard !TranslationAudioCoordinator.shared.isTranslationActive else { return }
         guard let engine = audioEngine, let player = playerNode else {
             print("[AudioPlayback] Engine not setup")
             return

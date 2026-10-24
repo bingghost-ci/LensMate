@@ -132,6 +132,17 @@
 		8F347B9095DDBD684DFE7024 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = A7332410E9699D30805B54E4 /* Localizable.xcstrings */; };
 		2F86CEAE4D6C9AD95A3FE4D0 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = EA6B4D822A1E28644B356674 /* InfoPlist.xcstrings */; };
 		7DCCD42D31C248F599712675 /* LocalizedNavigationTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5FC8E52A882D7C51CC17 /* LocalizedNavigationTitle.swift */; };
+		2A5CC6AC76786863197779C0 /* AliyunTranslationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BC3CBD72BDF28BFAB184A7 /* AliyunTranslationClient.swift */; };
+		8249208624482643291D3F86 /* TranslationAudioCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 794A7197AE35F6C3B712661C /* TranslationAudioCoordinator.swift */; };
+		40F6B9EEE07082FBDC52776D /* TranslationConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9172FA3016050FB4F4E6ABD2 /* TranslationConfiguration.swift */; };
+		39F973CE04E516A633026914 /* TranslationSpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9675F555BFC325B5D463940 /* TranslationSpeechService.swift */; };
+		ADDC305AD891D96121B2EF9B /* TranslationTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BDE9658786EF58B404EDC1B /* TranslationTypes.swift */; };
+		C9E3FA8684E78AA68F6D280E /* TranslationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4818BA92BE1FE99F63AB01F4 /* TranslationSettingsView.swift */; };
+		E5DD0C264E44E1C87B7D07DE /* TranslationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957F3EA80EB78B7E0A4BADFD /* TranslationView.swift */; };
+		FF0BE8DFEAF83201FF2600F0 /* TranslationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 888C3564D3561E3711B38128 /* TranslationViewModel.swift */; };
+		2822BBD5681A366A386D2895 /* TranslationClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A086F277646B27A0622E6AA0 /* TranslationClientTests.swift */; };
+		F7A96DB2A02BAEB947C4BCB5 /* TranslationConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB05BF2DEB1D20942A6319D5 /* TranslationConfigurationTests.swift */; };
+		D676539EFA6FB21F97593D60 /* TranslationSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B69EB7F38D613632BD58751 /* TranslationSessionTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,6 +279,17 @@
 		A7332410E9699D30805B54E4 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		EA6B4D822A1E28644B356674 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		785F5FC8E52A882D7C51CC17 /* LocalizedNavigationTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedNavigationTitle.swift; sourceTree = "<group>"; };
+		B9BC3CBD72BDF28BFAB184A7 /* AliyunTranslationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AliyunTranslationClient.swift; sourceTree = "<group>"; };
+		794A7197AE35F6C3B712661C /* TranslationAudioCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationAudioCoordinator.swift; sourceTree = "<group>"; };
+		9172FA3016050FB4F4E6ABD2 /* TranslationConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationConfiguration.swift; sourceTree = "<group>"; };
+		C9675F555BFC325B5D463940 /* TranslationSpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationSpeechService.swift; sourceTree = "<group>"; };
+		6BDE9658786EF58B404EDC1B /* TranslationTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationTypes.swift; sourceTree = "<group>"; };
+		4818BA92BE1FE99F63AB01F4 /* TranslationSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationSettingsView.swift; sourceTree = "<group>"; };
+		957F3EA80EB78B7E0A4BADFD /* TranslationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationView.swift; sourceTree = "<group>"; };
+		888C3564D3561E3711B38128 /* TranslationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationViewModel.swift; sourceTree = "<group>"; };
+		A086F277646B27A0622E6AA0 /* TranslationClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationClientTests.swift; sourceTree = "<group>"; };
+		EB05BF2DEB1D20942A6319D5 /* TranslationConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationConfigurationTests.swift; sourceTree = "<group>"; };
+		6B69EB7F38D613632BD58751 /* TranslationSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranslationSessionTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -364,6 +386,7 @@
 		198BDC47F90490C1B36B7B72 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7D4ECABDF4ABBCB723CE3CA6 /* Translation */,
 				FCFDEAC4C8892533CE36C394 /* Components */,
 				4EED49775404F3FCDDF6904A /* History */,
 				0194EEF861E1966DBDC3B665 /* Settings */,
@@ -486,6 +509,7 @@
 		73C8E684016E1E082B6511F2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3C495BA556C646FBE2B54482 /* Translation */,
 				F5B2AD1E1FABED62439F7733 /* AIBackend */,
 				95CA46C43A53365AD4139930 /* AppleFoundation */,
 				A29C7061AA685E560166CE85 /* Audio */,
@@ -679,6 +703,9 @@
 		FA1346C9AC741922A0BF6928 /* LensMateTests */ = {
 			isa = PBXGroup;
 			children = (
+				6B69EB7F38D613632BD58751 /* TranslationSessionTests.swift */,
+				EB05BF2DEB1D20942A6319D5 /* TranslationConfigurationTests.swift */,
+				A086F277646B27A0622E6AA0 /* TranslationClientTests.swift */,
 				94DC455D80E6FEE6E1FCFB1E /* AppLanguageTests.swift */,
 				39552315579536D518404FED /* DocumentChunkingTests.swift */,
 				B88E1A3CDAF6C7B3D7DF36FE /* FrameChangeTests.swift */,
@@ -715,6 +742,28 @@
 				6D80EDF3FFC20786ED7F6654 /* FaceRecognitionService.swift */,
 			);
 			path = Vision;
+			sourceTree = "<group>";
+		};
+		3C495BA556C646FBE2B54482 /* Translation */ = {
+			isa = PBXGroup;
+			children = (
+				B9BC3CBD72BDF28BFAB184A7 /* AliyunTranslationClient.swift */,
+				794A7197AE35F6C3B712661C /* TranslationAudioCoordinator.swift */,
+				9172FA3016050FB4F4E6ABD2 /* TranslationConfiguration.swift */,
+				C9675F555BFC325B5D463940 /* TranslationSpeechService.swift */,
+				6BDE9658786EF58B404EDC1B /* TranslationTypes.swift */,
+			);
+			path = Translation;
+			sourceTree = "<group>";
+		};
+		7D4ECABDF4ABBCB723CE3CA6 /* Translation */ = {
+			isa = PBXGroup;
+			children = (
+				4818BA92BE1FE99F63AB01F4 /* TranslationSettingsView.swift */,
+				957F3EA80EB78B7E0A4BADFD /* TranslationView.swift */,
+				888C3564D3561E3711B38128 /* TranslationViewModel.swift */,
+			);
+			path = Translation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -858,6 +907,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D676539EFA6FB21F97593D60 /* TranslationSessionTests.swift in Sources */,
+				F7A96DB2A02BAEB947C4BCB5 /* TranslationConfigurationTests.swift in Sources */,
+				2822BBD5681A366A386D2895 /* TranslationClientTests.swift in Sources */,
 				E9628B20FB4654FBBFC61EF9 /* DocumentChunkingTests.swift in Sources */,
 				9A7811CF026E8DF74F74C2A2 /* FrameChangeTests.swift in Sources */,
 				41DD47E61F53A95E861466C1 /* GrokTests.swift in Sources */,
@@ -876,6 +928,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF0BE8DFEAF83201FF2600F0 /* TranslationViewModel.swift in Sources */,
+				E5DD0C264E44E1C87B7D07DE /* TranslationView.swift in Sources */,
+				C9E3FA8684E78AA68F6D280E /* TranslationSettingsView.swift in Sources */,
+				ADDC305AD891D96121B2EF9B /* TranslationTypes.swift in Sources */,
+				39F973CE04E516A633026914 /* TranslationSpeechService.swift in Sources */,
+				40F6B9EEE07082FBDC52776D /* TranslationConfiguration.swift in Sources */,
+				8249208624482643291D3F86 /* TranslationAudioCoordinator.swift in Sources */,
+				2A5CC6AC76786863197779C0 /* AliyunTranslationClient.swift in Sources */,
 				7CE3313B3D27BADF471BC662 /* AIBackendConformances.swift in Sources */,
 				0CD9B9D7D0854411C0A04148 /* AIBackendProtocol.swift in Sources */,
 				FCFECBF332943E64812DC931 /* AIBackendSettingsView.swift in Sources */,
