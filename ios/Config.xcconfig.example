@@ -1,0 +1,9 @@
+// LensMate personal development configuration.
+// Copy to Config.xcconfig; the local copy is ignored by Git.
+// Set your Team ID in Xcode before installing on an iPhone.
+DEVELOPMENT_TEAM =
+PRODUCT_BUNDLE_IDENTIFIER = com.bobby.lensmate
+// SDK Developer Mode may allow placeholder Meta credentials. Registration must be verified.
+META_APP_ID = 0
+CLIENT_TOKEN =
+APP_LINK_URL_SCHEME = lensmate

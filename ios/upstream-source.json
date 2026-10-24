@@ -1,0 +1,16 @@
+{
+  "upstream": "https://github.com/rayl15/OpenVision",
+  "commit": "1d5d9203a36f76040947425a603eba57757eac75",
+  "copied_at_utc": "2026-10-24T02:30:33.220211+00:00",
+  "copied_tracked_files": 215,
+  "source_directories": [
+    "OpenVision",
+    "OpenVisionTests",
+    "OpenVision.xcodeproj",
+    "Vendor"
+  ],
+  "app_name": "LensMate",
+  "bundle_identifier": "com.bobby.lensmate",
+  "version": "0.1.0",
+  "note": "No nested Git repository. Vendor sources and upstream LICENSE copied without edits; application/project naming changed. No provider credentials copied."
+}

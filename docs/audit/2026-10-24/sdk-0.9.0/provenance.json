@@ -1,0 +1,22 @@
+{
+  "tag": "0.9.0",
+  "commit": "9b1b83d791dfebff7afd452e924a256819094b64",
+  "retrieved_at_utc": "2026-10-23T17:14:28.272232+00:00",
+  "files": [
+    {
+      "file": "README.md",
+      "url": "https://raw.githubusercontent.com/facebook/meta-wearables-dat-ios/9b1b83d791dfebff7afd452e924a256819094b64/README.md",
+      "sha256": "bec39787b9841af9dc6ab1ca4d6a33d89f7c6d9df16c24afeb2ceddf7ebea0ed"
+    },
+    {
+      "file": "Package.swift",
+      "url": "https://raw.githubusercontent.com/facebook/meta-wearables-dat-ios/9b1b83d791dfebff7afd452e924a256819094b64/Package.swift",
+      "sha256": "5a4de1fa2158c4fd1be6a3ce531cd0bff54e86819a68ef08c597561cffcc3508"
+    },
+    {
+      "file": "LICENSE",
+      "url": "https://raw.githubusercontent.com/facebook/meta-wearables-dat-ios/9b1b83d791dfebff7afd452e924a256819094b64/LICENSE",
+      "sha256": "80f43d18e6cddc805fe86e70fd1e24fec505cf74616bdcbd04ab9f02d76d53ea"
+    }
+  ]
+}

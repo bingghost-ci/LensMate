@@ -1,0 +1,16 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -resolvePackageDependencies -project ios/LensMate.xcodeproj -scheme LensMate -clonedSourcePackagesDirPath .build/SourcePackages
+
+Resolve Package Graph
+
+Fetching from https://github.com/PrismML-Eng/mlx-swift.git
+
+package 'mlx-swift' @ 9c3a80a4ce8be105540e378c2a703bfc9de57f25 is using Swift tools version 6.3.0 but the installed version is 6.2.1 in https://github.com/PrismML-Eng/mlx-swift.git
+Resolved source packages:
+  kokoro-ios: (null)
+
+2026-10-24 09:30:40.262 xcodebuild[70739:40248747] Writing error result bundle to $TEMP/ResultBundle.xcresult
+xcodebuild: error: Could not resolve package dependencies:
+  package 'mlx-swift' @ 9c3a80a4ce8be105540e378c2a703bfc9de57f25 is using Swift tools version 6.3.0 but the installed version is 6.2.1 in https://github.com/PrismML-Eng/mlx-swift.git
+
+Found unhandled resource at $REPO/ios/Vendor/kokoro-ios/Resources

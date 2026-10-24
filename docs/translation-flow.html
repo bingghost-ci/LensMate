@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="LensMate 中英泰实时翻译工作原理：眼镜、iPhone 与阿里云的分工，交互流程图和费用估算。">
+  <title>LensMate 三语翻译工作原理</title>
+  <style>
+    :root{--paper:#f6f5ef;--ink:#202e2b;--muted:#5c6b64;--line:#d8dfd4;--green:#215b46;--mint:#e9f1e6;--white:#fffefa;--orange:#936236;--cloud:#f4eee4;--blue:#34556e;--phone:#eaf0f3;--radius:18px}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:30px}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Noto Sans CJK SC","Microsoft YaHei",sans-serif;line-height:1.7}button,input,select{font:inherit}button,select,input{accent-color:var(--green)}button,select{cursor:pointer}a{color:var(--green);text-underline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #679177;outline-offset:4px}button{color:inherit}button:disabled{cursor:default}h1,h2,h3,p{margin:0}h2{font-size:27px;letter-spacing:-.6px;line-height:1.35}h3{font-size:18px;line-height:1.5}small{font-size:12px}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere;font-size:.88em}main,.topbar,.footer{max-width:1180px;margin:auto;padding-inline:36px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-block:25px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:11px;font-weight:650;letter-spacing:.2px}.logo{width:36px;height:36px;border-radius:11px;background:var(--green);color:var(--white);display:grid;place-items:center}.topbar nav{display:flex;gap:24px;font-size:13px}.topbar nav a{text-decoration:none;color:var(--muted)}.eyebrow{display:flex;align-items:center;gap:10px;text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:650;color:var(--green)}.dot{width:7px;height:7px;border-radius:50%;background:var(--green)}.hero{padding:54px 0 36px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}h1{font-size:clamp(30px,4vw,49px);line-height:1.22;letter-spacing:-1.6px;margin-top:16px;font-weight:650}.lead{margin-top:20px;font-size:16px;color:var(--muted);max-width:650px}.hero-meta{font-size:12px;color:var(--muted);text-align:right;padding-bottom:4px}.hero-meta strong{display:block;color:var(--green);font-size:13px;margin-bottom:5px}.pill{display:inline-block;padding:5px 10px;border-radius:100px;background:var(--mint);color:var(--green);font-size:12px}.role-strip{display:grid;grid-template-columns:repeat(3,1fr);border-block:1px solid var(--line);margin-bottom:38px;padding-block:20px;gap:28px}.role-strip article{display:flex;gap:12px;align-items:flex-start}.role-icon{color:var(--green);width:27px;flex-shrink:0}.role-strip h3{font-size:15px}.role-strip p{font-size:13px;color:var(--muted);margin-top:3px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:24px}.section-head p{color:var(--muted);font-size:14px;margin-top:8px}.section-number{font-size:11px;letter-spacing:2px;color:var(--green);margin-bottom:8px;font-weight:650}.diagram-shell{background:var(--white);border:1px solid var(--line);border-radius:22px;overflow:hidden}.controls{display:flex;gap:14px 20px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:20px 25px;border-bottom:1px solid var(--line)}.language-controls,.route-controls{display:flex;gap:9px;align-items:center}.control-label{font-size:12px;color:var(--muted);display:flex;gap:8px;align-items:center;white-space:nowrap}select{border:1px solid var(--line);border-radius:8px;background:var(--white);padding:7px 28px 7px 10px;font-size:13px;color:var(--ink);max-width:100%}.switch{border:0;background:var(--mint);border-radius:8px;font-size:18px;width:34px;height:35px;color:var(--green)}.route-controls{gap:16px}.column-heads{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:45px;padding:22px 25px 0}.column-label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600}.column-label span{font-size:11px;font-weight:400;color:var(--muted)}.column-label svg{width:19px;height:19px}.flow{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(104px,auto));gap:43px 45px;margin:20px 25px 27px}.connectors{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:0}.connector{fill:none;stroke:#aab7ac;stroke-width:1.5}.connector.passed{stroke:var(--green);stroke-width:2}.node{position:relative;z-index:1;text-align:left;border:1px solid var(--line);border-radius:13px;background:var(--white);padding:15px 17px;min-width:0;transition:background .18s,box-shadow .18s,border-color .18s;display:block;width:100%}.node:hover{border-color:#8fa58e;background:#f8faf5}.node[aria-pressed="true"]{background:var(--mint);border-color:var(--green);box-shadow:0 0 0 2px #215b4612}.node .kicker{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);line-height:1.2}.node .number{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#edf0e9;color:var(--green);font-weight:650;font-size:10px}.node[aria-pressed="true"] .number{background:var(--green);color:var(--white)}.node strong{display:block;font-size:16px;font-weight:600;margin-top:8px}.node .snippet{display:block;font-size:12px;color:var(--muted);margin-top:5px;overflow-wrap:anywhere}.node .place{margin-left:auto;font-size:10px}.node[data-step="0"]{grid-column:1;grid-row:1}.node[data-step="1"]{grid-column:2;grid-row:1}.node[data-step="2"]{grid-column:3;grid-row:1}.node[data-step="3"]{grid-column:2;grid-row:2}.node[data-step="4"]{grid-column:3;grid-row:2}.node[data-step="5"]{grid-column:2;grid-row:3}.node[data-step="6"]{grid-column:1;grid-row:3}.flow-note{grid-column:1;grid-row:2;align-self:center;color:var(--muted);font-size:12px;padding:10px 17px;border-left:2px solid var(--line)}.flow-note strong{display:block;color:var(--green);font-size:13px;margin-bottom:5px}.cloud-note{grid-column:3;grid-row:3;align-self:center;padding:12px 17px;color:var(--muted);font-size:12px}.cloud-note b{font-weight:550;color:var(--ink)}.demo-bottom{padding:20px 25px;background:#f0f4ec;border-top:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start}.demo-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);border-radius:9px;background:var(--white);padding:8px 13px;font-size:13px;min-height:39px}.btn-primary{background:var(--green);color:var(--white);border-color:var(--green)}.step-detail{padding-left:22px;border-left:1px solid #cbd7c6;min-height:91px}.step-detail .detail-title{font-size:15px;font-weight:600}.step-detail p{font-size:13px;color:var(--muted);margin-top:5px}.step-detail .payload{font-size:12px;color:var(--green);margin-top:8px}.demo-caption{font-size:12px;color:var(--muted);margin:12px 2px 0}.demo-caption b{font-weight:550;color:var(--ink)}.explain{display:grid;grid-template-columns:1.1fr 1fr;gap:44px;padding:40px 0;border-bottom:1px solid var(--line)}.explain h3{margin-bottom:11px}.explain p{font-size:14px;color:var(--muted)}.explain p+p{margin-top:12px}.signal-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12px;margin-bottom:15px}.signal-row span{background:var(--mint);border-radius:5px;padding:5px 9px;color:var(--green)}section.content-section{padding-top:44px}.cost-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:24px}.calculator{padding:25px;background:var(--white);border:1px solid var(--line);border-radius:var(--radius)}.calc-controls{display:flex;gap:17px;flex-wrap:wrap;margin-bottom:23px}.calc-control{display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--muted);flex:1;min-width:105px}.calc-control input{border:1px solid var(--line);border-radius:8px;background:var(--white);padding:7px 10px;color:var(--ink);width:100%;min-width:0}.cost-total{display:flex;align-items:baseline;gap:12px}.cost-total output{font-size:46px;font-weight:600;letter-spacing:-2px;line-height:1.2;font-variant-numeric:tabular-nums}.cost-total span{font-size:13px;color:var(--muted)}.cost-breakdown{display:flex;gap:18px;flex-wrap:wrap;margin-top:17px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}.cost-breakdown strong{color:var(--ink);font-weight:550}.cost-notes{padding:9px 0}.cost-notes h3{margin-bottom:10px}.cost-notes p{font-size:13px;color:var(--muted);margin-bottom:12px}.formula{font-family:ui-monospace,SFMono-Regular,monospace;color:var(--green);font-size:12px;padding:12px 14px;background:var(--mint);border-radius:9px}.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.route-card{border-top:2px solid var(--line);padding:21px 0}.route-card.recommended{border-top-color:var(--green)}.route-card h3{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.route-card p{font-size:14px;color:var(--muted);margin-top:12px}.route-line{font-size:13px;line-height:2;margin-top:15px;color:var(--green)}.setup{display:grid;grid-template-columns:1fr 1fr;gap:24px}.setup ol{padding:0;margin:0;list-style:none;counter-reset:setup}.setup li{counter-increment:setup;position:relative;padding:0 0 22px 39px;font-size:14px}.setup li:before{content:counter(setup);position:absolute;left:0;top:1px;width:24px;height:24px;display:grid;place-items:center;background:var(--mint);border-radius:50%;font-size:11px;color:var(--green)}.setup li strong{font-weight:600}.setup li p{color:var(--muted);font-size:13px;margin-top:3px}.key-card{border:1px solid var(--line);border-radius:var(--radius);padding:24px;align-self:start;background:var(--white)}.key-card p{font-size:13px;color:var(--muted);margin-top:12px}.key-path{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--green);margin-top:16px}.key-path span{padding:6px 9px;border-radius:6px;background:var(--mint)}details{border-top:1px solid var(--line);padding:17px 0;font-size:14px}summary{cursor:pointer;font-weight:550}details p{color:var(--muted);font-size:13px;max-width:850px;padding-top:11px}details ul{margin:12px 0 0;padding-left:20px;font-size:13px;color:var(--muted)}.source-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 30px;font-size:12px;padding-block:14px}.source-list a{overflow-wrap:anywhere}.footer{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:31px;margin-top:35px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.footer a{font-size:12px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}noscript{display:block;padding:16px;background:var(--cloud);color:var(--ink)}
+    @media(max-width:960px){main,.topbar,.footer{padding-inline:24px}.hero{grid-template-columns:1fr}.hero-meta{text-align:left}.role-strip{gap:16px}.route-controls{flex-wrap:wrap}.flow,.column-heads{column-gap:25px}.node{padding:13px 12px}.node .place{display:none}.cost-grid{grid-template-columns:1fr 1fr}.cost-total output{font-size:39px}.calc-controls{gap:12px}}
+    @media(max-width:680px){main,.topbar,.footer{padding-inline:19px}.topbar{padding-block:18px}.topbar nav{gap:16px}.topbar nav a:last-child{display:none}.hero{padding:32px 0 25px;gap:18px}h1{letter-spacing:-.8px}.lead{font-size:14px}.role-strip{grid-template-columns:1fr;gap:17px;padding-block:20px;margin-bottom:28px}.role-strip article{gap:12px}.role-strip p{margin-top:0}.section-head{display:block}h2{font-size:23px}.controls{padding:17px;gap:17px}.language-controls{width:100%}.language-controls select{flex:1;min-width:0}.route-controls{gap:12px;width:100%;justify-content:space-between}.control-label{gap:5px;font-size:11px}.control-label select{padding-left:7px;font-size:12px}.column-heads{display:none}.flow{display:flex;flex-direction:column;gap:24px;margin:20px 17px}.node{min-height:94px;padding:12px 15px}.node .place{display:block}.flow-note,.cloud-note{display:none}.node[data-step="6"]{order:0}.demo-bottom{grid-template-columns:1fr;padding:18px;gap:17px}.step-detail{padding:14px 0 0;border-left:0;border-top:1px solid #cbd7c6;min-height:115px}.explain,.cost-grid,.compare-grid,.setup{grid-template-columns:1fr;gap:24px}.explain{padding:29px 0}.cost-notes{padding-top:0}.calculator{padding:20px}.cost-total output{font-size:42px}.compare-grid{gap:8px}.setup{gap:10px}.key-card{padding:20px}.source-list{grid-template-columns:1fr}.footer{display:block}.footer a{display:block;margin-top:8px}.section-number{margin-bottom:5px}section.content-section{padding-top:33px}.calc-control{min-width:95px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+    @media print{body{background:white;font-size:11px}main,.topbar,.footer{max-width:none;padding-inline:0}.topbar nav,.controls,.demo-actions,.calc-controls{display:none}.hero{padding-top:20px}.hero h1{font-size:31px}.diagram-shell,.calculator,.key-card{break-inside:avoid}.flow{gap:30px}.node{padding:10px}.node strong{font-size:13px}.node .snippet{font-size:11px}.explain,.content-section{break-inside:avoid}.footer{margin-top:20px}a{color:inherit}.demo-bottom{grid-template-columns:1fr}.step-detail{border-left:0;padding-left:0}}
+  </style>
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute"><defs>
+  <symbol id="glasses" viewBox="0 0 32 32"><path d="M3 14h8l2 2h6l2-2h8m-26 0 1 9h7l2-7m16-2-1 9h-7l-2-7M3 14l2-6m24 6-2-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="phone" viewBox="0 0 32 32"><rect x="8" y="3" width="16" height="26" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13 7h6m-5 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="cloud" viewBox="0 0 32 32"><path d="M10 25H7a6 6 0 0 1-1-12A10 10 0 0 1 25 11a7 7 0 0 1 0 14h-3m-6 0V14m-4 4 4-4 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</defs></svg>
+<header class="topbar"><div class="brand"><span class="logo"><svg width="26" height="26" aria-hidden="true"><use href="#glasses"/></svg></span>LensMate <span style="font-weight:400;color:var(--muted)">镜伴</span></div><nav aria-label="页面导航"><a href="#principle">原理</a><a href="#cost">费用</a><a href="#usage">使用</a><a href="aliyun-translation-plan.md">方案文档 ↗</a></nav></header>
+<main>
+  <div class="hero">
+    <div><div class="eyebrow"><span class="dot"></span>iPhone × Meta 眼镜 × 阿里云</div><h1>一句外语，<br>怎样变成耳边的中文？</h1><p class="lead">声音先到手机，交给云端识别和翻译。手机把译文变成声音，再通过眼镜播放。三种语言共用一套流程。</p></div>
+    <div class="hero-meta"><strong>中文 · English · ไทย</strong>第一版方案 · 待开发与真机验证<br>资料与价格核对：2026.10.23</div>
+  </div>
+  <div class="role-strip" aria-label="三个组成部分的分工">
+    <article><svg class="role-icon" height="28" aria-hidden="true"><use href="#glasses"/></svg><div><h3>眼镜：收音与播放</h3><p>像蓝牙耳机一样参与音频链路。</p></div></article>
+    <article><svg class="role-icon" height="28" aria-hidden="true"><use href="#phone"/></svg><div><h3>iPhone：连接与调度</h3><p>整理短句、显示译文、生成声音。</p></div></article>
+    <article><svg class="role-icon" height="28" aria-hidden="true"><use href="#cloud"/></svg><div><h3>阿里云：识别与翻译</h3><p>两个模型，共用一家云服务。</p></div></article>
+  </div>
+
+  <section id="principle" aria-labelledby="principle-title">
+    <div class="section-head"><div><div class="section-number">01 / 工作原理</div><h2 id="principle-title">跟着一句话，走完七步</h2><p>点击任一步查看解释，或播放演示，观察数据经过哪些设备。</p></div><span class="pill">省钱方案 · 手机朗读</span></div>
+    <div class="diagram-shell">
+      <div class="controls">
+        <div class="language-controls"><label class="sr-only" for="source-lang">源语言</label><select id="source-lang"><option value="th" selected>泰语</option><option value="en">英语</option><option value="zh">中文</option></select><button class="switch" id="swap" type="button" aria-label="交换源语言与目标语言">⇄</button><label class="sr-only" for="target-lang">目标语言</label><select id="target-lang"><option value="zh" selected>中文</option><option value="en">英语</option><option value="th">泰语</option></select></div>
+        <div class="route-controls"><label class="control-label" for="mic">收音<select id="mic"><option value="glasses">眼镜麦克风</option><option value="phone">手机麦克风</option></select></label><label class="control-label" for="speaker">播放<select id="speaker"><option value="glasses">眼镜扬声器</option><option value="phone">手机扬声器</option></select></label></div>
+      </div>
+      <div class="column-heads" aria-hidden="true"><div class="column-label"><svg><use href="#glasses"/></svg><b id="edge-column">眼镜</b><span>音频入口 / 出口</span></div><div class="column-label"><svg><use href="#phone"/></svg>iPhone<span>LensMate</span></div><div class="column-label"><svg><use href="#cloud"/></svg>阿里云百炼<span>联网处理</span></div></div>
+      <div class="flow" id="flow">
+        <svg class="connectors" id="connectors" aria-hidden="true"><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#aab7ac"/></marker><marker id="arrow-active" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#215b46"/></marker></defs><g id="paths"></g></svg>
+        <button class="node" data-step="0" type="button" aria-pressed="true"><span class="kicker"><span class="number">1</span>声音<span class="place" id="mic-place">眼镜</span></span><strong id="capture-title">眼镜采集声音</strong><span class="snippet" id="source-example" lang="th">อันนี้ราคาเท่าไหร่</span></button>
+        <button class="node" data-step="1" type="button" aria-pressed="false"><span class="kicker"><span class="number">2</span>音频片段<span class="place">iPhone</span></span><strong>整理并上传音频</strong><span class="snippet">音频格式处理 · 持续发送</span></button>
+        <button class="node" data-step="2" type="button" aria-pressed="false"><span class="kicker"><span class="number">3</span>语音 → 源文字<span class="place">阿里云</span></span><strong>识别说了什么</strong><span class="snippet">Qwen ASR · 实时语音识别</span></button>
+        <button class="node" data-step="3" type="button" aria-pressed="false"><span class="kicker"><span class="number">4</span>稳定的源文字<span class="place">iPhone</span></span><strong>确认短句，发起翻译</strong><span class="snippet">过滤临时修订 · 避免重复播报</span></button>
+        <button class="node" data-step="4" type="button" aria-pressed="false"><span class="kicker"><span class="number">5</span>源文字 → 译文<span class="place">阿里云</span></span><strong id="translate-title">把泰语翻译成中文</strong><span class="snippet">Qwen-MT · 专用文字翻译</span></button>
+        <button class="node" data-step="5" type="button" aria-pressed="false"><span class="kicker"><span class="number">6</span>译文 → 声音<span class="place">iPhone</span></span><strong>系统朗读译文</strong><span class="snippet">本机合成 · 无云端 TTS 调用费</span></button>
+        <button class="node" data-step="6" type="button" aria-pressed="false"><span class="kicker"><span class="number">7</span>译音<span class="place" id="speaker-place">眼镜</span></span><strong id="play-title">眼镜播放给你听</strong><span class="snippet" id="target-example" lang="zh-CN">“这个多少钱？”</span></button>
+        <div class="flow-note"><strong>手机一直在参与</strong>眼镜与手机走蓝牙；<br>手机与阿里云走互联网。</div>
+        <div class="cloud-note"><b>两次独立请求</b><br>识别结果先回手机，手机再调用翻译模型。</div>
+      </div>
+      <div class="demo-bottom"><div class="demo-actions"><button class="btn btn-primary" id="play" type="button">▶ 播放流程</button><button class="btn" id="next" type="button">下一步 →</button><button class="btn" id="reset" type="button">重看</button></div><div class="step-detail" aria-live="polite" aria-atomic="true"><div class="detail-title" id="detail-title">1 / 7 · 先采集声音</div><p id="detail-body">眼镜麦克风采集对方的说话声，再通过蓝牙交给 iPhone。对面说话人离眼镜较远时，也可以尝试手机麦克风。</p><div class="payload" id="detail-payload">目前的数据：泰语音频，还没有译文。</div></div></div>
+    </div>
+    <p class="demo-caption"><b>这是原理演示，不会录音或调用 API，播放节奏不代表真实延迟。</b>麦克风与扬声器组合要按 iOS 实际音频路由验证；手机麦克风配眼镜播放也需要实测。</p>
+  </section>
+
+  <div class="explain">
+    <article><h3>眼镜为什么能把文字“读出来”？</h3><div class="signal-row"><span>译文</span>→<span>iPhone 合成音频</span>→<span>蓝牙传给眼镜</span></div><p>真正完成文字转语音的是 iPhone。眼镜收到的是可以直接播放的声音，手机仍然需要在场。手机也会显示原文和译文。</p><p>中文、英文、泰语分别选择匹配的系统音色，必要时先下载声音；是否能离线合成，以你的手机实际可用音色为准。</p></article>
+    <article><h3>为什么不会瞬间翻译完？</h3><p>等待来自断句、网络、识别、翻译和播放缓冲。先听到足够的语义，才有可能翻得准确；片段太短会丢上下文，太长则会等得更久。</p><p>第一版逐短句翻译和播放。需要实测“说完到听见有效译音”的时间，并处理译音被麦克风再次收进去的回声问题。</p></article>
+  </div>
+
+  <section id="cost" class="content-section" aria-labelledby="cost-title">
+    <div class="section-head"><div><div class="section-number">02 / 费用</div><h2 id="cost-title">主要按听了多久付费</h2><p>识别按音频秒数，翻译按文字 Token；手机朗读不增加云端 TTS 费用。</p></div></div>
+    <div class="cost-grid">
+      <div class="calculator"><div class="calc-controls"><label class="calc-control" for="region">百炼地域<select id="region"><option value="beijing">北京</option><option value="singapore" selected>新加坡</option></select></label><label class="calc-control" for="minutes">每日音频 / 分钟<input id="minutes" type="number" value="30" min="0" max="1440" step="1" inputmode="numeric"></label><label class="calc-control" for="days">每月使用 / 天<input id="days" type="number" value="30" min="1" max="31" step="1" inputmode="numeric"></label></div><div class="cost-total"><output id="monthly" aria-live="polite">¥37.60</output><span>/ 月，模型费用估算</span></div><div class="cost-breakdown"><span>语音识别 <strong id="asr-cost">¥35.64</strong></span><span>文字翻译 <strong id="mt-cost">¥1.96</strong></span><span>每小时约 <strong id="hourly">¥2.51</strong></span></div></div>
+      <div class="cost-notes"><h3>这个数字怎样得出？</h3><p>预算假设：每小时上传 3,600 秒音频，翻译输入 50,000 Token、输出 20,000 Token。文字用量是示例假设，并非日常讲话的实测值。</p><div class="formula" id="formula">每小时：3600 × 0.00066 + 0.05 × 1.174 + 0.02 × 3.596</div><p style="margin-top:13px">不含重试、凭据服务和流量等费用，不计免费额度。静音如果仍被上传，也不能直接当成免费。这里只计算省钱方案。<a href="https://help.aliyun.com/zh/model-studio/model-pricing" target="_blank" rel="noopener noreferrer">核对官方价格 ↗</a></p></div>
+    </div>
+  </section>
+
+  <section class="content-section" aria-labelledby="options-title"><div class="section-number">03 / 两条可选路线</div><h2 id="options-title">统一阿里云，也有不同组合</h2><div class="compare-grid"><article class="route-card recommended"><h3>第一版：识别 + 翻译 + 手机朗读<span class="pill">优先实现</span></h3><div class="route-line">音频 → 阿里云识别 → 手机断句 → 阿里云翻译<br>→ 手机生成声音 → 眼镜播放</div><p>云端使用 <code>qwen3-asr-flash-realtime</code> 和 <code>qwen-mt-flash</code>。可以分别调节断句、翻译和本机声音，上面的估算适用于这条路线。</p></article><article class="route-card"><h3>备选：LiveTranslate 直接生成译音</h3><div class="route-line">音频 → 阿里云实时翻译<br>→ 手机收到译文与译音 → 眼镜播放</div><p>如 <code>qwen3.5-livetranslate-flash-realtime</code>，支持中英泰文本和音频输出。另有音频生成费用，不能套用上面的价格；实际等待和自然度要对照测试。</p></article></div></section>
+
+  <section id="usage" class="content-section" aria-labelledby="usage-title"><div class="section-head"><div><div class="section-number">04 / 使用方式</div><h2 id="usage-title">App 做成后，你只需选方向并开始</h2><p>以下是目标使用流程；LensMate 当前还没有可安装 App。</p></div></div><div class="setup"><ol><li><strong>配对眼镜，准备服务</strong><p>在 Meta AI App 完成配对，配置百炼地域和模型访问凭据。</p></li><li><strong>选语言，确认实际收音与播放设备</strong><p>听懂对方：泰语或英语 → 中文，眼镜播放。替我表达：中文 → 外语，向对方展示手机译文或切换手机外放。</p></li><li><strong>点开始，逐句听译音</strong><p>首轮保持 App 在前台。原文与译文出现在手机，声音按顺序自动播报。</p></li><li><strong>结束时点停止</strong><p>同时停止录音、云端会话与播放，取消尚未完成的翻译。</p></li></ol><aside class="key-card"><h3>一把 Key，授权多个模型</h3><p>API Key 是调用服务的凭证；Token 是计算和计费单位。同一地域和业务空间内，权限允许的 Key 可用于识别和翻译，费用分别计算。</p><div class="key-path"><span>后端保管长期 Key</span>→<span>手机取短期凭据</span>→<span>连接百炼</span></div><p>正式接入使用短期凭据，长期 Key 不写进 App。凭据服务不必转发音频；Key 与接入地址要使用同一地域。</p><p>语音和文字会发往阿里云处理，因此这套方案需要网络。手机本地朗读不代表全程离线。</p></aside></div></section>
+
+  <section class="content-section" aria-label="能力边界与来源">
+    <details><summary>需要真机验证哪些事情？</summary><ul><li>眼镜麦克风和扬声器是否被 App 实际使用，以及手机收音配眼镜播放的组合。</li><li>三语识别、翻译和音色；重点检查金额、数字、否定句、地名及嘈杂环境。</li><li>播放译音时的回声、队列积压、打断与停止后的旧结果。</li><li>说完到听见译音的 P50 / P95、连续使用的耗电和费用。</li><li>锁屏、切 App、来电、断网和蓝牙重连。首版不承诺锁屏可持续使用。</li></ul></details>
+    <details><summary>还需要摄像头、Meta AI 模型或 DeepSeek 吗？</summary><p>纯语音翻译不需要眼镜摄像头，也不需要 Meta AI 模型或 DeepSeek 参与推理。Meta AI App 仍用于原有设备配对。这套方案不替换系统唤醒词，不在眼镜上运行大模型；按无镜内显示屏的设备设计，文字显示在手机。</p></details>
+    <details><summary>接口能力与价格来源</summary><div class="source-list"><a href="https://help.aliyun.com/zh/model-studio/asr-model" target="_blank" rel="noopener noreferrer">阿里云 · 语音识别与语言支持</a><a href="https://help.aliyun.com/zh/model-studio/machine-translation/" target="_blank" rel="noopener noreferrer">阿里云 · Qwen-MT 翻译</a><a href="https://help.aliyun.com/zh/model-studio/model-pricing" target="_blank" rel="noopener noreferrer">阿里云 · 模型调用价格</a><a href="https://help.aliyun.com/zh/model-studio/get-api-key/" target="_blank" rel="noopener noreferrer">阿里云 · API Key 与短期凭据</a><a href="https://help.aliyun.com/zh/model-studio/qwen3-5-livetranslate-flash-realtime" target="_blank" rel="noopener noreferrer">阿里云 · LiveTranslate 实时翻译</a><a href="https://developer.apple.com/documentation/avfaudio/avspeechsynthesizer" target="_blank" rel="noopener noreferrer">Apple · 系统语音合成</a><a href="https://github.com/rayl15/OpenVision/blob/v2.14.0/OpenVision/Services/Audio/AudioSessionManager.swift" target="_blank" rel="noopener noreferrer">OpenVision · iOS 音频路由参考</a></div></details>
+  </section>
+  <noscript>当前浏览器未启用 JavaScript。仍可阅读静态原理图、使用说明和默认费用示例；切换语言、分步演示和重新计算需要启用 JavaScript。</noscript>
+</main>
+<footer class="footer"><span>LensMate / 三语翻译方案 · 2026.10.23</span><a href="aliyun-translation-plan.md">阅读完整方案与验收步骤 ↗</a></footer>
+<script>
+(() => {
+  'use strict';
+  const byId = id => document.getElementById(id);
+  const nodes = [...document.querySelectorAll('.node')];
+  const language = {zh:{name:'中文',text:'这个多少钱？',lang:'zh-CN'},en:{name:'英语',text:'How much is this?',lang:'en'},th:{name:'泰语',text:'อันนี้ราคาเท่าไหร่',lang:'th'}};
+  const source = byId('source-lang'), target = byId('target-lang');
+  let lastSource=source.value, lastTarget=target.value, current=0, timer=null;
+  const setText = (id,text) => { byId(id).textContent=text; };
+  function stop(){ if(timer!==null){clearInterval(timer);timer=null;} setText('play','▶ 播放流程');byId('play').setAttribute('aria-pressed','false'); }
+  function descriptions(){
+    const from=language[source.value], to=language[target.value], mic=byId('mic').value==='glasses', speaker=byId('speaker').value==='glasses';
+    return [
+      ['先采集声音',mic?'眼镜麦克风采集声音，再通过蓝牙交给 iPhone。对面说话人离眼镜较远时，也可以尝试手机麦克风。':'使用手机麦克风采集声音。将手机放在对方附近可能有助于收音，具体效果需要实测。',`目前的数据：${from.name}音频，还没有译文。`],
+      ['手机整理并上传音频','LensMate 处理音频的采样率、声道和格式，分片发送给阿里云识别服务。此时需要互联网连接。',`发送给 ASR：音频片段；鉴权使用百炼凭据。`],
+      ['阿里云识别原文','Qwen ASR 将音频变成源语言文字，流式结果返回手机。临时文字可能继续修订，暂不逐次朗读。',`识别结果示例：${from.text}`],
+      ['手机确认片段，再调用翻译','手机为已确认的短句分配编号，过滤重复结果，再把源文字与语言方向发给 Qwen-MT。这是一次独立请求。',`翻译方向：${from.name} → ${to.name}。`],
+      ['阿里云生成译文',`Qwen-MT 把${from.name}文字翻译为${to.name}，结果返回 iPhone。这一步返回文字，不直接向眼镜播放声音。`,`译文示例：${to.text}`],
+      ['iPhone 把译文变成声音',`选择匹配${to.name}的系统音色，调用手机语音合成并按顺序排队。可用音色与离线能力要在真机确认。`,`手机收到文字：${to.text} → 生成音频。`],
+      ['播放译音',speaker?'iPhone 将合成音频通过蓝牙传给眼镜扬声器。眼镜负责播放，译文同时显示在手机。':'iPhone 通过手机扬声器播放译音，便于让对方听见。切换输出设备可能影响收音路由，需要验证。',`听见：${to.text}（${to.name}）`]
+    ];
+  }
+  function showStep(index){
+    current=index;
+    nodes.forEach((n,i)=>n.setAttribute('aria-pressed',String(i===current)));
+    const [title,body,payload]=descriptions()[current];
+    setText('detail-title',`${current+1} / 7 · ${title}`);setText('detail-body',body);setText('detail-payload',payload);
+    setText('next',current===6?'从头开始 →':'下一步 →');
+    document.querySelectorAll('.connector').forEach((path,i)=>{const passed=i<current;path.classList.toggle('passed',passed);path.setAttribute('marker-end',passed?'url(#arrow-active)':'url(#arrow)');});
+  }
+  function updateDirection(){
+    const from=language[source.value],to=language[target.value],mic=byId('mic').value==='glasses',speaker=byId('speaker').value==='glasses';
+    setText('source-example',from.text);byId('source-example').lang=from.lang;
+    setText('target-example',`“${to.text}”`);byId('target-example').lang=to.lang;
+    setText('translate-title',`把${from.name}翻译成${to.name}`);
+    setText('capture-title',mic?'眼镜采集声音':'手机采集声音');setText('mic-place',mic?'眼镜':'iPhone');
+    setText('play-title',speaker?'眼镜播放给你听':'手机播放给对方听');setText('speaker-place',speaker?'眼镜':'iPhone');
+    setText('edge-column',mic&&speaker?'眼镜':!mic&&!speaker?'手机音频端':'眼镜 / 手机');
+    stop();showStep(0);requestAnimationFrame(drawPaths);
+  }
+  function drawPaths(){
+    const frame=byId('flow').getBoundingClientRect(),mobile=matchMedia('(max-width:680px)').matches;
+    const group=byId('paths');group.replaceChildren();
+    for(let i=0;i<nodes.length-1;i++){
+      const a=nodes[i].getBoundingClientRect(),b=nodes[i+1].getBoundingClientRect();
+      let x1,y1,x2,y2,d;
+      if(mobile){x1=a.left+a.width/2-frame.left;y1=a.bottom-frame.top+2;x2=b.left+b.width/2-frame.left;y2=b.top-frame.top-5;d=`M${x1},${y1} L${x2},${y2}`;}
+      else {
+        const forward=b.left>a.left;
+        x1=(forward?a.right:a.left)-frame.left+(forward?2:-2);y1=a.top+a.height/2-frame.top;
+        x2=(forward?b.left:b.right)-frame.left+(forward?-5:5);y2=b.top+b.height/2-frame.top;
+        if(Math.abs(y1-y2)<3){d=`M${x1},${y1} L${x2},${y2}`;}
+        else {
+          x1=a.left+a.width/2-frame.left;y1=a.bottom-frame.top+2;
+          x2=b.left+b.width/2-frame.left;y2=b.top-frame.top-5;
+          const midY=(y1+y2)/2;
+          d=`M${x1},${y1} C${x1},${midY} ${x2},${midY} ${x2},${y2}`;
+        }
+      }
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',d);path.setAttribute('class','connector');path.setAttribute('marker-end','url(#arrow)');group.append(path);
+    }
+    showStep(current);
+  }
+  nodes.forEach((node,i)=>node.addEventListener('click',()=>{stop();showStep(i);}));
+  byId('next').addEventListener('click',()=>{stop();showStep((current+1)%7);});
+  byId('reset').addEventListener('click',()=>{stop();showStep(0);});
+  byId('play').addEventListener('click',()=>{
+    if(timer!==null){stop();return;}
+    if(current===6)showStep(0);
+    setText('play','Ⅱ 暂停演示');byId('play').setAttribute('aria-pressed','true');
+    timer=setInterval(()=>{showStep(current+1);if(current===6)stop();},1800);
+  });
+  source.addEventListener('change',()=>{if(source.value===target.value)target.value=lastSource;lastSource=source.value;lastTarget=target.value;updateDirection();});
+  target.addEventListener('change',()=>{if(target.value===source.value)source.value=lastTarget;lastSource=source.value;lastTarget=target.value;updateDirection();});
+  byId('swap').addEventListener('click',()=>{[source.value,target.value]=[target.value,source.value];lastSource=source.value;lastTarget=target.value;updateDirection();});
+  byId('mic').addEventListener('change',updateDirection);byId('speaker').addEventListener('change',updateDirection);
+  const prices={beijing:{asr:.00033,input:.7,output:1.95},singapore:{asr:.00066,input:1.174,output:3.596}};
+  const currency=number=>'¥'+number.toFixed(2);
+  function calculate(){
+    const minuteInput=byId('minutes'),dayInput=byId('days');
+    if(!minuteInput.validity.valid||!dayInput.validity.valid||minuteInput.value===''||dayInput.value===''){
+      ['monthly','asr-cost','mt-cost','hourly'].forEach(id=>setText(id,'—'));return;
+    }
+    const minutes=Number(minuteInput.value),days=Number(dayInput.value),rate=prices[byId('region').value],hours=minutes*days/60;
+    const asrPerHour=3600*rate.asr,mtPerHour=.05*rate.input+.02*rate.output;
+    setText('monthly',currency(hours*(asrPerHour+mtPerHour)));setText('asr-cost',currency(hours*asrPerHour));setText('mt-cost',currency(hours*mtPerHour));setText('hourly',currency(asrPerHour+mtPerHour));
+    setText('formula',`每小时：3600 × ${rate.asr} + 0.05 × ${rate.input} + 0.02 × ${rate.output}`);
+  }
+  ['region','minutes','days'].forEach(id=>byId(id).addEventListener('input',calculate));
+  document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+  window.addEventListener('pagehide',stop);
+  const observer=new ResizeObserver(()=>requestAnimationFrame(drawPaths));observer.observe(byId('flow'));
+  if(document.fonts)document.fonts.ready.then(drawPaths);
+  updateDirection();calculate();
+})();
+</script>
+</body>
+</html>

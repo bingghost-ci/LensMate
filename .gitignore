@@ -1,0 +1,11 @@
+# Frozen upstream checkouts are local reference material, not LensMate source.
+/references/
+
+.DS_Store
+
+# Local Xcode dependency caches and build output.
+/.build/
+/build/
+DerivedData/
+*.xcuserstate
+xcuserdata/

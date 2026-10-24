@@ -1,0 +1,24 @@
+LensMate first device run — 2026-10-24
+
+User feedback: 我看到了，正常，能运行
+
+Read-only verification after user feedback:
+- Local artifact: ~/Library/Developer/Xcode/DerivedData/LensMate-bewuaglexxfjojenwptcxdczqcae/Build/Products/Debug-iphoneos/LensMate.app
+- CFBundleIdentifier: com.bobby.lensmate
+- CFBundleShortVersionString: 0.1.0
+- CFBundleVersion: 1
+- MinimumOSVersion: 18.0
+- codesign --verify <artifact>: exit 0
+- devicectl device info apps, filtered to com.bobby.lensmate: installed, version 0.1.0, build 1
+- devicectl device info processes: LensMate.app/LensMate present, PID 743 at observation time
+
+Environment observed during the same setup session:
+- macOS 27.0.1 (26A434), Xcode 27.1 (27A9275), Swift 6.4
+- iPhone 14, iOS 18.6.2, paired over USB, Developer Mode enabled
+- Xcode signing selection: Personal Team
+
+Boundaries:
+- The earlier unsigned CLI build resolved dependencies, then failed at CudaBuild plugin validation; it was not rerun successfully.
+- Signed build artifact, on-device installation and process were verified; user confirmed normal visible operation.
+- No inherited test-suite execution, glasses connection/audio acceptance, paid API calls or translation feature acceptance is claimed.
+- Device identifiers, account identifiers and credentials are omitted.

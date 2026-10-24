@@ -1,0 +1,89 @@
+{
+  "method": "Lexical inventory only. Comments, examples and unused code can match. Absence is not proof of no network activity.",
+  "included_text_extensions": [
+    ".c",
+    ".cpp",
+    ".entitlements",
+    ".h",
+    ".html",
+    ".js",
+    ".json",
+    ".m",
+    ".mm",
+    ".pbxproj",
+    ".plist",
+    ".py",
+    ".sh",
+    ".swift",
+    ".toml",
+    ".ts",
+    ".xcconfig",
+    ".xcprivacy",
+    ".yaml",
+    ".yml"
+  ],
+  "max_text_file_bytes": 4000000,
+  "scope_labels": "Heuristic file classification only, not runtime reachability. Source line counts include data JSON and vendored code, not manual review coverage.",
+  "counts": {
+    "OpenVision": {
+      "tracked_files": 241,
+      "text_files_scanned": 204,
+      "text_lines_scanned": 421114,
+      "lfs_pointer_files": 0,
+      "symlinks_not_followed": 0
+    },
+    "OpenGlasses": {
+      "tracked_files": 3559,
+      "text_files_scanned": 2920,
+      "text_lines_scanned": 655234,
+      "lfs_pointer_files": 0,
+      "symlinks_not_followed": 2
+    },
+    "meta-wearables-dat-ios": {
+      "tracked_files": 885,
+      "text_files_scanned": 307,
+      "text_lines_scanned": 53104,
+      "lfs_pointer_files": 0,
+      "symlinks_not_followed": 0
+    }
+  },
+  "url_occurrences": 1437,
+  "network_call_occurrences": 827,
+  "secret_pattern_locations": [
+    {
+      "repository": "OpenGlasses",
+      "scope": "build-or-tooling",
+      "file": ".gitleaks.toml",
+      "line": 84,
+      "rule": "provider-key-shape"
+    },
+    {
+      "repository": "OpenGlasses",
+      "scope": "test-or-fixture",
+      "file": "OpenGlassesTests/DiagnosticsEmailDraftTests.swift",
+      "line": 53,
+      "rule": "provider-key-shape"
+    },
+    {
+      "repository": "OpenGlasses",
+      "scope": "test-or-fixture",
+      "file": "OpenGlassesTests/DiagnosticsReportBuilderTests.swift",
+      "line": 101,
+      "rule": "provider-key-shape"
+    },
+    {
+      "repository": "OpenGlasses",
+      "scope": "test-or-fixture",
+      "file": "OpenGlassesTests/DiagnosticsReportBuilderTests.swift",
+      "line": 102,
+      "rule": "github-token-shape"
+    },
+    {
+      "repository": "OpenGlasses",
+      "scope": "test-or-fixture",
+      "file": "OpenGlassesTests/DiagnosticsReportBuilderTests.swift",
+      "line": 103,
+      "rule": "google-key-shape"
+    }
+  ]
+}

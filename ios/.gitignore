@@ -1,0 +1,15 @@
+# Per-machine signing and runtime defaults; never commit keys.
+Config.xcconfig
+LensMate/Config/Config.swift
+
+# Keep the shared project, schemes and resolved package pins in Git.
+xcuserdata/
+*.xcuserstate
+DerivedData/
+.build/
+.spm/
+build/
+*.ipa
+*.xcarchive
+*.dSYM
+*.dSYM.zip

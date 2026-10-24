@@ -1,0 +1,57 @@
+{
+  "recorded_at_utc": "2026-10-23T17:22:09.906987+00:00",
+  "repositories": [
+    {
+      "name": "OpenVision",
+      "local_path": "references/OpenVision",
+      "remote": "https://github.com/rayl15/OpenVision.git",
+      "commit": "1d5d9203a36f76040947425a603eba57757eac75",
+      "commit_date": "2026-10-04T13:48:50-07:00",
+      "tree": "d15c8032016175b7a74bf7a30fae0be925a7cbfb",
+      "tracked_content_sha256": "180c79f106a8f6ab4a07f6c7e68bf3d5d699e900518ec175294d9735c0632cf7",
+      "shallow": true,
+      "worktree_clean": true,
+      "submodules": "",
+      "tracked_files": 241,
+      "text_files_scanned": 204,
+      "text_lines_scanned": 421114,
+      "lfs_pointer_files": 0,
+      "symlinks_not_followed": 0
+    },
+    {
+      "name": "OpenGlasses",
+      "local_path": "references/OpenGlasses",
+      "remote": "https://github.com/straff2002/OpenGlasses.git",
+      "commit": "e3b2dad823e1e038ea787748fee204eadbe8cb8e",
+      "commit_date": "2026-10-23T23:24:04+13:00",
+      "tree": "663e9a701511534bd42f5ef6444f372462dbae28",
+      "tracked_content_sha256": "e4b39014bd5685b41cc47cf5262358c811cf03645af13caf59a7cbd37e1bef70",
+      "shallow": true,
+      "worktree_clean": true,
+      "submodules": "",
+      "tracked_files": 3559,
+      "text_files_scanned": 2920,
+      "text_lines_scanned": 655234,
+      "lfs_pointer_files": 0,
+      "symlinks_not_followed": 2
+    },
+    {
+      "name": "meta-wearables-dat-ios",
+      "local_path": "references/meta-wearables-dat-ios",
+      "remote": "https://github.com/facebook/meta-wearables-dat-ios.git",
+      "commit": "bbae597cd1c748cd29b9375a1624a8d75b1c9e14",
+      "commit_date": "2026-10-09T19:23:13+01:00",
+      "tree": "6d9503bf4a4bfb0421270c1e5daee6025cee8a5c",
+      "tracked_content_sha256": "e4d2c19dbab737b67a1ce6bb21f27b4f76b628b361ba03098e7f45b3dba502df",
+      "shallow": true,
+      "worktree_clean": true,
+      "submodules": "",
+      "tracked_files": 885,
+      "text_files_scanned": 307,
+      "text_lines_scanned": 53104,
+      "lfs_pointer_files": 0,
+      "symlinks_not_followed": 0
+    }
+  ],
+  "boundary": "Shallow source checkouts. No submodule/LFS payload/dependency resolution, upstream scripts, builds, credentials, or paid API calls executed."
+}
