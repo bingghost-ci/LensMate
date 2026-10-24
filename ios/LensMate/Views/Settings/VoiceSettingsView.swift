@@ -23,7 +23,7 @@ struct VoiceSettingsView: View {
     // MARK: - Body
 
     /// A "Voice" row that opens a voice list, styled like the Apple Voice row.
-    private func voiceRow<Destination: View>(_ title: String, value: String,
+    private func voiceRow<Destination: View>(_ title: LocalizedStringKey, value: String,
                                              @ViewBuilder destination: @escaping () -> Destination) -> some View {
         NavigationLink(destination: destination) {
             HStack {
@@ -35,13 +35,13 @@ struct VoiceSettingsView: View {
     }
 
     /// Shortcut to the credential a cloud voice uses, with its status.
-    private func accountRow<Destination: View>(_ title: String, icon: String, connected: Bool,
+    private func accountRow<Destination: View>(_ title: LocalizedStringKey, icon: String, connected: Bool,
                                                @ViewBuilder destination: @escaping () -> Destination) -> some View {
         NavigationLink(destination: destination) {
             HStack {
                 Label(title, systemImage: icon)
                 Spacer()
-                Text(connected ? "Connected" : "Set Up")
+                Text(connected ? LocalizedStringKey("Connected") : LocalizedStringKey("Set Up"))
                     .font(.caption)
                     .foregroundColor(connected ? .green : .orange)
             }
@@ -115,7 +115,7 @@ struct VoiceSettingsView: View {
             Section {
                 Picker("Speech Engine", selection: $settingsManager.settings.ttsEngine) {
                     ForEach(TTSEngineType.allCases) { engine in
-                        Text(engine.displayName).tag(engine)
+                        Text(LocalizedStringKey(engine.displayName)).tag(engine)
                     }
                 }
 
@@ -127,7 +127,7 @@ struct VoiceSettingsView: View {
                         HStack {
                             Text("Apple Voice")
                             Spacer()
-                            Text(selectedVoiceName).foregroundColor(.secondary)
+                            Text(LocalizedStringKey(selectedVoiceName)).foregroundColor(.secondary)
                         }
                     }
                 case .kokoro:
@@ -146,7 +146,7 @@ struct VoiceSettingsView: View {
                         HStack {
                             Label("Kokoro Model", systemImage: "waveform")
                             Spacer()
-                            Text(KokoroTTSService.shared.isModelReady ? "Ready" : "Download")
+                            Text(KokoroTTSService.shared.isModelReady ? LocalizedStringKey("Ready") : LocalizedStringKey("Download"))
                                 .font(.caption)
                                 .foregroundColor(KokoroTTSService.shared.isModelReady ? .green : .orange)
                         }
@@ -231,7 +231,7 @@ struct VoiceSettingsView: View {
                 Text("The wake word detection is flexible and will recognize variations like \"OK LensMate\" or \"Okay LensMate\".")
             }
         }
-        .navigationTitle("Voice Control")
+        .localizedNavigationTitle("Voice Control")
         .navigationBarTitleDisplayMode(.inline)
     }
 

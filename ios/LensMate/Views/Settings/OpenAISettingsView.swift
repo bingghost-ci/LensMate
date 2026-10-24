@@ -38,7 +38,7 @@ struct OpenAISettingsView: View {
             case .chatGPTSubscription: subscriptionSections
             }
         }
-        .navigationTitle("OpenAI")
+        .localizedNavigationTitle("OpenAI")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             authMode = settingsManager.settings.openAIAuthMode

@@ -215,8 +215,8 @@ private struct FeaturesPage: View {
 private struct FeatureRow: View {
     let icon: String
     let color: Color
-    let title: String
-    let description: String
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: 16) {
@@ -304,8 +304,8 @@ private struct SetupPage: View {
 
 private struct SetupStep: View {
     let number: Int
-    let title: String
-    let description: String
+    let title: LocalizedStringKey
+    let description: LocalizedStringKey
 
     var body: some View {
         HStack(spacing: 16) {

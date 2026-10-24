@@ -87,7 +87,7 @@ struct GemmaSettingsView: View {
                         showDeleteConfirm = true
                     } label: {
                         HStack {
-                            Label(isDeleting ? "Deleting…" : "Delete \(selectedModel.displayName)", systemImage: "trash")
+                            Label(isDeleting ? LocalizedStringKey("Deleting…") : LocalizedStringKey("Delete \(selectedModel.displayName)"), systemImage: "trash")
                             Spacer()
                             Text(sizeText).font(.caption).foregroundStyle(.secondary)
                         }
@@ -95,12 +95,12 @@ struct GemmaSettingsView: View {
                     .disabled(isDeleting)
                 } footer: {
                     Text(selectedIsDownloaded
-                         ? "Removes \(sizeText) of model data from your phone (only this model). You can download it again anytime."
-                         : "Removes \(sizeText) of incomplete download data for this model.")
+                         ? LocalizedStringKey("Removes \(sizeText) of model data from your phone (only this model). You can download it again anytime.")
+                         : LocalizedStringKey("Removes \(sizeText) of incomplete download data for this model."))
                 }
             }
         }
-        .navigationTitle("Local Models")
+        .localizedNavigationTitle("Local Models")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             selectedModel = GemmaLocalModel.from(modelId: settingsManager.settings.localGemmaModelId)
@@ -112,8 +112,8 @@ struct GemmaSettingsView: View {
             Button("Cancel", role: .cancel) {}
         } message: {
             Text(selectedSizeBytes > 0
-                 ? "This frees up \(sizeText) of storage. You can re-download it anytime."
-                 : "You can re-download it anytime.")
+                 ? LocalizedStringKey("This frees up \(sizeText) of storage. You can re-download it anytime.")
+                 : LocalizedStringKey("You can re-download it anytime."))
         }
     }
 
@@ -133,7 +133,7 @@ struct GemmaSettingsView: View {
                             .foregroundStyle(Theme.accent)
                     }
                 }
-                Text(model.detail)
+                Text(LocalizedStringKey(model.detail))
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 if downloaded {

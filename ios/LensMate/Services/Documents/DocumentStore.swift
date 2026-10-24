@@ -56,9 +56,9 @@ final class DocumentStore {
         case unreadable, empty, embeddingUnavailable
         var errorDescription: String? {
             switch self {
-            case .unreadable: return "Couldn't read that file"
-            case .empty: return "No text found in the document"
-            case .embeddingUnavailable: return "On-device embedding model unavailable"
+            case .unreadable: return L10n.text("Couldn't read that file")
+            case .empty: return L10n.text("No text found in the document")
+            case .embeddingUnavailable: return L10n.text("On-device embedding model unavailable")
             }
         }
     }

@@ -188,9 +188,9 @@ enum CloudChatError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .noResponse(let label): return "No response from \(label)."
-        case .emptyReply(let label): return "\(label) returned an empty reply."
-        case .api(let label, let detail): return "\(label) error: \(detail)"
+        case .noResponse(let label): return L10n.text("No response from \(label).")
+        case .emptyReply(let label): return L10n.text("\(label) returned an empty reply.")
+        case .api(let label, let detail): return L10n.text("\(label) error: \(detail)")
         }
     }
 }

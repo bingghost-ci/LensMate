@@ -212,8 +212,8 @@ enum AudioCaptureError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .engineCreationFailed: return "Failed to create audio engine"
-        case .inputNodeUnavailable: return "Audio input node unavailable"
+        case .engineCreationFailed: return L10n.text("Failed to create audio engine")
+        case .inputNodeUnavailable: return L10n.text("Audio input node unavailable")
         }
     }
 }

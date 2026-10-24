@@ -1,6 +1,7 @@
 name: LensMate
 options:
   bundleIdPrefix: com.bobby
+  developmentLanguage: en
   # Bumped 16 → 18 for the on-device Gemma 4 (MLX) backend, which needs iOS 18 at runtime.
   # Revert to 16 + gate GemmaLocalService behind `if #available(iOS 18)` to keep older support.
   deploymentTarget:
@@ -14,6 +15,7 @@ settings:
     MARKETING_VERSION: "0.1.0"
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "5.9"
+    SWIFT_EMIT_LOC_STRINGS: YES
     DEVELOPMENT_TEAM: ${DEVELOPMENT_TEAM}
     CODE_SIGN_STYLE: Automatic
     INFOPLIST_FILE: LensMate/Resources/Info.plist

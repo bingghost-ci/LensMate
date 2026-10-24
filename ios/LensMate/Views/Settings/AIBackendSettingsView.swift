@@ -24,9 +24,9 @@ struct AIBackendSettingsView: View {
                                 .frame(width: 24)
 
                             VStack(alignment: .leading, spacing: 2) {
-                                Text(backend.displayName)
+                                Text(LocalizedStringKey(backend.displayName))
                                     .foregroundColor(.primary)
-                                Text(backend.description)
+                                Text(LocalizedStringKey(backend.description))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -121,7 +121,7 @@ struct AIBackendSettingsView: View {
                 Text("Configuration")
             }
         }
-        .navigationTitle("AI Backend")
+        .localizedNavigationTitle("AI Backend")
         .navigationBarTitleDisplayMode(.inline)
     }
 

@@ -17,7 +17,7 @@ struct TelemetrySettingsView: View {
             pushSection
             privacySection
         }
-        .navigationTitle("Telemetry")
+        .localizedNavigationTitle("Telemetry")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             // Sampling only runs while this screen is open unless push is on — no point paying
@@ -39,20 +39,19 @@ struct TelemetrySettingsView: View {
                 metricRow("Jetsam headroom", String(format: "%.0f MB", system.memoryAvailableMB),
                           tint: system.memoryAvailableMB < 500 ? .orange : nil)
                 metricRow("CPU", String(format: "%.0f%%", system.cpuPercent))
-                metricRow("Thermal", system.thermalLabel.capitalized,
+                metricRow("Thermal", L10n.text(String.LocalizationValue(system.thermalLabel.capitalized)),
                           tint: system.thermalLevel >= 2 ? .orange : nil)
                 if let battery = system.batteryLevel {
                     metricRow("Battery", String(format: "%.0f%%", battery * 100))
                 }
                 if system.isLowPowerMode {
-                    metricRow("Low power mode", "On", tint: .orange)
+                    metricRow("Low power mode", L10n.text("On"), tint: .orange)
                 }
             } else {
                 Text("Sampling…").foregroundStyle(.secondary)
             }
 
-            Text("iOS exposes no temperature sensor or per-core clocks — thermal is a four-level "
-                 + "state, and CPU is this app's threads summed across cores (>100% is normal).")
+            Text("iOS exposes no temperature sensor or per-core clocks — thermal is a four-level state, and CPU is this app's threads summed across cores (>100% is normal).")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -103,7 +102,7 @@ struct TelemetrySettingsView: View {
         if let v = turn.timeToFirstToken { parts.append(String(format: "ttft %.2f", v)) }
         if let v = turn.generationDuration { parts.append(String(format: "gen %.2f", v)) }
         if let v = turn.ttsLeadIn { parts.append(String(format: "tts %.2f", v)) }
-        return parts.isEmpty ? "no stages recorded" : parts.joined(separator: " · ")
+        return parts.isEmpty ? L10n.text("no stages recorded") : parts.joined(separator: " · ")
     }
 
     // MARK: - Push configuration
@@ -144,15 +143,13 @@ struct TelemetrySettingsView: View {
         } header: {
             Text("Self-hosted push")
         } footer: {
-            Text("Use your machine's LAN IP or .local name — localhost would mean this phone. "
-                 + "Run the stack from telemetry/docker-compose.yml.")
+            Text("Use your machine's LAN IP or .local name — localhost would mean this phone. Run the stack from telemetry/docker-compose.yml.")
         }
     }
 
     private var privacySection: some View {
         Section {
-            Text("Timings and device health only. Transcripts, replies, prompts, and tool "
-                 + "arguments are never sent.")
+            Text("Timings and device health only. Transcripts, replies, prompts, and tool arguments are never sent.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
         }
@@ -166,7 +163,7 @@ struct TelemetrySettingsView: View {
         metrics.applySavedConfiguration()
     }
 
-    private func metricRow(_ label: String, _ value: String, tint: Color? = nil) -> some View {
+    private func metricRow(_ label: LocalizedStringKey, _ value: String, tint: Color? = nil) -> some View {
         HStack {
             Text(label)
             Spacer()
@@ -177,7 +174,7 @@ struct TelemetrySettingsView: View {
     }
 
     @ViewBuilder
-    private func labelledField(_ label: String, _ placeholder: String,
+    private func labelledField(_ label: LocalizedStringKey, _ placeholder: LocalizedStringKey,
                                text: Binding<String>, secure: Bool = false,
                                keyboard: UIKeyboardType = .default) -> some View {
         HStack {

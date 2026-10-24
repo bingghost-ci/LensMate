@@ -115,6 +115,14 @@ struct VoiceAgentView: View {
         }
     }
 
+    private var backendLabel: LocalizedStringKey {
+        let settings = settingsManager.settings
+        if settings.aiBackend == .localGemma {
+            return "Local · \(GemmaLocalModel.from(modelId: settings.localGemmaModelId).displayName)"
+        }
+        return LocalizedStringKey(settings.aiBackend.displayName)
+    }
+
     // MARK: - Top Bar
 
     private var topBar: some View {
@@ -147,7 +155,7 @@ struct VoiceAgentView: View {
                 )
             } else {
                 StatusPill(
-                    status: settingsManager.settings.backendDisplayName,
+                    status: backendLabel,
                     color: viewModel.agentState == .idle ? .gray : .green,
                     isConnected: viewModel.agentState != .idle && viewModel.agentState != .connecting
                 )
@@ -157,7 +165,7 @@ struct VoiceAgentView: View {
 
             // Transient "Saved to Photos" / failure status after a recording finishes.
             if let status = viewModel.recordingStatus {
-                Text(status)
+                Text(LocalizedStringKey(status))
                     .font(.caption.bold())
                     .foregroundColor(.white)
                     .padding(.horizontal, 12)
@@ -176,7 +184,7 @@ struct VoiceAgentView: View {
                         .foregroundColor(viewModel.isRecording ? .red : .white)
                         .padding(.horizontal, 4)
                 }
-                .accessibilityLabel(viewModel.isRecording ? "Stop recording" : "Record point of view")
+                .accessibilityLabel(viewModel.isRecording ? LocalizedStringKey("Stop recording") : LocalizedStringKey("Record point of view"))
             }
 
             // Glasses status
@@ -222,7 +230,7 @@ struct VoiceAgentView: View {
             Group {
                 if viewModel.agentState == .liveVideo {
                     VStack(spacing: 6) {
-                        Text(settingsManager.settings.backendDisplayName)
+                        Text(backendLabel)
                             .font(.headline)
                             .foregroundColor(Theme.heading)
                         Text("Say \"stop video\" to exit")
@@ -256,7 +264,7 @@ struct VoiceAgentView: View {
                 .onTapGesture { viewModel.toggleSession() }
 
             // Status text
-            Text(viewModel.agentState.displayText)
+            Text(LocalizedStringKey(viewModel.agentState.displayText))
                 .font(.title3)
                 .fontWeight(.medium)
                 .foregroundColor(Theme.textPrimary)

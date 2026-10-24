@@ -66,7 +66,7 @@ struct GrokSettingsView: View {
                 }
             }
         }
-        .navigationTitle("Grok")
+        .localizedNavigationTitle("Grok")
         .navigationBarTitleDisplayMode(.inline)
         // Reload when the sign-in method or state changes (and when a typed key is submitted).
         .task(id: "\(authMode.rawValue)|\(isSignedIn)") { await loadModels() }

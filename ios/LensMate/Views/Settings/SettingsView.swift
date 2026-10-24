@@ -8,12 +8,26 @@ struct SettingsView: View {
 
     @EnvironmentObject var settingsManager: SettingsManager
     @EnvironmentObject var glassesManager: GlassesManager
+    @AppStorage(AppLanguage.defaultsKey) private var appLanguage: AppLanguage = .system
 
     // MARK: - Body
 
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    Picker("App Language", selection: $appLanguage) {
+                        Text("Follow System").tag(AppLanguage.system)
+                        Text(verbatim: "English").tag(AppLanguage.english)
+                        Text(verbatim: "简体中文").tag(AppLanguage.chinese)
+                    }
+                    .accessibilityIdentifier("appLanguagePicker")
+                } header: {
+                    Text("Language")
+                } footer: {
+                    Text("Follow System uses your device's primary language. Unsupported languages use English.")
+                }
+
                 // AI Backend Section
                 Section {
                     NavigationLink {
@@ -22,7 +36,7 @@ struct SettingsView: View {
                         HStack {
                             Label("AI Backend", systemImage: "cpu")
                             Spacer()
-                            Text(settingsManager.settings.aiBackend.displayName)
+                            Text(LocalizedStringKey(settingsManager.settings.aiBackend.displayName))
                                 .foregroundColor(.secondary)
                             if !settingsManager.settings.isCurrentBackendConfigured {
                                 Image(systemName: "exclamationmark.circle.fill")
@@ -37,7 +51,7 @@ struct SettingsView: View {
                         HStack {
                             Label("Web Search", systemImage: "magnifyingglass")
                             Spacer()
-                            Text(settingsManager.settings.tavilyAPIKey.isEmpty ? "DuckDuckGo" : "Tavily")
+                            Text(settingsManager.settings.tavilyAPIKey.isEmpty ? LocalizedStringKey("DuckDuckGo") : LocalizedStringKey("Tavily"))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -155,7 +169,7 @@ struct SettingsView: View {
                     Text("LensMate personal build. Third-party license notices are included in the source project.")
                 }
             }
-            .navigationTitle("Settings")
+            .localizedNavigationTitle("Settings")
         }
     }
 }

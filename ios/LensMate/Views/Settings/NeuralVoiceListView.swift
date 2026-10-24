@@ -7,7 +7,7 @@ import SwiftUI
 struct NeuralVoiceListView: View {
     /// The engine whose voices these are — decides whether samples can play and what's missing.
     let engine: TTSEngineType
-    let title: String
+    let title: String.LocalizationValue
     @Binding var selection: String
     /// Voices known up front (Kokoro, OpenAI); Grok's come from `loadVoices`.
     var voices: [CloudVoice] = []
@@ -35,18 +35,18 @@ struct NeuralVoiceListView: View {
                     Label(message, systemImage: "exclamationmark.triangle.fill")
                         .foregroundColor(.orange)
                 } else if !canPreview {
-                    Text(setupHint)
+                    Text(LocalizedStringKey(setupHint))
                 }
             }
         }
-        .navigationTitle(title)
+        .localizedNavigationTitle(title)
         .task {
             guard let loadVoices, loaded.isEmpty, canPreview else { return }
             do {
                 loaded = try await loadVoices()
                 loadError = nil
             } catch {
-                loadError = "Couldn't load the voice list: \(error.localizedDescription)"
+                loadError = L10n.text("Couldn't load the voice list: \(error.localizedDescription)")
             }
         }
         .onChange(of: isAnySpeaking) { _, speaking in
@@ -105,7 +105,7 @@ struct NeuralVoiceListView: View {
                     Text(voice.name)
                         .foregroundColor(.primary)
                     if !voice.gender.isEmpty {
-                        Text(voice.gender.capitalized)
+                        Text(LocalizedStringKey(voice.gender.capitalized))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -123,7 +123,7 @@ struct NeuralVoiceListView: View {
                 .buttonStyle(.plain)
                 .disabled(!canPreview)
                 .opacity(canPreview ? 1 : 0.35)
-                .accessibilityLabel(previewingId == voice.id ? "Stop sample" : "Play sample of \(voice.name)")
+                .accessibilityLabel(previewingId == voice.id ? Text("Stop sample") : Text("Play sample of \(voice.name)"))
 
                 if selection == voice.id {
                     Image(systemName: "checkmark")

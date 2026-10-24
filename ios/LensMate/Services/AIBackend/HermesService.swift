@@ -228,11 +228,11 @@ final class HermesService: ObservableObject {
 
         var errorDescription: String? {
             switch self {
-            case .notConfigured: return "Hermes isn't configured. Add your server and sign in, or an API key, in Settings → Hermes."
-            case .badURL: return "That isn't a server address. Enter one like hermes.example.com or 100.88.1.2:8642."
-            case .unauthorized: return "The server rejected the API key. Use the API_SERVER_KEY from your Hermes server."
-            case .notHermes: return "That address answered, but it isn't a Hermes API server."
-            case .server(let detail): return "Hermes: \(detail)"
+            case .notConfigured: return L10n.text("Hermes isn't configured. Add your server and sign in, or an API key, in Settings → Hermes.")
+            case .badURL: return L10n.text("That isn't a server address. Enter one like hermes.example.com or 100.88.1.2:8642.")
+            case .unauthorized: return L10n.text("The server rejected the API key. Use the API_SERVER_KEY from your Hermes server.")
+            case .notHermes: return L10n.text("That address answered, but it isn't a Hermes API server.")
+            case .server(let detail): return L10n.text("Hermes: \(detail)")
             }
         }
     }

@@ -100,7 +100,7 @@ struct VoiceSelectionView: View {
                 Text("Download premium and enhanced voices in iOS Settings → Accessibility → Spoken Content → Voices")
             }
         }
-        .navigationTitle("TTS Voice")
+        .localizedNavigationTitle("TTS Voice")
         .onAppear {
             loadVoices()
         }
@@ -115,11 +115,11 @@ struct VoiceSelectionView: View {
         } label: {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(name)
+                    Text(LocalizedStringKey(name))
                         .foregroundColor(.primary)
 
                     if let quality = quality {
-                        Text(TTSService.qualityDisplayName(quality))
+                        Text(LocalizedStringKey(TTSService.qualityDisplayName(quality)))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

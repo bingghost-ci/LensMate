@@ -88,13 +88,13 @@ enum HermesGatewayError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .notSignedIn: return "Sign in to your Hermes web UI in Settings → Hermes."
-        case .connectFailed(let detail): return "Couldn't connect to Hermes: \(detail)"
-        case .rpc(_, let message): return "Hermes error: \(message)"
-        case .turnFailed(let message): return "Hermes couldn't answer: \(message)"
-        case .disconnected: return "The connection to Hermes dropped. Try again."
-        case .timedOut: return "Hermes took too long to answer."
-        case .busy: return "Hermes is still working on your last request."
+        case .notSignedIn: return L10n.text("Sign in to your Hermes web UI in Settings → Hermes.")
+        case .connectFailed(let detail): return L10n.text("Couldn't connect to Hermes: \(detail)")
+        case .rpc(_, let message): return L10n.text("Hermes error: \(message)")
+        case .turnFailed(let message): return L10n.text("Hermes couldn't answer: \(message)")
+        case .disconnected: return L10n.text("The connection to Hermes dropped. Try again.")
+        case .timedOut: return L10n.text("Hermes took too long to answer.")
+        case .busy: return L10n.text("Hermes is still working on your last request.")
         }
     }
 }

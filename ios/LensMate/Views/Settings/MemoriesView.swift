@@ -73,7 +73,7 @@ struct MemoriesView: View {
                 }
             }
         }
-        .navigationTitle("Memories")
+        .localizedNavigationTitle("Memories")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -181,7 +181,7 @@ struct MemoryEditorView: View {
                     }
                 }
             }
-            .navigationTitle(isNewMemory ? "New Memory" : "Edit Memory")
+            .localizedNavigationTitle(isNewMemory ? String.LocalizationValue("New Memory") : String.LocalizationValue("Edit Memory"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {

@@ -195,7 +195,7 @@ enum AudioPlaybackError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .setupFailed: return "Failed to setup audio playback"
+        case .setupFailed: return L10n.text("Failed to setup audio playback")
         }
     }
 }

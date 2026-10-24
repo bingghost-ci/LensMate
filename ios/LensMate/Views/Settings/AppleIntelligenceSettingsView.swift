@@ -14,11 +14,11 @@ struct AppleIntelligenceSettingsView: View {
                 HStack {
                     Image(systemName: status == nil ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
                         .foregroundStyle(status == nil ? .green : .orange)
-                    Text(status == nil ? "Ready" : "Unavailable")
+                    Text(status == nil ? LocalizedStringKey("Ready") : LocalizedStringKey("Unavailable"))
                         .foregroundStyle(status == nil ? .green : .orange)
                 }
                 if let status {
-                    Text(status).font(.caption).foregroundStyle(.secondary)
+                    Text(LocalizedStringKey(status)).font(.caption).foregroundStyle(.secondary)
                 }
             } header: {
                 Text("Status")
@@ -36,7 +36,7 @@ struct AppleIntelligenceSettingsView: View {
                 Text("Supports the same hands-free commands as Local Gemma: face recognition and web search, routed on-device.")
             }
         }
-        .navigationTitle("Apple Intelligence")
+        .localizedNavigationTitle("Apple Intelligence")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { status = apple.availabilityMessage }
     }

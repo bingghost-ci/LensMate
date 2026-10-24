@@ -33,7 +33,7 @@ struct AdditionalInstructionsView: View {
             }
             .background(Color(.systemGroupedBackground))
         }
-        .navigationTitle("Custom Instructions")
+        .localizedNavigationTitle("Custom Instructions")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {

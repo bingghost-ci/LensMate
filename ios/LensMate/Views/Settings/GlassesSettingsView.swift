@@ -186,7 +186,7 @@ struct GlassesSettingsView: View {
                 Text("Help")
             }
         }
-        .navigationTitle("Glasses")
+        .localizedNavigationTitle("Glasses")
         .navigationBarTitleDisplayMode(.inline)
         .confirmationDialog(
             "Unregister Glasses",
@@ -270,14 +270,14 @@ struct TroubleshootingView: View {
                 )
             }
         }
-        .navigationTitle("Troubleshooting")
+        .localizedNavigationTitle("Troubleshooting")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
 
 struct TroubleshootingItem: View {
-    let title: String
-    let solution: String
+    let title: LocalizedStringKey
+    let solution: LocalizedStringKey
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {

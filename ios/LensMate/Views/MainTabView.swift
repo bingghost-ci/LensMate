@@ -45,21 +45,21 @@ struct MainTabView: View {
             // Voice Agent Tab
             VoiceAgentView()
                 .tabItem {
-                    Label(Tab.voice.rawValue, systemImage: Tab.voice.icon)
+                    Label(LocalizedStringKey(Tab.voice.rawValue), systemImage: Tab.voice.icon)
                 }
                 .tag(Tab.voice)
 
             // History Tab
             ConversationListView()
                 .tabItem {
-                    Label(Tab.history.rawValue, systemImage: Tab.history.icon)
+                    Label(LocalizedStringKey(Tab.history.rawValue), systemImage: Tab.history.icon)
                 }
                 .tag(Tab.history)
 
             // Settings Tab
             SettingsView()
                 .tabItem {
-                    Label(Tab.settings.rawValue, systemImage: Tab.settings.icon)
+                    Label(LocalizedStringKey(Tab.settings.rawValue), systemImage: Tab.settings.icon)
                 }
                 .tag(Tab.settings)
         }

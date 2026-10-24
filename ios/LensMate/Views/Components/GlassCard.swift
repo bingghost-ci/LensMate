@@ -223,7 +223,7 @@ struct WaveformVisualizer: View {
 
 /// Status pill showing connection state
 struct StatusPill: View {
-    let status: String
+    let status: LocalizedStringKey
     let color: Color
     let isConnected: Bool
 

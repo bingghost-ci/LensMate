@@ -116,7 +116,7 @@ final class GlassesManager: ObservableObject {
             errorMessage = nil
             print("[GlassesManager] Unregistration successful")
         } catch {
-            errorMessage = "Unregister failed: \(error.localizedDescription)"
+            errorMessage = L10n.text("Unregister failed: \(error.localizedDescription)")
             print("[GlassesManager] Unregistration error: \(error)")
         }
     }
@@ -126,7 +126,7 @@ final class GlassesManager: ObservableObject {
     /// Start camera streaming from glasses
     func startStreaming() async {
         guard isRegistered else {
-            errorMessage = "Not registered with Meta AI"
+            errorMessage = L10n.text("Not registered with Meta AI")
             print("[GlassesManager] Cannot start streaming - not registered")
             return
         }
@@ -138,7 +138,7 @@ final class GlassesManager: ObservableObject {
 
         // Check for connected device
         guard let deviceId = connectedDevice else {
-            errorMessage = "No glasses connected"
+            errorMessage = L10n.text("No glasses connected")
             print("[GlassesManager] Cannot start streaming - no device connected")
             return
         }
@@ -151,9 +151,9 @@ final class GlassesManager: ObservableObject {
         if let device = wearables.deviceForIdentifier(deviceId) {
             print("[GlassesManager] Device \(device.nameOrId()): type=\(device.deviceType()) link=\(device.linkState) compatibility=\(device.compatibility())")
             if device.compatibility() == .deviceUpdateRequired {
-                errorMessage = "Glasses firmware update required — update in the Meta AI app"
+                errorMessage = L10n.text("Glasses firmware update required — update in the Meta AI app")
             } else if device.compatibility() == .sdkUpdateRequired {
-                errorMessage = "Glasses too new for this SDK version"
+                errorMessage = L10n.text("Glasses too new for this SDK version")
             }
         } else {
             print("[GlassesManager] deviceForIdentifier returned nil")
@@ -171,12 +171,12 @@ final class GlassesManager: ObservableObject {
             }
 
             guard status == .granted else {
-                errorMessage = "Camera permission denied"
+                errorMessage = L10n.text("Camera permission denied")
                 print("[GlassesManager] Camera permission not granted")
                 return
             }
         } catch {
-            errorMessage = "Permission error: \(error.localizedDescription)"
+            errorMessage = L10n.text("Permission error: \(error.localizedDescription)")
             print("[GlassesManager] Permission error: \(error)")
             return
         }
@@ -203,7 +203,7 @@ final class GlassesManager: ObservableObject {
             let sessionErrorTask = Task {
                 for await error in session.errorStream() {
                     print("[GlassesManager] Device session error: \(error) — \(error.description)")
-                    await MainActor.run { self.errorMessage = "Session error: \(error.description)" }
+                    await MainActor.run { self.errorMessage = L10n.text("Session error: \(error.description)") }
                 }
             }
             defer { sessionErrorTask.cancel() }
@@ -228,7 +228,7 @@ final class GlassesManager: ObservableObject {
                 return first
             }
             guard started else {
-                errorMessage = "Device session did not start (timeout)"
+                errorMessage = L10n.text("Device session did not start (timeout)")
                 print("[GlassesManager] Device session failed to reach .started")
                 dumpSDKLogs(since: 30)
                 session.stop()
@@ -237,7 +237,7 @@ final class GlassesManager: ObservableObject {
             }
 
             guard let cam = try session.addCamera(config: config) else {
-                errorMessage = "Failed to attach camera to device session"
+                errorMessage = L10n.text("Failed to attach camera to device session")
                 print("[GlassesManager] addCamera returned nil")
                 session.stop()
                 deviceSession = nil
@@ -250,7 +250,7 @@ final class GlassesManager: ObservableObject {
             isStreaming = true
             print("[GlassesManager] Streaming started successfully")
         } catch {
-            errorMessage = "Stream start failed: \(error.localizedDescription)"
+            errorMessage = L10n.text("Stream start failed: \(error.localizedDescription)")
             print("[GlassesManager] Stream start error: \(error)")
             cleanupStreamListeners()
             camera = nil
@@ -280,7 +280,7 @@ final class GlassesManager: ObservableObject {
     /// Capture a photo from the glasses camera
     func capturePhoto() async {
         guard isStreaming, let stream = camera?.stream else {
-            errorMessage = "Streaming must be active to capture photos"
+            errorMessage = L10n.text("Streaming must be active to capture photos")
             return
         }
 
@@ -289,7 +289,7 @@ final class GlassesManager: ObservableObject {
         // Non-throwing since 0.9.0; failures surface as StreamError.photoCaptureFailed
         // on the error publisher, which setupStreamListeners already routes to errorMessage.
         if !stream.capturePhoto(format: .jpeg) {
-            errorMessage = "Failed to start photo capture"
+            errorMessage = L10n.text("Failed to start photo capture")
             print("[GlassesManager] capturePhoto returned false")
         }
     }

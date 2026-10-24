@@ -271,7 +271,7 @@ final class VoiceAgentViewModel: ObservableObject {
     func startSession() {
         // Check configuration
         guard settingsManager.settings.isCurrentBackendConfigured else {
-            errorMessage = "Please configure \(settingsManager.settings.aiBackend.displayName) in Settings"
+            errorMessage = L10n.text("Please configure \(settingsManager.settings.aiBackend.displayName) in Settings")
             return
         }
 
@@ -344,11 +344,11 @@ final class VoiceAgentViewModel: ObservableObject {
                     // Put in listening mode (not waiting for wake word)
                     voiceCommandService.enterConversationMode()
                 } else {
-                    errorMessage = "Speech recognition not authorized"
+                    errorMessage = L10n.text("Speech recognition not authorized")
                 }
 
             } catch {
-                errorMessage = "Failed to connect: \(error.localizedDescription)"
+                errorMessage = L10n.text("Failed to connect: \(error.localizedDescription)")
                 isSessionActive = false
                 agentState = .idle
             }
@@ -537,7 +537,7 @@ final class VoiceAgentViewModel: ObservableObject {
             startWakeWordListening()
         } else {
             print("[VoiceAgent] Speech recognition not authorized")
-            errorMessage = "Speech recognition not authorized. Please enable in Settings."
+            errorMessage = L10n.text("Speech recognition not authorized. Please enable in Settings.")
         }
     }
 
@@ -1028,7 +1028,7 @@ final class VoiceAgentViewModel: ObservableObject {
                 agentState = isSessionActive ? .listening : .idle
             }
         } catch {
-            errorMessage = "Failed to send command: \(error.localizedDescription)"
+            errorMessage = L10n.text("Failed to send command: \(error.localizedDescription)")
             agentState = isSessionActive ? .listening : .idle
         }
     }
@@ -1086,7 +1086,7 @@ final class VoiceAgentViewModel: ObservableObject {
         do {
             try await service.connect()
         } catch {
-            errorMessage = "Failed to connect to \(label): \(error.localizedDescription)"
+            errorMessage = L10n.text("Failed to connect to \(label): \(error.localizedDescription)")
             activeLiveService = nil
             // Cleanup: stop streaming and restart voice commands
             if glassesManager.isStreaming {
@@ -1120,7 +1120,7 @@ final class VoiceAgentViewModel: ObservableObject {
         do {
             try audioCapture.startCapture()
         } catch {
-            errorMessage = "Failed to start audio capture: \(error.localizedDescription)"
+            errorMessage = L10n.text("Failed to start audio capture: \(error.localizedDescription)")
             await service.disconnect()
             activeLiveService = nil
             voiceCommandService.enterConversationMode()
@@ -1717,7 +1717,7 @@ final class VoiceAgentViewModel: ObservableObject {
 
     private func startRecording() async {
         guard glassesManager.isRegistered else {
-            errorMessage = "Connect your glasses first to record."
+            errorMessage = L10n.text("Connect your glasses first to record.")
             return
         }
         // Recording needs a live frame stream; start it if the user isn't already in live video.
@@ -1725,7 +1725,7 @@ final class VoiceAgentViewModel: ObservableObject {
             await glassesManager.startStreaming()
         }
         guard glassesManager.isStreaming else {
-            errorMessage = "Couldn't start the glasses camera to record."
+            errorMessage = L10n.text("Couldn't start the glasses camera to record.")
             return
         }
 
@@ -1747,7 +1747,7 @@ final class VoiceAgentViewModel: ObservableObject {
             isRecording = true
         } catch {
             glassesManager.onVideoSampleBuffer = nil
-            errorMessage = "Recording failed to start: \(error.localizedDescription)"
+            errorMessage = L10n.text("Recording failed to start: \(error.localizedDescription)")
         }
     }
 
@@ -1961,12 +1961,12 @@ final class VoiceAgentViewModel: ObservableObject {
                 NSLog("[LensMate] No image available — capture returned nil; NOT sending to model")
                 // Don't send a degraded text-only prompt to the model — that's what makes it
                 // reply "please provide an image". Tell the user directly and stop.
-                errorMessage = "Couldn't capture a photo (streaming: \(glassesManager.isStreaming ? "on" : "off"), registered: \(glassesManager.isRegistered ? "yes" : "no")). Try again."
+                errorMessage = L10n.text("Couldn't capture a photo (streaming: \(glassesManager.isStreaming ? "on" : "off"), registered: \(glassesManager.isRegistered ? "yes" : "no")). Try again.")
                 speakResponse("I couldn't get a photo from the glasses. Please try again.")
             }
         } catch {
             print("[VoiceAgent] Failed to send: \(error)")
-            errorMessage = "Failed to send: \(error.localizedDescription)"
+            errorMessage = L10n.text("Failed to send: \(error.localizedDescription)")
             agentState = isSessionActive ? .listening : .idle
 
             // Stop streaming on error if we started it for this photo

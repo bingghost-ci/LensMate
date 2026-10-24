@@ -19,7 +19,7 @@ struct KokoroSettingsView: View {
                 HStack {
                     Image(systemName: kokoro.isModelReady ? "checkmark.seal.fill" : "arrow.down.circle")
                         .foregroundStyle(kokoro.isModelReady ? .green : .orange)
-                    Text(kokoro.isModelReady ? "Model ready" : "Not downloaded")
+                    Text(kokoro.isModelReady ? LocalizedStringKey("Model ready") : LocalizedStringKey("Not downloaded"))
                         .foregroundStyle(kokoro.isModelReady ? .green : .primary)
                 }
             } header: {
@@ -39,7 +39,7 @@ struct KokoroSettingsView: View {
                     Button {
                         download()
                     } label: {
-                        Label(kokoro.isModelReady ? "Re-download Model" : "Download Model", systemImage: "arrow.down.circle")
+                        Label(kokoro.isModelReady ? LocalizedStringKey("Re-download Model") : LocalizedStringKey("Download Model"), systemImage: "arrow.down.circle")
                     }
                 }
                 if let downloadError {
@@ -68,7 +68,7 @@ struct KokoroSettingsView: View {
                 }
             }
         }
-        .navigationTitle("Kokoro Voice")
+        .localizedNavigationTitle("Kokoro Voice")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { modelSizeBytes = KokoroTTSService.downloadedSizeBytes() }
     }

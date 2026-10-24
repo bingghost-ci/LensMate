@@ -112,7 +112,7 @@ struct GeminiSettingsView: View {
                 Text("Technical Details")
             }
         }
-        .navigationTitle("Gemini Live")
+        .localizedNavigationTitle("Gemini Live")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             apiKey = settingsManager.settings.geminiAPIKey

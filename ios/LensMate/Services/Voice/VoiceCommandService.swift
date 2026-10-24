@@ -877,9 +877,9 @@ enum VoiceCommandError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .notAuthorized: return "Speech recognition not authorized"
-        case .audioEngineUnavailable: return "Audio engine unavailable"
-        case .requestCreationFailed: return "Failed to create speech recognition request"
+        case .notAuthorized: return L10n.text("Speech recognition not authorized")
+        case .audioEngineUnavailable: return L10n.text("Audio engine unavailable")
+        case .requestCreationFailed: return L10n.text("Failed to create speech recognition request")
         }
     }
 }

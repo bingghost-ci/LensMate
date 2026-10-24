@@ -118,8 +118,8 @@ final class OpenAIService: ObservableObject {
         case notConfigured, badURL
         var errorDescription: String? {
             switch self {
-            case .notConfigured: return "OpenAI isn't configured. Add an API key or sign in to ChatGPT in Settings → OpenAI."
-            case .badURL: return "The OpenAI base URL is invalid."
+            case .notConfigured: return L10n.text("OpenAI isn't configured. Add an API key or sign in to ChatGPT in Settings → OpenAI.")
+            case .badURL: return L10n.text("The OpenAI base URL is invalid.")
             }
         }
     }

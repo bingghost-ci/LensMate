@@ -29,8 +29,8 @@ enum RecorderError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .inputUnavailable: return "Microphone input unavailable"
-        case .tapFailed(let reason): return "Mic tap failed: \(reason)"
+        case .inputUnavailable: return L10n.text("Microphone input unavailable")
+        case .tapFailed(let reason): return L10n.text("Mic tap failed: \(reason)")
         }
     }
 }

@@ -15,3 +15,7 @@ open ios/LensMate.xcodeproj
 本地 `Config.xcconfig` 与 `LensMate/Config/Config.swift` 已由空值模板生成且被 Git 忽略。换一台机器时，分别从对应 `.example` 复制。签名安装前在 Xcode 设置自己的 Team；必要时调整 Bundle ID，并使 Meta 注册信息与回调配置一致。
 
 当前保留上游全部包依赖和 API 版本，不因工具链问题删除功能或随意降级依赖。构建命令与实际错误会记录在 [调试记录](../todo/debug-status.md)。
+
+应用界面支持英文和简体中文。在「设置 → 应用语言」选择「跟随系统」「English」或「简体中文」，立即生效并保存，重启后仍保留选择。默认跟随系统的首选语言：中文地区及字形变体统一显示简体中文；其他未支持的语言回退到英文，不会跳到系统语言列表中的第二种语言。
+
+界面语言不改变语音识别语言、音色、唤醒词、模型提示词或对话内容。权限说明提供中英文资源，系统权限弹窗使用的语言由 iOS 决定。文案集中维护在 `LensMate/Resources/Localizable.xcstrings` 和 `InfoPlist.xcstrings`；品牌、模型标识及用户输入保留原文。

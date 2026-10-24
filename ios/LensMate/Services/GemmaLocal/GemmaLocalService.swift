@@ -1240,11 +1240,11 @@ final class GemmaLocalService: ObservableObject {
         var errorDescription: String? {
             switch self {
             case .modelNotLoaded:
-                return "The local Gemma model isn't loaded. Download it in Settings → AI Backend → Local (Gemma 4)."
+                return L10n.text("The local Gemma model isn't loaded. Download it in Settings → AI Backend → Local (Gemma 4).")
             case .backgrounded:
-                return "On-device AI can't run while the app is in the background. Bring LensMate to the foreground."
+                return L10n.text("On-device AI can't run while the app is in the background. Bring LensMate to the foreground.")
             case .badFrame:
-                return "The camera frame couldn't be decoded."
+                return L10n.text("The camera frame couldn't be decoded.")
             }
         }
     }

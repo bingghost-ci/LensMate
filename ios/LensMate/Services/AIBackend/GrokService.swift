@@ -134,7 +134,7 @@ final class GrokService: ObservableObject {
     enum GrokError: LocalizedError {
         case notConfigured
         var errorDescription: String? {
-            "Grok isn't configured. Add an xAI API key or sign in to SuperGrok in Settings → Grok."
+            L10n.text("Grok isn't configured. Add an xAI API key or sign in to SuperGrok in Settings → Grok.")
         }
     }
 }

@@ -27,7 +27,7 @@ struct ConversationListView: View {
                     conversationList
                 }
             }
-            .navigationTitle("History")
+            .localizedNavigationTitle("History")
             .searchable(text: $searchText, prompt: "Search conversations")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -100,18 +100,19 @@ struct ConversationListView: View {
 // MARK: - Conversation Row
 
 struct ConversationRow: View {
+    @Environment(\.locale) private var locale
     let conversation: Conversation
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text(conversation.title)
+                (conversation.messages.isEmpty && conversation.title == "New Conversation" ? Text("New Conversation") : Text(verbatim: conversation.title))
                     .font(.headline)
                     .lineLimit(1)
 
                 Spacer()
 
-                Text(conversation.lastActivityAt.formatted(date: .abbreviated, time: .shortened))
+                Text(conversation.lastActivityAt.formatted(.dateTime.year().month(.abbreviated).day().hour().minute().locale(locale)))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -142,6 +143,7 @@ struct ConversationRow: View {
 // MARK: - Conversation Detail View
 
 struct ConversationDetailView: View {
+    @Environment(\.locale) private var locale
     let conversation: Conversation
     @State private var resumed = false
 
@@ -154,7 +156,7 @@ struct ConversationDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(conversation.title)
+        .navigationTitle(conversation.messages.isEmpty && conversation.title == "New Conversation" ? L10n.text("New Conversation", locale: locale) : conversation.title)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -166,7 +168,7 @@ struct ConversationDetailView: View {
                     ConversationContext.shared.seed(from: conversation)
                     resumed = true
                 } label: {
-                    Label(resumed ? "Resumed" : "Continue", systemImage: resumed ? "checkmark.circle" : "arrow.right.circle")
+                    Label(resumed ? LocalizedStringKey("Resumed") : LocalizedStringKey("Continue"), systemImage: resumed ? "checkmark.circle" : "arrow.right.circle")
                 }
                 .disabled(resumed)
             }
@@ -177,6 +179,7 @@ struct ConversationDetailView: View {
 // MARK: - Message Bubble
 
 struct MessageBubble: View {
+    @Environment(\.locale) private var locale
     let message: Message
 
     var body: some View {
@@ -194,7 +197,7 @@ struct MessageBubble: View {
                     .foregroundColor(message.role == .user ? Color.black.opacity(0.9) : .primary)
                     .cornerRadius(16)
 
-                Text(message.timestamp.formatted(date: .omitted, time: .shortened))
+                Text(message.timestamp.formatted(.dateTime.hour().minute().locale(locale)))
                     .font(.caption2)
                     .foregroundColor(.secondary)
             }

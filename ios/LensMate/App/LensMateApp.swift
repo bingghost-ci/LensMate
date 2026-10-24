@@ -15,6 +15,9 @@ struct LensMateApp: App {
     // MARK: - App Storage
 
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage(AppLanguage.defaultsKey) private var appLanguage: AppLanguage = .system
+    @Environment(\.scenePhase) private var scenePhase
+    @State private var systemLanguages = Locale.preferredLanguages
 
     // MARK: - Initialization
 
@@ -53,7 +56,14 @@ struct LensMateApp: App {
                     OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
                 }
             }
+            .environment(\.locale, Locale(identifier: appLanguage.resolvedIdentifier(preferredLanguages: systemLanguages)))
             .preferredColorScheme(.dark)
+            .onReceive(NotificationCenter.default.publisher(for: NSLocale.currentLocaleDidChangeNotification)) { _ in
+                systemLanguages = Locale.preferredLanguages
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { systemLanguages = Locale.preferredLanguages }
+            }
             .task {
                 // Telemetry settings persist, but the sink lives in memory — without this a
                 // relaunch (or a jetsam kill during a model switch) silently stopped pushing.

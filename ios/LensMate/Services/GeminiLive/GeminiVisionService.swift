@@ -457,13 +457,13 @@ enum GeminiVisionError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .notConfigured: return "Gemini API key not configured"
-        case .notConnected: return "Not connected to Gemini"
-        case .connectionTimeout: return "Connection timed out"
-        case .setupFailed: return "Failed to setup Gemini session"
-        case .disconnected: return "Disconnected from Gemini"
-        case .queryInProgress: return "A query is already in progress"
-        case .queryTimeout: return "Query timed out"
+        case .notConfigured: return L10n.text("Gemini API key not configured")
+        case .notConnected: return L10n.text("Not connected to Gemini")
+        case .connectionTimeout: return L10n.text("Connection timed out")
+        case .setupFailed: return L10n.text("Failed to setup Gemini session")
+        case .disconnected: return L10n.text("Disconnected from Gemini")
+        case .queryInProgress: return L10n.text("A query is already in progress")
+        case .queryTimeout: return L10n.text("Query timed out")
         }
     }
 }

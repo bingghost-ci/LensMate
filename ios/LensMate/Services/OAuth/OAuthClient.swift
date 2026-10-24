@@ -74,15 +74,15 @@ enum OAuthError: LocalizedError, Equatable {
 
     var errorDescription: String? {
         switch self {
-        case .cancelled: return "Sign-in was cancelled."
-        case .timedOut: return "Sign-in took too long. Try again."
-        case .portUnavailable(let port): return "Couldn't open the sign-in callback port (\(port)). Close other apps using it and try again."
-        case .stateMismatch: return "Sign-in response didn't match this request. Try again."
-        case .missingCode: return "Sign-in didn't return an authorization code."
-        case .provider(let message): return "Sign-in failed: \(message)"
-        case .tokenRequestFailed(let status): return "Sign-in token request failed (HTTP \(status))."
-        case .noAccessToken: return "Sign-in response didn't include an access token."
-        case .authorizationExpired: return "Your subscription sign-in expired. Sign in again in Settings."
+        case .cancelled: return L10n.text("Sign-in was cancelled.")
+        case .timedOut: return L10n.text("Sign-in took too long. Try again.")
+        case .portUnavailable(let port): return L10n.text("Couldn't open the sign-in callback port (\(port)). Close other apps using it and try again.")
+        case .stateMismatch: return L10n.text("Sign-in response didn't match this request. Try again.")
+        case .missingCode: return L10n.text("Sign-in didn't return an authorization code.")
+        case .provider(let message): return L10n.text("Sign-in failed: \(message)")
+        case .tokenRequestFailed(let status): return L10n.text("Sign-in token request failed (HTTP \(status)).")
+        case .noAccessToken: return L10n.text("Sign-in response didn't include an access token.")
+        case .authorizationExpired: return L10n.text("Your subscription sign-in expired. Sign in again in Settings.")
         }
     }
 }

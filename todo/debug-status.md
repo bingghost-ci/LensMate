@@ -1,6 +1,6 @@
 # LensMate 本机检查与调试记录
 
-检查日期：2026-10-24，同日更新。结论：**依赖解析及 Xcode 签名构建已通过，LensMate `0.1.0 (1)` 已安装到 iPhone 14 并运行，用户确认正常。原有测试、眼镜与完整功能回归尚未验收，阿里云三语翻译尚未实现。**
+检查日期：2026-10-24，同日更新。结论：**依赖解析及 Xcode 签名构建已通过，LensMate `0.1.0 (1)` 已安装到 iPhone 14 并运行，用户确认正常。后续界面本地化与自动化测试结果见本文末尾；眼镜与完整功能回归尚未验收，阿里云三语翻译尚未实现。**
 
 ## 首次真机运行证据
 
@@ -70,3 +70,23 @@ xcodebuild \
 ```
 
 该独立命令目前没有成功执行记录。接下来运行原有测试，并依次验收名称与权限、眼镜注册及回调、单次语音问答、眼镜收音播放、视觉、历史等原有能力；首次启动成功不代表这些项目全部通过。
+
+## 中英文界面与语言选择（2026-10-24）
+
+- 已添加英文、简体中文及默认的「跟随系统」选项，即时切换并持久保存。系统首选语言为中文变体时使用简体中文，不支持的首选语言回退英文。
+- 新增 `AppLanguageTests`，覆盖中文地区变体、英文回退、手动覆盖、保存与旧安装默认值、资源加载及格式化消息。全部 145 项自动化测试通过，包含新增的 5 项语言测试；完整模拟器构建通过。
+- 实际检查了中英文切换、导航标题刷新、重启保留选择、中文系统跟随，以及泰语优先且中文排第二时仍显示英文。用户反馈「没有太大的问题，语言切换没有问题」，随后要求停止继续测试。
+- 此轮没有将更新重新安装到 iPhone 14，也未验收眼镜或调用付费模型。系统权限弹窗语言由 iOS 控制。
+- 后续分工见仓库根目录 `AGENTS.md`：Codex 负责开发和非 UI 测试，最终 UI 测试与验收由用户负责。
+
+本机 Xcode 27.1 的普通模拟器签名会在上游 Kokoro/Misaki 的资源包上报 `bundle format unrecognized`；未签名运行又会导致 Meta SDK 初始化失败。测试使用临时 `.xcconfig` 仅启用应用、测试及构建工具签名，未修改 Vendor 或正式签名配置：
+
+```xcconfig
+CODE_SIGNING_ALLOWED = $(LM_LOCAL_SIGN_$(PRODUCT_NAME))
+LM_LOCAL_SIGN_LensMate = YES
+LM_LOCAL_SIGN_LensMateTests = YES
+LM_LOCAL_SIGN_MLXHuggingFaceMacros = YES
+LM_LOCAL_SIGN_CudaBuild = YES
+```
+
+最终完整回归命令使用 `xcodebuild test`，scheme 为 `LensMate`，目标为 iPhone 18 Pro / iOS 27.0 模拟器，并传入上述临时 `-xcconfig`、`-testLanguage en -testRegion US -collect-test-diagnostics never`。退出码为 0，结果为 `TEST SUCCEEDED`；日志保存在本机忽略目录 `.build/localization/regression-final.log`。

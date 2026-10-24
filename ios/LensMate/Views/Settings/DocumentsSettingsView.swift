@@ -7,6 +7,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct DocumentsSettingsView: View {
+    @Environment(\.locale) private var locale
     @State private var documents: [StoredDocument] = []
     @State private var showImporter = false
     @State private var importing = false
@@ -27,7 +28,7 @@ struct DocumentsSettingsView: View {
                             .foregroundColor(.accentColor)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(doc.title).lineLimit(1)
-                            Text("\(doc.chunks.count) sections · \(doc.addedAt.formatted(date: .abbreviated, time: .omitted))")
+                            Text("\(doc.chunks.count) sections · \(doc.addedAt.formatted(.dateTime.year().month(.abbreviated).day().locale(locale)))")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -74,7 +75,7 @@ struct DocumentsSettingsView: View {
                 .disabled(importing)
             }
         }
-        .navigationTitle("My Documents")
+        .localizedNavigationTitle("My Documents")
         .onAppear(perform: reload)
         .fileImporter(isPresented: $showImporter,
                       allowedContentTypes: [.pdf, .plainText, .text],

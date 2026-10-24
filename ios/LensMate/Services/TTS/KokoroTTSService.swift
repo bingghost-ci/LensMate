@@ -396,10 +396,10 @@ final class KokoroTTSService: ObservableObject {
         case modelMissing, badURL, badVoice(String), download(Int)
         var errorDescription: String? {
             switch self {
-            case .modelMissing: return "Kokoro model isn't downloaded yet."
-            case .badURL: return "Invalid download URL."
-            case .badVoice(let v): return "Couldn't load voice \(v)."
-            case .download(let c): return "Download failed (HTTP \(c))."
+            case .modelMissing: return L10n.text("Kokoro model isn't downloaded yet.")
+            case .badURL: return L10n.text("Invalid download URL.")
+            case .badVoice(let v): return L10n.text("Couldn't load voice \(v).")
+            case .download(let c): return L10n.text("Download failed (HTTP \(c)).")
             }
         }
     }

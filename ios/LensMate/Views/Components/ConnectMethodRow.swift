@@ -15,8 +15,8 @@ struct ConnectMethodRow: View {
     var body: some View {
         Label {
             VStack(alignment: .leading, spacing: 2) {
-                Text(title)
-                Text(summary)
+                Text(LocalizedStringKey(title))
+                Text(LocalizedStringKey(summary))
                     .font(.footnote)
                     .foregroundColor(.secondary)
             }

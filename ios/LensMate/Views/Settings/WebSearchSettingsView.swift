@@ -44,7 +44,7 @@ struct WebSearchSettingsView: View {
                 Text("Tavily is a search API built for AI assistants — it returns real, current content (news, prices, scores) rather than just links, which is what lets the model actually answer live questions. The free tier covers everyday use. When set, it's the primary web-search source; DuckDuckGo stays the keyless fallback.")
             }
         }
-        .navigationTitle("Web Search")
+        .localizedNavigationTitle("Web Search")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { apiKey = settingsManager.settings.tavilyAPIKey }
         .onDisappear { save() }

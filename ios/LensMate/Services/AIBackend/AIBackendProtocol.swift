@@ -122,12 +122,12 @@ enum AIBackendError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .notConfigured: return "AI backend not configured"
-        case .notConnected: return "Not connected to AI backend"
-        case .connectionFailed: return "Failed to connect to AI backend"
-        case .connectionTimeout: return "Connection timed out"
-        case .invalidResponse: return "Invalid response from AI backend"
-        case .requestFailed(let msg): return "Request failed: \(msg)"
+        case .notConfigured: return L10n.text("AI backend not configured")
+        case .notConnected: return L10n.text("Not connected to AI backend")
+        case .connectionFailed: return L10n.text("Failed to connect to AI backend")
+        case .connectionTimeout: return L10n.text("Connection timed out")
+        case .invalidResponse: return L10n.text("Invalid response from AI backend")
+        case .requestFailed(let msg): return L10n.text("Request failed: \(msg)")
         }
     }
 }

@@ -63,7 +63,7 @@ struct HermesSettingsView: View {
                 Text("Hermes answers with its own tools, memory and skills; replies are spoken briefly.")
             }
         }
-        .navigationTitle("Hermes")
+        .localizedNavigationTitle("Hermes")
         .navigationBarTitleDisplayMode(.inline)
         .onDisappear { saveSettings() }
         .toolbar {

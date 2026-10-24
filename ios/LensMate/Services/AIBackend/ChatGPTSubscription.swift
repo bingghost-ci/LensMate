@@ -215,8 +215,8 @@ enum ChatGPTSubscriptionError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .noResponse: return "No response from ChatGPT."
-        case .api(let detail): return "ChatGPT error: \(detail)"
+        case .noResponse: return L10n.text("No response from ChatGPT.")
+        case .api(let detail): return L10n.text("ChatGPT error: \(detail)")
         }
     }
 }
