@@ -98,7 +98,7 @@ struct ConversationTranslationView: View {
                 .multilineTextAlignment(.center).foregroundStyle(.secondary)
             VStack(alignment: .leading, spacing: 12) {
                 Label("Your words appear in both languages for your partner to read.", systemImage: "eyeglasses")
-                Label("Tap to record your partner, then tap Stop. Their translation plays through your glasses.", systemImage: "mic")
+                Label("Use the button under each language to start recording. Tap it again to finish and translate.", systemImage: "mic")
             }
             .font(.subheadline)
             Text("Recordings are sent after each turn ends. This conversation is kept only in memory.")
@@ -162,13 +162,12 @@ struct ConversationTranslationView: View {
                     .accessibilityIdentifier("conversationTranslationError")
             }
             HStack(spacing: 12) {
-                languagePicker(mine: false)
+                speakerControls(.partner)
                 Button { model.swapLanguages() } label: { Image(systemName: "arrow.left.arrow.right") }
                     .accessibilityLabel("Swap Languages")
-                languagePicker(mine: true)
+                speakerControls(.me)
             }
-            actionButtons
-            Text("Each turn is limited to 60 seconds. No recording during translation or playback.")
+            Text("Recording limit: \(Int(configuration.maximumRecordingDuration)) s · Change in Translation Settings")
                 .font(.caption2).foregroundStyle(.secondary).multilineTextAlignment(.center)
         }
         .padding(16)
@@ -183,26 +182,28 @@ struct ConversationTranslationView: View {
             case .waitingForPartner: Text("Show Your Translation · Wait for Your Partner").fontWeight(.medium)
             case .preparing: ProgressView("Preparing Audio…")
             case .recording(let speaker):
-                if speaker == .partner && (model.recordingProgress?.elapsed ?? 0) >= 60 {
-                    Label("60 s Reached · Tap Stop to Translate", systemImage: "mic.slash")
+                if (model.recordingProgress?.elapsed ?? 0) >= model.recordingOptions.maximumDuration {
+                    Label("Recording Limit Reached · Tap to Translate", systemImage: "mic.slash")
                         .fontWeight(.semibold)
                 } else {
-                    Label(speaker == .me ? "Listening Through Glasses" : "Recording Your Partner", systemImage: speaker == .me ? "eyeglasses" : "mic.fill")
+                    Label(speaker == .me ? "Recording Your Turn" : "Recording Your Partner", systemImage: "mic.fill")
                         .foregroundStyle(.red).fontWeight(.semibold)
                 }
                 if !model.inputDevice.isEmpty { Text(verbatim: model.inputDevice).font(.caption).foregroundStyle(.secondary) }
-                if speaker == .me {
-                    Text("Translates after a \(Int(configuration.silenceDuration)) s pause")
+                if speaker == .me && model.recordingOptions.automaticallyEndsMyTurn {
+                    Text("Translates after a \(Int(model.recordingOptions.silenceDuration)) s pause")
                         .font(.caption).foregroundStyle(.secondary)
                 } else {
-                    Text("Tap Stop when your partner finishes.").font(.caption).foregroundStyle(.secondary)
+                    Text("Tap the recording button again to finish.").font(.caption).foregroundStyle(.secondary)
                 }
                 if let progress = model.recordingProgress {
-                    Text("\(Int(progress.elapsed)) / 60 s").font(.caption.monospacedDigit()).foregroundStyle(.secondary)
+                    Text("\(Int(progress.elapsed)) / \(Int(model.recordingOptions.maximumDuration)) s").font(.caption.monospacedDigit()).foregroundStyle(.secondary)
                 }
             case .recognizing: ProgressView("Recognizing Speech…")
             case .translating: ProgressView("Translating…")
-            case .speaking: Label("Playing Translation · Microphones Off", systemImage: "speaker.wave.2.fill")
+            case .speaking:
+                Label("Playing Translation · Microphones Off", systemImage: "speaker.wave.2.fill")
+                Button("Stop Playback") { model.stop() }
             }
         }
         .font(.subheadline)
@@ -228,30 +229,21 @@ struct ConversationTranslationView: View {
         }
     }
 
-    @ViewBuilder private var actionButtons: some View {
-        switch model.phase {
-        case .recording(let speaker):
-            mainButton(speaker == .me ? "I'm Done Speaking" : "Stop Recording and Translate", icon: "stop.fill", tint: .red) { model.finishRecording() }
-        case .preparing, .recognizing, .translating:
-            mainButton("Cancel This Turn", icon: "xmark", tint: .secondary) { model.stop() }
-        case .speaking:
-            mainButton("Stop Playback", icon: "stop.fill", tint: Theme.accent) { model.stop() }
-        case .waitingForPartner:
-            mainButton("Let Partner Speak", icon: "mic.fill", tint: Theme.accent) { model.beginSpeaking(.partner) }
-            Button("I Have More to Say") { model.beginSpeaking(.me) }.font(.subheadline)
-        case .idle, .paused:
-            mainButton("Start My Turn", icon: "eyeglasses", tint: Theme.accent) { model.beginSpeaking(.me) }
-            Button("Let Partner Speak First") { model.beginSpeaking(.partner) }.font(.subheadline)
+    private func speakerControls(_ speaker: TranslationSpeaker) -> some View {
+        let recording = model.phase == .recording(speaker)
+        return VStack(spacing: 8) {
+            languagePicker(mine: speaker == .me)
+            Button { model.tapRecordingButton(for: speaker) } label: {
+                Label(recording ? "Finish and Translate" : "Start Recording", systemImage: recording ? "stop.fill" : "mic.fill")
+                    .font(.subheadline.weight(.semibold))
+                    .frame(maxWidth: .infinity, minHeight: 40)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(recording ? .red : Theme.accent)
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .disabled(!model.canTapRecordingButton(for: speaker))
+            .accessibilityIdentifier(speaker == .me ? "conversationMyRecording" : "conversationPartnerRecording")
         }
-    }
-
-    private func mainButton(_ title: LocalizedStringKey, icon: String, tint: Color, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: icon).font(.headline).frame(maxWidth: .infinity).padding(.vertical, 10)
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(tint)
-        .clipShape(Capsule())
-        .accessibilityIdentifier("conversationPrimaryAction")
+        .frame(maxWidth: .infinity)
     }
 }

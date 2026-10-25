@@ -12,6 +12,17 @@ struct TranslationSettingsView: View {
     var body: some View {
         Form {
             Section {
+                LabeledContent("Maximum Recording Duration") {
+                    Text("\(Int(configuration.maximumRecordingDuration)) s").monospacedDigit()
+                }
+                Slider(value: Binding(get: { configuration.maximumRecordingDuration }, set: configuration.setMaximumRecordingDuration),
+                       in: TranslationRecordingOptions.durationRange, step: 30) {
+                    Text("Maximum Recording Duration")
+                }
+                .accessibilityIdentifier("translationRecordingLimit")
+                Toggle("End My Turn After a Pause", isOn: Binding(
+                    get: { configuration.automaticallyEndsMyTurn }, set: configuration.setAutomaticallyEndsMyTurn))
+                    .accessibilityIdentifier("translationAutomaticFinish")
                 LabeledContent("My Pause Duration") {
                     Text("\(Int(configuration.silenceDuration)) s").monospacedDigit()
                 }
@@ -19,10 +30,11 @@ struct TranslationSettingsView: View {
                     Text("My Pause Duration")
                 }
                 .accessibilityIdentifier("translationSilenceDuration")
+                .disabled(!configuration.automaticallyEndsMyTurn)
             } header: {
                 Text("Conversation Rhythm")
             } footer: {
-                Text("Your glasses turn is submitted after this pause. Default: 5 seconds. Your partner's phone recording always ends with the Stop button. Changes are saved automatically.")
+                Text("Tap either language's button to start and stop recording. Set a limit from 30 to 300 seconds. At the limit, recording stops and waits for your tap to translate. Optionally end your own turn after a pause (default: 5 seconds); this also submits at the limit. Your partner always taps to finish. Changes are saved automatically.")
             }
             Section {
                 Picker("Aliyun Region", selection: $region) {

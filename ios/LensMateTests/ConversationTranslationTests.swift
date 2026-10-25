@@ -3,9 +3,88 @@ import XCTest
 @testable import LensMate
 
 final class ConversationTranslationAudioTests: XCTestCase {
+    func testManualModeNeverSubmitsEitherSideAndAutomaticModeHonorsConfiguredCap() {
+        for limit in [30.0, 120, 300] {
+            var manual = TranslationSilenceDetector(options: .init(maximumDuration: limit))
+            manual.observe(decibels: -20, elapsed: 0.2)
+            for speaker in [TranslationSpeaker.me, .partner] {
+                XCTAssertFalse(manual.shouldFinish(speaker: speaker, elapsed: 10))
+                XCTAssertFalse(manual.shouldFinish(speaker: speaker, elapsed: limit))
+            }
+            var automatic = TranslationSilenceDetector(options: .init(maximumDuration: limit, automaticallyEndsMyTurn: true))
+            automatic.observe(decibels: -20, elapsed: limit - 0.1)
+            XCTAssertFalse(automatic.shouldFinish(speaker: .me, elapsed: limit - 0.01))
+            XCTAssertTrue(automatic.shouldFinish(speaker: .me, elapsed: limit))
+            XCTAssertFalse(automatic.shouldFinish(speaker: .partner, elapsed: limit))
+        }
+    }
+
+    func testConverterPreservesSpeechAcrossPhoneAndHFPFormats() throws {
+        for rate in [8_000.0, 16_000, 24_000, 44_100, 48_000] {
+            for interleaved in [true, false] {
+                let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: rate, channels: 2, interleaved: interleaved)!
+                let converter = try TranslationAudioConverter(inputFormat: format)
+                let store = TranslationPCMBuffer(sampleRate: Int(converter.outputFormat.sampleRate))
+                let input = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 1_024)!
+                input.frameLength = 1_024
+                var frames = 0
+                while frames < Int(rate * 2) {
+                    for frame in 0..<1_024 {
+                        let value = Float(sin(2 * Double.pi * 440 * Double(frames + frame) / rate) * 0.5)
+                        for channel in 0..<2 {
+                            if interleaved { input.floatChannelData![0][frame * 2 + channel] = value }
+                            else { input.floatChannelData![channel][frame] = value }
+                        }
+                    }
+                    store.append(try converter.convert(input))
+                    frames += 1_024
+                }
+                let actual = store.progress()
+                XCTAssertEqual(store.sampleRate, Int(min(rate, 12_000)))
+                XCTAssertEqual(actual.elapsed, Double(frames) / rate, accuracy: 0.03)
+                XCTAssertGreaterThan(actual.decibels, -15)
+                XCTAssertLessThan(actual.decibels, -5)
+                XCTAssertFalse(actual.failed)
+            }
+        }
+    }
+
+    func testFiveMinuteRecordingFitsEncodedASRLimitAndStopsAtSelectedDuration() throws {
+        let store = TranslationPCMBuffer(sampleRate: 12_000, maximumDuration: 300)
+        let format = AVAudioFormat(commonFormat: .pcmFormatFloat32, sampleRate: 12_000, channels: 1, interleaved: false)!
+        let audio = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: 12_000)!
+        audio.frameLength = 12_000
+        for frame in 0..<12_000 { audio.floatChannelData![0][frame] = 0.25 }
+        for _ in 0..<301 { store.append(audio) }
+        let recording = store.recording()
+        XCTAssertEqual(recording.duration, 300)
+        XCTAssertEqual(recording.wav.count, 7_200_044)
+        XCTAssertLessThan(recording.wav.base64EncodedData().count, AliyunSpeechRecognitionClient.maximumBase64Bytes)
+        let request = try AliyunSpeechRecognitionClient.makeRequest(recording, language: .english, credentials: .init(region: .beijing, apiKey: "test-key"))
+        XCTAssertEqual(request.timeoutInterval, 90)
+        var oversized = recording.wav
+        oversized.append(Data(repeating: 0, count: 400_000))
+        XCTAssertThrowsError(try AliyunSpeechRecognitionClient.makeRequest(.init(wav: oversized, duration: 300), language: .english, credentials: .init(region: .beijing, apiKey: "test-key")))
+        store.markConversionFailed()
+        XCTAssertTrue(store.progress().failed)
+    }
+
+    func testLongTranscriptChunksPreserveChineseEnglishThaiAndGraphemeBoundaries() throws {
+        for text in [String(repeating: "This is a sentence. ", count: 250), String(repeating: "你好世界。", count: 500), String(repeating: "สวัสดี", count: 700), String(repeating: "👨‍👩‍👧‍👦", count: 400)] {
+            let chunks = TranslationTranscript.chunks(text)
+            XCTAssertGreaterThan(chunks.count, 1)
+            XCTAssertEqual(chunks.joined(), text)
+            for chunk in chunks {
+                XCTAssertLessThanOrEqual(chunk.unicodeScalars.count, TranslationInput.maximumLength)
+                XCTAssertFalse(chunk.isEmpty)
+                try TranslationInput(text: chunk, source: .english, target: .chinese).validate()
+            }
+        }
+    }
+
     func testConfigurableSilenceSubmitsOnlyOurTurn() {
         for seconds in [1.0, 3, 5, 10] {
-            var detector = TranslationSilenceDetector(silenceDuration: seconds)
+            var detector = TranslationSilenceDetector(options: .init(silenceDuration: seconds, automaticallyEndsMyTurn: true))
             detector.observe(decibels: -20, elapsed: 0.1)
             detector.observe(decibels: -20, elapsed: 0.2)
             XCTAssertTrue(detector.hasSpeech)
@@ -16,7 +95,7 @@ final class ConversationTranslationAudioTests: XCTestCase {
     }
 
     func testSpeechResetsSilenceAndSilenceAloneNeverCreatesUtterance() {
-        var detector = TranslationSilenceDetector(silenceDuration: 5)
+        var detector = TranslationSilenceDetector(options: .init(automaticallyEndsMyTurn: true))
         detector.observe(decibels: -80, elapsed: 5)
         XCTAssertFalse(detector.hasSpeech)
         XCTAssertFalse(detector.shouldFinish(speaker: .me, elapsed: 10))
@@ -95,7 +174,7 @@ final class ConversationTranslationAudioTests: XCTestCase {
 
     func testASRRejectsInvalidAudioAndSanitizesRecognitionFailures() throws {
         let credentials = TranslationCredentials(region: .beijing, apiKey: "test-key")
-        for audio in [RecordedTranslationSpeech(wav: Data(), duration: 0), .init(wav: testRecording().wav, duration: 61), .init(wav: Data(repeating: 0, count: 100), duration: 1)] {
+        for audio in [RecordedTranslationSpeech(wav: Data(), duration: 0), .init(wav: testRecording().wav, duration: 301), .init(wav: Data(repeating: 0, count: 100), duration: 1)] {
             XCTAssertThrowsError(try AliyunSpeechRecognitionClient.makeRequest(audio, language: .chinese, credentials: credentials)) {
                 XCTAssertEqual($0 as? TranslationError, .invalidRecording)
             }
@@ -122,6 +201,93 @@ final class ConversationTranslationAudioTests: XCTestCase {
 
 @MainActor
 final class ConversationTranslationTests: XCTestCase {
+    func testEachButtonStartsAndFinishesItsOwnSideWithoutSwitchingAnActiveRecording() async {
+        for speaker in [TranslationSpeaker.me, .partner] {
+            let f = Fixture(maximumDuration: 300)
+            let other: TranslationSpeaker = speaker == .me ? .partner : .me
+            XCTAssertTrue(f.model.canTapRecordingButton(for: speaker))
+            f.model.tapRecordingButton(for: speaker)
+            XCTAssertFalse(f.model.canTapRecordingButton(for: speaker)) // preparing
+            await eventually { f.model.phase == .recording(speaker) }
+            XCTAssertEqual(f.recorder.options.first?.maximumDuration, 300)
+            XCTAssertEqual(f.recorder.options.first?.automaticallyEndsMyTurn, false)
+            XCTAssertFalse(f.model.canTapRecordingButton(for: other))
+            f.model.tapRecordingButton(for: other)
+            XCTAssertEqual(f.recorder.speakers, [speaker])
+            f.recorder.onProgress?(.init(elapsed: 300, hasSpeech: true, silenceRemaining: nil))
+            XCTAssertTrue(f.asr.pending.isEmpty)
+            XCTAssertEqual(f.model.phase, .recording(speaker))
+            f.model.tapRecordingButton(for: speaker)
+            f.model.tapRecordingButton(for: speaker) // repeated stop cannot upload twice
+            await eventually { f.asr.pending.count == 1 }
+            XCTAssertFalse(f.model.canTapRecordingButton(for: speaker))
+            f.model.stop()
+            f.asr.resolve(0, "late")
+            await eventually { f.asr.finished == 1 }
+            XCTAssertTrue(f.mt.inputs.isEmpty)
+            f.model.leave()
+        }
+    }
+
+    func testLongTranscriptProducesOneCardAndCancellationPreventsFurtherChunks() async {
+        let original = String(repeating: "Hello. ", count: 700)
+        let chunks = TranslationTranscript.chunks(original)
+        for cancel in [false, true] {
+            let f = Fixture()
+            f.model.beginSpeaking(.me)
+            await eventually { f.model.phase == .recording(.me) }
+            f.model.finishRecording()
+            await eventually { f.asr.pending.count == 1 }
+            f.asr.resolve(0, original)
+            await eventually { f.mt.pending.count == 1 }
+            f.mt.resolve(0, "第一段")
+            await eventually { f.mt.pending.count == 2 }
+            XCTAssertTrue(f.model.turns[0].translation.isEmpty)
+            if cancel {
+                f.model.stop()
+                f.mt.resolve(1, "旧的第二段")
+                await eventually { f.mt.finished == 2 }
+                await drain()
+                XCTAssertEqual(f.mt.pending.count, 2)
+                XCTAssertEqual(f.model.turns[0].status, .cancelled)
+                XCTAssertTrue(f.model.turns[0].translation.isEmpty)
+            } else {
+                for index in 1..<chunks.count {
+                    await eventually { f.mt.pending.count == index + 1 }
+                    f.mt.resolve(index, "后续段落")
+                }
+                await eventually { f.model.phase == .waitingForPartner }
+                XCTAssertEqual(f.mt.inputs.map(\.text).joined(), original)
+                XCTAssertEqual(f.model.turns.count, 1)
+                XCTAssertEqual(f.model.turns[0].original, original)
+                XCTAssertEqual(f.model.turns[0].translation, (["第一段"] + Array(repeating: "后续段落", count: chunks.count - 1)).joined(separator: "\n"))
+            }
+            XCTAssertTrue(f.speech.spoken.isEmpty)
+            f.model.leave()
+        }
+    }
+
+    func testRecordingLimitAndAutomaticFinishPreferencesPersistAndClamp() {
+        let suite = "ConversationLimitTests.\(UUID().uuidString)"
+        let defaults = UserDefaults(suiteName: suite)!
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let config = TranslationConfiguration(defaults: defaults)
+        XCTAssertEqual(config.maximumRecordingDuration, 60)
+        XCTAssertFalse(config.automaticallyEndsMyTurn)
+        config.setMaximumRecordingDuration(180)
+        config.setAutomaticallyEndsMyTurn(true)
+        let restored = TranslationConfiguration(defaults: defaults)
+        XCTAssertEqual(restored.maximumRecordingDuration, 180)
+        XCTAssertTrue(restored.automaticallyEndsMyTurn)
+        config.setMaximumRecordingDuration(900)
+        XCTAssertEqual(config.maximumRecordingDuration, 300)
+        config.setMaximumRecordingDuration(-1)
+        XCTAssertEqual(config.maximumRecordingDuration, 30)
+        config.setMaximumRecordingDuration(.infinity)
+        XCTAssertEqual(config.maximumRecordingDuration, 60)
+        XCTAssertEqual(Set(defaults.persistentDomain(forName: suite)!.keys), [TranslationConfiguration.recordingLimitKey, TranslationConfiguration.automaticFinishKey])
+    }
+
     func testMyTurnDisplaysBothLanguagesWithoutReadingOrStartingPhoneMic() async {
         let f = Fixture()
         f.model.beginSpeaking(.me)
@@ -146,7 +312,7 @@ final class ConversationTranslationTests: XCTestCase {
         f.model.leave()
     }
 
-    func testPartnerIsManualThenPlaysInGlassesBeforeOurMicResumes() async {
+    func testPartnerIsManualThenPlaysInGlassesWithoutRestartingOurMic() async {
         let f = Fixture()
         f.model.beginSpeaking(.partner)
         await eventually { f.model.phase == .recording(.partner) }
@@ -165,17 +331,18 @@ final class ConversationTranslationTests: XCTestCase {
         XCTAssertFalse(f.recorder.recording)
         XCTAssertEqual(f.recorder.speakers, [.partner])
         f.speech.complete(true)
-        await eventually { f.model.phase == .recording(.me) }
-        XCTAssertEqual(f.recorder.speakers, [.partner, .me])
+        await eventually { f.model.phase == .paused }
+        XCTAssertEqual(f.recorder.speakers, [.partner])
+        XCTAssertFalse(f.recorder.recording)
         XCTAssertEqual(f.model.turns.count, 1)
         f.model.leave()
     }
 
     func testAutomaticMyTurnFinishUsesConfiguredDurationAndOnlySubmitsOnce() async {
-        let f = Fixture(duration: 8)
+        let f = Fixture(duration: 8, maximumDuration: 180, automaticFinish: true)
         f.model.beginSpeaking(.me)
         await eventually { f.model.phase == .recording(.me) }
-        XCTAssertEqual(f.recorder.durations, [8])
+        XCTAssertEqual(f.recorder.options, [.init(silenceDuration: 8, maximumDuration: 180, automaticallyEndsMyTurn: true)])
         let callback = f.recorder.onAutomaticFinish
         f.recorder.autoFinish()
         f.model.finishRecording() // a tap racing the silence callback cannot double-submit
@@ -403,12 +570,12 @@ private final class Fixture {
     let speech = TestConversationSpeech()
     let router = TestConversationRouter()
     let model: ConversationTranslationViewModel
-    init(duration: Double = 5, credentialError: TranslationError? = nil) {
+    init(duration: Double = 5, maximumDuration: Double = 60, automaticFinish: Bool = false, credentialError: TranslationError? = nil) {
         model = ConversationTranslationViewModel(recognizer: asr, translator: mt, recorder: recorder, speech: speech, router: router,
             audio: TranslationAudioCoordinator(stopAssistantSpeech: {}), credentials: {
                 if let credentialError { throw credentialError }
                 return .init(region: .singapore, apiKey: "test")
-            }, silenceDuration: { duration })
+            }, recordingOptions: { .init(silenceDuration: duration, maximumDuration: maximumDuration, automaticallyEndsMyTurn: automaticFinish) })
         model.activate()
     }
 }
@@ -443,13 +610,14 @@ private final class ControlledConversationMT: TextTranslating {
 private final class TestConversationRecorder: TranslationConversationRecording {
     var onProgress: ((TranslationRecordingProgress) -> Void)?
     var onAutomaticFinish: ((Result<RecordedTranslationSpeech, TranslationError>) -> Void)?
-    var speakers: [TranslationSpeaker] = [], durations: [Double] = []
+    var speakers: [TranslationSpeaker] = []
+    var options: [TranslationRecordingOptions] = []
     var recording = false, delayStart = false
     var pendingStart: CheckedContinuation<String, Error>?
     var failure: TranslationError?
-    func start(speaker: TranslationSpeaker, silenceDuration: TimeInterval) async throws -> String {
+    func start(speaker: TranslationSpeaker, options: TranslationRecordingOptions) async throws -> String {
         if let failure { throw failure }
-        speakers.append(speaker); durations.append(silenceDuration)
+        speakers.append(speaker); self.options.append(options)
         if delayStart { return try await withCheckedThrowingContinuation { pendingStart = $0 } }
         recording = true
         return "test microphone"

@@ -8,20 +8,22 @@ protocol TranslationSpeechRecognizing {
 /// One finished utterance per request. No live upload, assistant context or public audio URL.
 struct AliyunSpeechRecognitionClient: TranslationSpeechRecognizing {
     static let model = "qwen3-asr-flash"
+    static let maximumBase64Bytes = 10_000_000
+    static let timeout: TimeInterval = 90
     private let transport: any TranslationTransport
 
-    init(transport: any TranslationTransport = TranslationURLSessionTransport()) {
+    init(transport: any TranslationTransport = TranslationURLSessionTransport(timeout: Self.timeout)) {
         self.transport = transport
     }
 
     static func makeRequest(_ audio: RecordedTranslationSpeech, language: TranslationLanguage,
                             credentials: TranslationCredentials) throws -> URLRequest {
         try TranslationConfiguration.validateKey(credentials.apiKey)
-        guard audio.duration > 0, audio.duration <= 60.1,
-              audio.wav.count > 44, audio.wav.count <= 6_000_000,
+        guard audio.duration > 0, audio.duration <= TranslationRecordingOptions.durationRange.upperBound,
+              audio.wav.count > 44, audio.wav.count <= Self.maximumBase64Bytes / 4 * 3,
               audio.wav.prefix(4) == Data("RIFF".utf8),
               audio.wav.dropFirst(8).prefix(4) == Data("WAVE".utf8) else { throw TranslationError.invalidRecording }
-        var request = URLRequest(url: credentials.region.endpoint, timeoutInterval: 30)
+        var request = URLRequest(url: credentials.region.endpoint, timeoutInterval: Self.timeout)
         request.httpMethod = "POST"
         request.setValue("Bearer \(credentials.apiKey)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

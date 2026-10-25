@@ -64,6 +64,23 @@
       "extractionState": "manual",
       "shouldTranslate": false
     },
+    "%lld / %lld s": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld / %lld s"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld / %lld 秒"
+          }
+        }
+      }
+    },
     "%lld / 60 s": {
       "extractionState": "manual",
       "localizations": {
@@ -2676,6 +2693,23 @@
         }
       }
     },
+    "End My Turn After a Pause": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "End My Turn After a Pause"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "我方停顿后自动结束"
+          }
+        }
+      }
+    },
     "Endpoint": {
       "extractionState": "manual",
       "localizations": {
@@ -3114,6 +3148,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "女声"
+          }
+        }
+      }
+    },
+    "Finish and Translate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish and Translate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "结束并翻译"
           }
         }
       }
@@ -4524,6 +4575,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "男声"
+          }
+        }
+      }
+    },
+    "Maximum Recording Duration": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Maximum Recording Duration"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "单次录音时长上限"
           }
         }
       }
@@ -6104,6 +6172,23 @@
         }
       }
     },
+    "Recording Limit Reached · Tap to Translate": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording Limit Reached · Tap to Translate"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已达到录音上限 · 点击按钮翻译"
+          }
+        }
+      }
+    },
     "Recording Your Partner": {
       "extractionState": "manual",
       "localizations": {
@@ -6121,6 +6206,23 @@
         }
       }
     },
+    "Recording Your Turn": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording Your Turn"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在录制我方语音"
+          }
+        }
+      }
+    },
     "Recording failed to start: %@": {
       "extractionState": "manual",
       "localizations": {
@@ -6134,6 +6236,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "无法开始录制：%@"
+          }
+        }
+      }
+    },
+    "Recording limit: %lld s · Change in Translation Settings": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Recording limit: %lld s · Change in Translation Settings"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "录音上限：%lld 秒 · 可在翻译设置中调整"
           }
         }
       }
@@ -7379,6 +7498,23 @@
         }
       }
     },
+    "Start Recording": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start Recording"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "开始录音"
+          }
+        }
+      }
+    },
     "Start Talking": {
       "extractionState": "manual",
       "localizations": {
@@ -7766,6 +7902,40 @@
           "stringUnit": {
             "state": "translated",
             "value": "对方说完后，请点停止录音。"
+          }
+        }
+      }
+    },
+    "Tap either language's button to start and stop recording. Set a limit from 30 to 300 seconds. At the limit, recording stops and waits for your tap to translate. Optionally end your own turn after a pause (default: 5 seconds); this also submits at the limit. Your partner always taps to finish. Changes are saved automatically.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap either language's button to start and stop recording. Set a limit from 30 to 300 seconds. At the limit, recording stops and waits for your tap to translate. Optionally end your own turn after a pause (default: 5 seconds); this also submits at the limit. Your partner always taps to finish. Changes are saved automatically."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击对应语言下方的按钮开始录音，再点一次结束。时长上限可设为 30～300 秒，到时停止收音，等你点击后翻译。可开启我方停顿后自动结束（默认停顿 5 秒），开启后到达上限也会自动提交。对方始终由你点击结束。设置自动保存。"
+          }
+        }
+      }
+    },
+    "Tap the recording button again to finish.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tap the recording button again to finish."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "再点一次录音按钮即可结束。"
           }
         }
       }
@@ -9032,6 +9202,23 @@
           "stringUnit": {
             "state": "translated",
             "value": "使用相机控制来测试眼镜连接。"
+          }
+        }
+      }
+    },
+    "Use the button under each language to start recording. Tap it again to finish and translate.": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Use the button under each language to start recording. Tap it again to finish and translate."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "点击各自语言下方的按钮开始录音，再点一次结束并翻译。"
           }
         }
       }

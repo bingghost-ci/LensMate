@@ -62,7 +62,11 @@ final class TranslationConfiguration: ObservableObject {
     static let shared = TranslationConfiguration()
     static let regionKey = "translation.region"
     static let silenceKey = "translation.silenceDuration"
+    static let recordingLimitKey = "translation.maximumRecordingDuration"
+    static let automaticFinishKey = "translation.automaticallyEndsMyTurn"
     @Published private(set) var silenceDuration: TimeInterval
+    @Published private(set) var maximumRecordingDuration: TimeInterval
+    @Published private(set) var automaticallyEndsMyTurn: Bool
     @Published private(set) var region: TranslationRegion?
     private let defaults: UserDefaults
     private let store: any TranslationCredentialStore
@@ -72,12 +76,30 @@ final class TranslationConfiguration: ObservableObject {
         self.store = store
         let duration = defaults.object(forKey: Self.silenceKey) as? Double ?? 5
         silenceDuration = TranslationSilenceDetector.clampedDuration(duration)
+        maximumRecordingDuration = TranslationRecordingOptions.clampedMaximumDuration(
+            defaults.object(forKey: Self.recordingLimitKey) as? Double ?? 60)
+        automaticallyEndsMyTurn = defaults.bool(forKey: Self.automaticFinishKey)
         region = defaults.string(forKey: Self.regionKey).flatMap(TranslationRegion.init(rawValue:))
     }
 
     func setSilenceDuration(_ duration: TimeInterval) {
         silenceDuration = TranslationSilenceDetector.clampedDuration(duration)
         defaults.set(silenceDuration, forKey: Self.silenceKey)
+    }
+
+    func setMaximumRecordingDuration(_ duration: TimeInterval) {
+        maximumRecordingDuration = TranslationRecordingOptions.clampedMaximumDuration(duration)
+        defaults.set(maximumRecordingDuration, forKey: Self.recordingLimitKey)
+    }
+
+    func setAutomaticallyEndsMyTurn(_ enabled: Bool) {
+        automaticallyEndsMyTurn = enabled
+        defaults.set(enabled, forKey: Self.automaticFinishKey)
+    }
+
+    var recordingOptions: TranslationRecordingOptions {
+        .init(silenceDuration: silenceDuration, maximumDuration: maximumRecordingDuration,
+              automaticallyEndsMyTurn: automaticallyEndsMyTurn)
     }
 
     nonisolated static func validateKey(_ key: String) throws {

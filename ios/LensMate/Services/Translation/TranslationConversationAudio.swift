@@ -77,7 +77,7 @@ final class TranslationConversationAudioRouter: TranslationConversationRouting {
 protocol TranslationConversationRecording: AnyObject {
     var onProgress: ((TranslationRecordingProgress) -> Void)? { get set }
     var onAutomaticFinish: ((Result<RecordedTranslationSpeech, TranslationError>) -> Void)? { get set }
-    func start(speaker: TranslationSpeaker, silenceDuration: TimeInterval) async throws -> String
+    func start(speaker: TranslationSpeaker, options: TranslationRecordingOptions) async throws -> String
     func finish() throws -> RecordedTranslationSpeech
     func cancel()
 }
@@ -87,12 +87,13 @@ final class TranslationPCMBuffer: @unchecked Sendable {
     private let lock = NSLock()
     private var pcm = Data()
     private var peakDecibels: Float = -160
+    private var conversionFailed = false
     let sampleRate: Int
     private let maximumBytes: Int
 
-    init(sampleRate: Int) {
+    init(sampleRate: Int, maximumDuration: TimeInterval = 60) {
         self.sampleRate = sampleRate
-        maximumBytes = sampleRate * 2 * Int(TranslationSilenceDetector.maximumRecordingDuration)
+        maximumBytes = Int(Double(sampleRate) * TranslationRecordingOptions.clampedMaximumDuration(maximumDuration)) * 2
     }
 
     func append(_ buffer: AVAudioPCMBuffer) {
@@ -119,10 +120,16 @@ final class TranslationPCMBuffer: @unchecked Sendable {
         lock.unlock()
     }
 
-    func progress() -> (elapsed: TimeInterval, decibels: Float) {
+    func markConversionFailed() {
+        lock.lock()
+        conversionFailed = true
+        lock.unlock()
+    }
+
+    func progress() -> (elapsed: TimeInterval, decibels: Float, failed: Bool) {
         lock.lock()
         defer { lock.unlock() }
-        let result = (Double(pcm.count) / Double(sampleRate * 2), peakDecibels)
+        let result = (Double(pcm.count) / Double(sampleRate * 2), peakDecibels, conversionFailed)
         peakDecibels = -160
         return result
     }
@@ -145,6 +152,43 @@ final class TranslationPCMBuffer: @unchecked Sendable {
     }
 }
 
+/// AVAudioConverter filters before downsampling. Five minutes of 12 kHz mono PCM16
+/// encodes to 9.6 MB of Base64, within ASR's 10 MB limit. 8 kHz HFP stays at 8 kHz.
+final class TranslationAudioConverter {
+    let outputFormat: AVAudioFormat
+    private let converter: AVAudioConverter
+
+    init(inputFormat: AVAudioFormat) throws {
+        guard let output = AVAudioFormat(commonFormat: .pcmFormatFloat32,
+                                         sampleRate: min(12_000, inputFormat.sampleRate),
+                                         channels: 1, interleaved: false),
+              let converter = AVAudioConverter(from: inputFormat, to: output) else {
+            throw TranslationError.invalidRecording
+        }
+        outputFormat = output
+        self.converter = converter
+        converter.primeMethod = .none
+    }
+
+    // Called only by the audio tap's serial callback, never concurrently.
+    func convert(_ input: AVAudioPCMBuffer) throws -> AVAudioPCMBuffer {
+        let capacity = AVAudioFrameCount(ceil(Double(input.frameLength) * outputFormat.sampleRate / input.format.sampleRate)) + 64
+        guard let output = AVAudioPCMBuffer(pcmFormat: outputFormat, frameCapacity: capacity) else {
+            throw TranslationError.recordingFailed
+        }
+        var supplied = false
+        var error: NSError?
+        let status = converter.convert(to: output, error: &error) { _, inputStatus in
+            if supplied { inputStatus.pointee = .noDataNow; return nil }
+            supplied = true
+            inputStatus.pointee = .haveData
+            return input
+        }
+        guard status != .error, error == nil else { throw TranslationError.recordingFailed }
+        return output
+    }
+}
+
 @MainActor
 final class TranslationConversationRecorder: TranslationConversationRecording {
     var onProgress: ((TranslationRecordingProgress) -> Void)?
@@ -154,7 +198,7 @@ final class TranslationConversationRecorder: TranslationConversationRecording {
     private var buffer: TranslationPCMBuffer?
     private var timer: Task<Void, Never>?
     private var generation = UUID()
-    private var detector = TranslationSilenceDetector(silenceDuration: 5)
+    private var detector = TranslationSilenceDetector(options: .init())
     private var speaker = TranslationSpeaker.me
     private var lastAudioTime: TimeInterval = 0
     private var previousElapsed: TimeInterval = 0
@@ -162,7 +206,7 @@ final class TranslationConversationRecorder: TranslationConversationRecording {
 
     init(router: any TranslationConversationRouting) { self.router = router }
 
-    func start(speaker: TranslationSpeaker, silenceDuration: TimeInterval) async throws -> String {
+    func start(speaker: TranslationSpeaker, options: TranslationRecordingOptions) async throws -> String {
         cancel()
         let id = generation
         guard await AVAudioApplication.requestRecordPermission() else { throw TranslationError.microphonePermission }
@@ -177,14 +221,18 @@ final class TranslationConversationRecorder: TranslationConversationRecording {
             let format = node.outputFormat(forBus: 0)
             guard format.commonFormat == .pcmFormatFloat32, format.channelCount > 0,
                   (8_000...48_000).contains(format.sampleRate) else { throw TranslationError.invalidRecording }
-            let buffer = TranslationPCMBuffer(sampleRate: Int(format.sampleRate))
+            let converter = try TranslationAudioConverter(inputFormat: format)
+            let buffer = TranslationPCMBuffer(sampleRate: Int(converter.outputFormat.sampleRate), maximumDuration: options.maximumDuration)
             if LMCatchException({
-                node.installTap(onBus: 0, bufferSize: 1_024, format: format) { captured, _ in buffer.append(captured) }
+                node.installTap(onBus: 0, bufferSize: 1_024, format: format) { captured, _ in
+                    do { buffer.append(try converter.convert(captured)) }
+                    catch { buffer.markConversionFailed() }
+                }
             }) != nil { throw TranslationError.recordingFailed }
             self.engine = engine
             self.buffer = buffer
             self.speaker = speaker
-            detector = TranslationSilenceDetector(silenceDuration: silenceDuration)
+            detector = TranslationSilenceDetector(options: options)
             engine.prepare()
             try engine.start()
             lastAudioTime = ProcessInfo.processInfo.systemUptime
@@ -208,16 +256,17 @@ final class TranslationConversationRecorder: TranslationConversationRecording {
         guard let buffer else { return }
         guard router.inputIsCurrent() else { automaticFailure(.microphoneRouteChanged); return }
         let sample = buffer.progress()
+        guard !sample.failed else { automaticFailure(.recordingFailed); return }
         let now = ProcessInfo.processInfo.systemUptime
         if sample.elapsed > previousElapsed { lastAudioTime = now; previousElapsed = sample.elapsed }
         if now - lastAudioTime > 3 { automaticFailure(.recordingFailed); return }
         detector.observe(decibels: sample.decibels, elapsed: sample.elapsed)
         onProgress?(.init(elapsed: sample.elapsed, hasSpeech: detector.hasSpeech,
-                          silenceRemaining: speaker == .me ? detector.remainingSilence(at: sample.elapsed) : nil))
+                          silenceRemaining: speaker == .me && detector.options.automaticallyEndsMyTurn ? detector.remainingSilence(at: sample.elapsed) : nil))
         if !detector.hasSpeech && sample.elapsed >= TranslationSilenceDetector.noSpeechTimeout {
             automaticFailure(.noSpeech)
-        } else if speaker == .partner && sample.elapsed >= TranslationSilenceDetector.maximumRecordingDuration {
-            // Bound memory and recording time, but never submit the partner's speech automatically.
+        } else if !detector.shouldFinish(speaker: speaker, elapsed: sample.elapsed) && sample.elapsed >= detector.options.maximumDuration {
+            // Stop capturing at the configured limit; manual mode still waits for a submit tap.
             engine?.stop()
             timer?.cancel(); timer = nil
             waitingForManualFinish = true
@@ -233,6 +282,7 @@ final class TranslationConversationRecorder: TranslationConversationRecording {
         guard let buffer, engine != nil else { throw TranslationError.noSpeech }
         guard waitingForManualFinish || router.inputIsCurrent() else { cancel(); throw TranslationError.microphoneRouteChanged }
         let sample = buffer.progress()
+        guard !sample.failed else { cancel(); throw TranslationError.recordingFailed }
         detector.observe(decibels: sample.decibels, elapsed: sample.elapsed)
         engine?.stop()
         let recording = buffer.recording()

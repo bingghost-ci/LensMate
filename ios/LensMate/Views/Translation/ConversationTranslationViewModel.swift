@@ -10,6 +10,7 @@ final class ConversationTranslationViewModel: ObservableObject {
     @Published private(set) var recordingProgress: TranslationRecordingProgress?
     @Published private(set) var inputDevice = ""
     @Published private(set) var isConversationRunning = false
+    @Published private(set) var recordingOptions = TranslationRecordingOptions()
 
     private let recognizer: any TranslationSpeechRecognizing
     private let translator: any TextTranslating
@@ -18,12 +19,11 @@ final class ConversationTranslationViewModel: ObservableObject {
     private let router: any TranslationConversationRouting
     private let audio: TranslationAudioCoordinator
     private let credentials: @MainActor () throws -> TranslationCredentials
-    private let silenceDuration: @MainActor () -> TimeInterval
+    private let options: @MainActor () -> TranslationRecordingOptions
     private var task: Task<Void, Never>?
     private var generation = UUID()
     private var active = false
     private var pendingTurn: UUID?
-    private var resumeAfterSpeech = false
     private var playbackGeneration: UUID?
 
     init(recognizer: any TranslationSpeechRecognizing = AliyunSpeechRecognitionClient(),
@@ -33,7 +33,7 @@ final class ConversationTranslationViewModel: ObservableObject {
          router: (any TranslationConversationRouting)? = nil,
          audio: TranslationAudioCoordinator? = nil,
          credentials: (@MainActor () throws -> TranslationCredentials)? = nil,
-         silenceDuration: (@MainActor () -> TimeInterval)? = nil) {
+         recordingOptions: (@MainActor () -> TranslationRecordingOptions)? = nil) {
         let routing = router ?? TranslationConversationAudioRouter()
         self.recognizer = recognizer
         self.translator = translator
@@ -42,8 +42,8 @@ final class ConversationTranslationViewModel: ObservableObject {
         self.speech = speech ?? TranslationSpeechService(configureAudio: {}, releaseAudio: { routing.release() })
         self.audio = audio ?? .shared
         self.credentials = credentials ?? { try TranslationConfiguration.shared.credentials() }
-        self.silenceDuration = silenceDuration ?? { TranslationConfiguration.shared.silenceDuration }
-        self.speech.onCompletion = { [weak self] completed in self?.speechCompleted(completed) }
+        self.options = recordingOptions ?? { TranslationConfiguration.shared.recordingOptions }
+        self.speech.onCompletion = { [weak self] _ in self?.speechCompleted() }
     }
 
     func activate() {
@@ -78,6 +78,20 @@ final class ConversationTranslationViewModel: ObservableObject {
         partnerLanguage = previous
     }
 
+    func canTapRecordingButton(for speaker: TranslationSpeaker) -> Bool {
+        switch phase {
+        case .idle, .paused, .waitingForPartner: return active
+        case .recording(let current): return current == speaker
+        default: return false
+        }
+    }
+
+    func tapRecordingButton(for speaker: TranslationSpeaker) {
+        guard canTapRecordingButton(for: speaker) else { return }
+        if phase == .recording(speaker) { finishRecording() }
+        else { beginSpeaking(speaker) }
+    }
+
     func beginSpeaking(_ speaker: TranslationSpeaker) {
         guard active else { return }
         invalidate()
@@ -86,7 +100,8 @@ final class ConversationTranslationViewModel: ObservableObject {
         isConversationRunning = true
         phase = .preparing(speaker)
         let id = generation
-        let duration = TranslationSilenceDetector.clampedDuration(silenceDuration())
+        let recordingOptions = options()
+        self.recordingOptions = recordingOptions
         recorder.onProgress = { [weak self] progress in
             guard let self, self.isCurrent(id), self.phase == .recording(speaker) else { return }
             self.recordingProgress = progress
@@ -98,7 +113,7 @@ final class ConversationTranslationViewModel: ObservableObject {
         task = Task { [weak self] in
             guard let self else { return }
             do {
-                let name = try await self.recorder.start(speaker: speaker, silenceDuration: duration)
+                let name = try await self.recorder.start(speaker: speaker, options: recordingOptions)
                 guard self.isCurrent(id), !Task.isCancelled else { return }
                 self.inputDevice = name
                 self.phase = .recording(speaker)
@@ -139,12 +154,12 @@ final class ConversationTranslationViewModel: ObservableObject {
                     guard self.isCurrent(id), !Task.isCancelled else { return }
                     self.updateTurn(turn.id) { $0.original = original; $0.status = .translating }
                     self.phase = .translating(speaker)
-                    let translated = try await self.translator.translate(.init(text: original, source: source, target: target), credentials: credential)
+                    let translated = try await self.translateTranscript(original, source: source, target: target, credentials: credential, generation: id)
                     guard self.isCurrent(id), !Task.isCancelled else { return }
                     self.updateTurn(turn.id) { $0.translation = translated; $0.status = .complete }
                     self.pendingTurn = nil
                     self.task = nil
-                    if speaker == .partner { self.play(turnID: turn.id, resume: true) }
+                    if speaker == .partner { self.play(turnID: turn.id) }
                     else { self.phase = .waitingForPartner }
                 } catch {
                     guard self.isCurrent(id), !Task.isCancelled else { return }
@@ -165,12 +180,12 @@ final class ConversationTranslationViewModel: ObservableObject {
         task = Task { [weak self] in
             guard let self else { return }
             do {
-                let translated = try await self.translator.translate(.init(text: turn.original, source: turn.source, target: turn.target), credentials: self.credentials())
+                let translated = try await self.translateTranscript(turn.original, source: turn.source, target: turn.target, credentials: self.credentials(), generation: id)
                 guard self.isCurrent(id), !Task.isCancelled else { return }
                 self.updateTurn(turnID) { $0.translation = translated; $0.status = .complete }
                 self.pendingTurn = nil
                 self.task = nil
-                if turn.speaker == .partner { self.play(turnID: turnID, resume: true) }
+                if turn.speaker == .partner { self.play(turnID: turnID) }
                 else { self.phase = .waitingForPartner }
             } catch {
                 guard self.isCurrent(id), !Task.isCancelled else { return }
@@ -179,12 +194,27 @@ final class ConversationTranslationViewModel: ObservableObject {
         }
     }
 
-    func replay(_ turnID: UUID) { play(turnID: turnID, resume: false) }
+    private func translateTranscript(_ text: String, source: TranslationLanguage, target: TranslationLanguage,
+                                     credentials: TranslationCredentials, generation id: UUID) async throws -> String {
+        var translated: [String] = []
+        for chunk in TranslationTranscript.chunks(text) where !chunk.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            guard isCurrent(id), !Task.isCancelled else { throw CancellationError() }
+            let input = TranslationInput(text: chunk, source: source, target: target)
+            try input.validate()
+            let result = try await translator.translate(input, credentials: credentials)
+            guard isCurrent(id), !Task.isCancelled else { throw CancellationError() }
+            translated.append(result)
+        }
+        guard !translated.isEmpty else { throw TranslationError.noSpeech }
+        return translated.joined(separator: "\n")
+    }
 
-    private func play(turnID: UUID, resume: Bool) {
+    func replay(_ turnID: UUID) { play(turnID: turnID) }
+
+    private func play(turnID: UUID) {
         guard active, let turn = turns.first(where: { $0.id == turnID }), !turn.translation.isEmpty else { return }
         invalidate()
-        isConversationRunning = resume
+        isConversationRunning = true
         let id = generation
         phase = .preparing(turn.speaker)
         task = Task { [weak self] in
@@ -194,7 +224,6 @@ final class ConversationTranslationViewModel: ObservableObject {
                 guard self.isCurrent(id), !Task.isCancelled else { return }
                 self.phase = .speaking(turn.id)
                 self.playbackGeneration = id
-                self.resumeAfterSpeech = resume
                 self.task = nil
                 try self.speech.speak(turn.translation, language: turn.target)
             } catch {
@@ -204,14 +233,11 @@ final class ConversationTranslationViewModel: ObservableObject {
         }
     }
 
-    private func speechCompleted(_ completed: Bool) {
+    private func speechCompleted() {
         guard let id = playbackGeneration, isCurrent(id), case .speaking = phase else { return }
         playbackGeneration = nil
-        if completed && resumeAfterSpeech && isConversationRunning {
-            beginSpeaking(.me)
-        } else {
-            stop()
-        }
+        // Every new recording starts with a deliberate tap, including after partner playback.
+        stop()
     }
 
     func stop() {
@@ -234,7 +260,6 @@ final class ConversationTranslationViewModel: ObservableObject {
         generation = UUID()
         task?.cancel(); task = nil
         playbackGeneration = nil
-        resumeAfterSpeech = false
         recorder.onProgress = nil
         recorder.onAutomaticFinish = nil
         recorder.cancel()
